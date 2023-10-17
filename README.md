@@ -1,181 +1,88 @@
-# Frontend Training
+# Twitter Training
 
-Welcome to the Frontend Training! This project is designed to help you learn the latest technologies in frontend web development. You will be working with GraphQL (Apollo Client), ReactJS, Typescript, Styled Components, and many more tools to create a cutting-edge web application.
+This training project consists of taking a real project and adding, fixing, or improving some of its existing features. You will need to connect it with your Twitter backend service.
 
-## Getting Started
-To get started, you'll need to clone this repository to your local machine and run npm install to install the required dependencies.
+## Challenges
 
-```bash
-git clone git@gitlab.com:siriussystem/training/frontend_training.git
-cd frontend-training
-npm install
-npm start
-```
+### Protected Routes
 
-## Technologies and concepts
-The project covers the following technologies and concepts:
+The objective of this feature is to add logic to protect certain routes that require an authenticated user to function. The following routes should be accessible to authenticated users:
 
-- ReactJS
-- Graphql (Apollo Client)
-- Functional components and Hooks
-- Typescript
-- Styled Components
-- Pixel Perfect design
-- Light + Dark Theme support
-- Web Responsiveness
-- Performance optimization (useCallback, useMemo)
-- Error handling
-- Translations (i18n)
-- Deployment
-- Environment variables
-- Linter (ESLint)
-- Code formatter (Prettier)
-- Git Flow
-- Git best practices
-- Actions pre-commit
-- Component documentation with Storybook
-- Component testing with Jest
-- TSDoc
-- Gitlab CI/CD
-- i18n
+- **Route**: `/`
+  - **Component**: HomePage
+- **Route**: `/recommendations`
+  - **Component**: RecommendationPage
+- **Route**: `/profile/:id`
+  - **Component**: ProfilePage
+- **Route**: `/post/:id`
+  - **Component**: PostPage
+- **Route**: `/compose/tweet`
+  - **Component**: TweetPage
+- **Route**: `/post/:id`
+  - **Component**: CommentPage
 
-## The project
+**Why is it important?** We are sure that you will be working on a similar feature in your next project! The main reason for this is to prevent some users from accessing private routes or pages that contain sensitive data.
 
-The project consists of building a Twitter clone using ReactJS and integrating it with a previously implemented [backend application](https://gitlab.com/siriussystem/training/backend-training). The backend application is an API similar to Twitter and includes features like user follow/unfollow, private profiles, cursor-based pagination, post reactions, comments, user profile pictures, real-time chat, and more. The frontend program will utilize the following technologies and concepts: Graphql (Apollo Client), ReactJS, functional components and hooks, TypeScript, styled components, responsive web design, performance optimization, error handling, i18n translations, deployment, env variables, linter, prettier, Git flow, Git good practices, Actions pre-commit, Storybook, and component testing.
+### Transform Javascript components to Typescript components
 
-The backend endpoints will be utilized wherever necessary to communicate with the backend API and implement the various features of the Twitter clone. The project will result in a complete Twitter clone that utilizes the latest frontend technologies and follows best practices for performance, maintainability, and scalability.
+The objective of this task is to read and understand how some components work and transform them into Typescript. Remember that you can type almost everything.
 
-## Tasks
+The next component needs the proper changes:
 
-- [ ] **Prettier**: Add and configure Prettier using Typescript and React standards.
+- **Component**: components/tweet-box/TweetBox.jsx
 
-- [ ] **Register screen**: Create a register screen. User should provide the following information:
-  - ***Email***: String. Check isEmail with [Validator](https://www.npmjs.com/package/validator).
-  - ***Username***: String.
-  - ***Password***: String. Check isStrongPassword with [Validator](https://www.npmjs.com/package/validator).
-  - ***Name***: String.
+**Why is it important?** In this company, the majority of the projects use React + Typescript. That's why you must be a Master Jedi with the art of Typescript. Additionally, some frameworks like Next.js strongly recommend the utilization of Typescript as a means to mitigate errors and enhance the comprehensibility of components.
 
-    Use ```POST api/auth/signup```
+### Transform Class Components to Functional Components
 
-- [ ] **Login screen**: Create a login screen, that works as entry point to the application. User should provide the following information:
-  - ***Username***: String. (Optional).
-  - ***Email***: String. (Optional).
-  - ***Password***: String.
+The objective of this task is to read and comprehend how class components function. You need to understand the component lifecycle and then transform them into functional components using TypeScript. In order to complete this task, you have to apply the proper changes to the next component:
 
-  Either email or username should be provided. Use ```POST api/auth/login```
+- **Component**: page/post-page/PostPage.jsx
 
-- [ ] **Integrate S3**: Create a helper class that provides generic functions to upload images to S3.
+**Why is it important?** It's not very common nowadays to come across a project built from scratch using React class components (as they are not recommended). However, you may encounter them in older projects or libraries that have not been updated. On your journey to becoming a Master Jedi, it's important to familiarize yourself with some basic features of the old way of building components.
 
-- [ ] **Tweet**: After logging in, user should be able to post. Posts should contain:
-  - ***Content***: String with 1 to 240 characters.
-  - ***Images***: Array with 0-4 image URLs. (Optional). Let user upload images to S3 and use generated links.
+### Don’t repeat yourself, STUPID (Opss, that was KISS)
 
-  Use ```POST api/post```. After posting, user should see their post without having to refresh the page (This can be done in the **Feed** task). 
+The objective of this task is to improve the Axios services. The previous developers have repeated the headers so many times. At the same time, we need to provide some logic where if we detect an error 401 (Unauthorized), you should log out the current user. 
 
-- [ ] **Delete post**: User should be able to delete their own posts. Use ```DELETE api/post/:post_id```.
+**Sirius Tip:** Read about interceptors ;)
 
-- [ ] **Profile**: After clicking on profile image (if no image -> default to avatar with initials), user should navigate to their profile. Here, they should see:
-  - ***Name***
-  - ***Username***
-  - ***Posts***
+**Why is it important?** In order to reduce the duplicated lines, we need to know when and how to reduce them.
 
-  Use ```GET api/user/me``` and ```GET api/post/by_user/:user_id```.
+### Infinite Scroll
 
-- [ ] **Delete user**: Add a button "Delete" that lets users delete their accounts. There should be a confirmation modal. After deleting the account, user should be redirected to the login screen. Use ```DELETE api/user```.
+The objective of this task is to add an infinite scroller to see tweets on the home screen. This is the way that X (ex twitter) has to load tweets.
 
-- [ ] **Search user**: Add a search bar that lets user search other users by username, and displays options with:
-  - ***Name***
-  - ***Username***
-  - ***Profile image***: Default to avatar with initials.
+### Portals
 
-  Use ```GET api/user/by_username```. Users list should have infinite scroll.
+The objective of this task is to enhance the app's modals. To achieve this, you need to master the art of Portals 🕳️. This feature, though not widely known, is useful for injecting components into another location without complexity.
 
-- [ ] **User profile**: After finding and clicking on a user, user should be redirected to the other users profile screen. This screen should display:
-  - ***Name***
-  - ***Username***
-  - ***Posts***: Only if profile is public or current user follows this user. If not, show a message "User has a private account".
+**Why is it important?** Sometimes, we need to develop features that must bypass the hierarchical structure of the app (e.g., dropdowns, filters, modals, tooltips, menus, etc.). React Portal is a feature that enables us to achieve this type of behavior.
 
-  Use ```GET api/user/:user_id ```. Reuse own profile's screen. 
+### Let’s chat
 
-- [ ] **Follow user**: Add a "Follow" button to other users profile screen. Use ```POST /api/follower/follow/:user_id```. Should only display if user isn't currently following the other user.
+The objective of this task is to add functionality to chat with someone. You have already done the backend job, now is the time to apply it to the Frontend. Create a service to add the sockets that you will use.
 
-- [ ] **Unfollow user**: Add an "Unfollow" button to other users profile screen. Use ```POST /api/follow/unfollow/:user_id```. Should only display if user is currently following the other user. After unfollowing, posts should hide if other user's account is private, without having to refresh.
+### Bug Hunting time
 
-- [ ] **Feed**: Create a posts feed, which should work as the "Home" screen. Here, the logged users should see posts from themselves and from followed users. Posts should show:
-  - ***Content***
-  - ***Images***: If existent.
+The objective of this task is to fix 2 bugs that the app has.
+1. We are not checking that the user already exists when registering.
+2. The menus (those kind of floating containers) when users click out of them, they are not closing.
 
-  Profile screen should use the same UI component as the feed.
-  Use ```GET api/post```. Use infinite scroll.
+### Validation
 
-- [ ] **React to post**: Add reactions (like and repost) to posts, both in profile screens and feed. Use ```POST api/reaction/:post_id``` to add a reaction and ```DELETE api/reaction/:post_id``` to delete it.
+The objective of this task is to add some validations to the input fields that the app has. This time we will use Formik to perform the validations. It’s a famous library that allows us to add some logic to validate what users fill in.
 
-- [ ] **Comment post**: Add a button to comment a post. The comment should have:
-  - ***Content***: String with 1 to 240 characters.
-  - ***Images***: Array with 0-4 image URLs. (Optional). Let user upload images to S3 and use generated links.
-  
-  Reuse post component to create a new comment.
-  Use the endpoint created in the backend.
+**Why is it important?** As a frontend, you are always in front of the end user, that’s why you have to help them to know what's going on, and why it's failing if they encounter an input error.
 
-- [ ] **Display comments and reactions in posts**: Display the number of comments, likes and reposts for each post. Also, display a list of comments under each post (after clicking on it), with infinite scroll.
+### Style it
 
-- [ ] **User recommendations**: Add a list of users recommended on the right side of the feed. Show only first 4 recommended users, with:
-  - ***Name***
-  - ***Username***
-  - ***Profile picture***: Default to avatar with initials.
-  - ***Follow button***: After clicking on follow, user should disappear from the list, and the next recommended user should appear.
+The objective of this task is to update some style files into styledComponents one. You will see that this technology is being used in almost every file in the project.
 
-  Under the last user, there should be a "See more" button, which redirects the user to a screen with recommended users, with infinite scroll.
-  Use ```GET api/user```.
+- **Component**: /components/follow-user/FollowUserBox.css
+- **Component**: /components/user-data-box/UserDataBox.css
 
-- [ ] **Chat**: Create a chat screen, where user should be able to create a new real-time chat and see the history of chats. After creating/opening a chat, user should first see previous messages (if existent) and then have the ability to chat in real time. Use SocketIO.
+After that, you have to create from scratch a button and an input field, and should support variants, states, and sizes.
 
-- [ ] **Light/Dark theme**: Add the ability to toggle between light and dark theme.
-
-- [ ] **Translations**: Add the ability to toggle between english and spanish (use i18n).
-
-- [ ] **Documentation**: Document all components using TSDoc and Storybook.
-
-- [ ] **Testing**: Test all components using Jest.
-
-- [ ] **CI/CD**: Make a Gitlab CI/CD pipeline that runs all the tests and requires all the tests to pass in order to merge a branch into main (after creating an MR).
-
-## General considerations
-
-- Styling should be achieved using Styled Components
-- The application should adjust to Figma designs, carefully respecting the percentages and sizes (Pixel perfect)
-- The application should be responsive:
-  - Mobile: 360×640 - 414×896
-  - Tablet: 601×962 - 1280×800
-  - Desktop: 1024×768 - 1920×1080
-- The app should handle errors:
-  - If error doesn't block the application's lifecycle, then show screen's error state (if designed) or a toast (if not designed).
-  - If error blocks the user from using the application, redirect to a default screen with an option to report the error (Use [ErrorBoundary](https://www.npmjs.com/package/react-error-boundary)).
-- Use environment variables to hide keys and application environment (development/production).
-- Use Git Flow as branching strategy.
-- Use [Git best practices](https://gist.github.com/luismts/495d982e8c5b1a0ced4a57cf3d93cf60).
-- Use functional components and hooks.
-- Do as much performance optimization as you can.
-
-## Resources
-
-Here are some resources you may find helpful as you work through the project:
-
-- [ReactJS](https://reactjs.org/docs/getting-started.html)
-- [Apollo Client](https://www.apollographql.com/docs/react/)
-- [Typescript](https://www.typescriptlang.org/docs/)
-- [Styled Components](https://styled-components.com/docs)
-- [ESLint](https://eslint.org/docs/latest/use/getting-started)
-- [Prettier](https://prettier.io/docs/en/index.html)
-- [Git Flow](https://datasift.github.io/gitflow/IntroducingGitFlow.html)
-- [TSDoc](https://tsdoc.org/)
-- [Storybook](https://storybook.js.org/docs/react/get-started/introduction)
-- [Jest](https://jestjs.io/docs/getting-started)
-- [Gitlab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [i18n](https://www.i18next.com/)
-
-## Support
-
-If you have any questions or run into any issues, feel free to reach out for support. You can open an issue in this repository, or find us on [Slack](https://siriuspilar-sf.slack.com/archives/C04NLAUA7KK).
-
-Happy coding!
+**Variants**: outlined, fulfilled, ghost & white
+**Size**: small, medium, large
