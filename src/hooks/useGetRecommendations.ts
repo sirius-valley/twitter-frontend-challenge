@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useHttpRequestService } from "../service/HttpRequestService";
 import { Author } from "../service";
+import { useGetRecommendedUsers } from "../service/query";
 
 interface UseGetRecommendationsProps {
   page: number;
@@ -11,34 +11,34 @@ export const useGetRecommendations = ({ page }: UseGetRecommendationsProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [hasMore, setHasMore] = useState(true); // Nuevo estado para verificar si hay más elementos
-  const service = useHttpRequestService();
+  const [enabled, setEnabled] = useState<boolean>(false);
 
-  const getUsers = async () => {
-    return await service.getRecommendedUsers(10, page);
-  };
+  const {
+    data: recommendedUsers,
+    refetch: refetchRecommendedUsers,
+    isLoading,
+  } = useGetRecommendedUsers(10, page, enabled);
 
   useEffect(() => {
     if (page !== undefined && hasMore) {
       setLoading(true);
-      getUsers()
-        .then((response) => {
-          if (response.length === 0) {
-            setHasMore(false);
-          } else {
-            setUsers((prev) => {
-              const uniqueIds = new Set(prev.map((user) => user.id));
-              const filteredUsers = response.filter(
-                (user: Author) => !uniqueIds.has(user.id)
-              );
-              return [...prev, ...filteredUsers];
-            });
-          }
+      setError(false);
+      setEnabled(true);
+      refetchRecommendedUsers();
+      if (recommendedUsers && !isLoading) {
+        if (recommendedUsers.length === 0) {
+          setHasMore(false);
+        } else {
+          setUsers((prev) => {
+            const uniqueIds = new Set(prev.map((user) => user.id));
+            const filteredUsers = recommendedUsers.filter(
+              (user: Author) => !uniqueIds.has(user.id)
+            );
+            return [...prev, ...filteredUsers];
+          });
           setLoading(false);
-        })
-        .catch((e) => {
-          setError(e);
-          setLoading(false);
-        });
+        }
+      }
     }
   }, [page, hasMore]);
 

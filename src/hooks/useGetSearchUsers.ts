@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Author } from "../service";
-import { useHttpRequestService } from "../service/HttpRequestService";
 import { LIMIT } from "../util/Constants";
+import { useSearchUsers } from "../service/query";
 
 interface UseGetRecommendationsProps {
   query: string;
@@ -12,42 +12,30 @@ export const useGetSearchUsers = ({
   skip,
 }: UseGetRecommendationsProps) => {
   const [users, setUsers] = useState<Author[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [hasMore, setHasMore] = useState(false);
-
-  const service = useHttpRequestService();
 
   useEffect(() => {
     setUsers([]);
   }, [query]);
 
+  const { data: recommendedUsers, error, isLoading } = useSearchUsers(query, LIMIT, skip, true);
+
   useEffect(() => {
-    try {
-      setLoading(true);
-      setError(false);
-
-      service.searchUsers(query, LIMIT, skip).then((res) => {
-        const updatedUsers = [...users, ...res];
-        setUsers(
-          updatedUsers
-            .filter((user, index) => {
-              const currentIndex = updatedUsers.findIndex(
-                (u) => u.id === user.id
-              );
-              return currentIndex === index;
-            })
-            .filter((user) => user.username.includes(query))
-        );
-
-        setHasMore(res.length > 0);
-        setLoading(false);
-      });
-    } catch (e) {
-      setError(true);
-      console.log(e);
+    if (error) console.log(error);
+    if (recommendedUsers && !isLoading) {
+      if (recommendedUsers.length === 0) {
+        setHasMore(false);
+      } else {
+        setUsers((prev) => {
+          const uniqueIds = new Set(prev.map((user) => user.id));
+          const filteredUsers = recommendedUsers.filter(
+            (user: Author) => !uniqueIds.has(user.id)
+          );
+          return [...prev, ...filteredUsers];
+        });
+      }
     }
-  }, [query, skip]);
+  }, [recommendedUsers, isLoading]);
 
-  return { users, loading, error, hasMore };
+  return { users, error, hasMore, isLoading };
 };

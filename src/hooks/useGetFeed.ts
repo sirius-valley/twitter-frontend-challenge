@@ -1,33 +1,36 @@
 import { useEffect, useState } from "react";
-import { useHttpRequestService } from "../service/HttpRequestService";
 import { setLength, updateFeed } from "../redux/user";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useGetPosts } from "../service/query";
 
 export const useGetFeed = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [enabled, setEnabled] = useState<boolean>(false);
+
   const posts = useAppSelector((state) => state.user.feed);
   const query = useAppSelector((state) => state.user.query);
 
   const dispatch = useAppDispatch();
 
-  const service = useHttpRequestService();
+  const {
+    data: Posts,
+    refetch: refetchPosts,
+    isLoading
+  } = useGetPosts(query, enabled);
 
   useEffect(() => {
-    try {
-      setLoading(true);
-      setError(false);
-      service.getPosts(query).then((res) => {
-        const updatedPosts = Array.from(new Set([...posts, ...res]));
-        dispatch(updateFeed(updatedPosts));
-        dispatch(setLength(updatedPosts.length));
-        setLoading(false);
-      });
-    } catch (e) {
-      setError(true);
-      console.log(e);
+    setLoading(true);
+    setError(false);
+    setEnabled(true);
+    refetchPosts();
+    if (Posts && !isLoading) {
+      const updatedPosts = Array.from(new Set([...posts, ...Posts]));
+      dispatch(updateFeed(updatedPosts));
+      dispatch(setLength(updatedPosts.length));
+      setLoading(false);
     }
-  }, [query]);
+  }, [Posts, query]);
 
   return { posts, loading, error };
 };
