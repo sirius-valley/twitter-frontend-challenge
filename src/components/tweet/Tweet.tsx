@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledTweetContainer } from "./TweetContainer";
 import AuthorData from "./user-post-data/AuthorData";
 import type { Post } from "../../service";
@@ -42,6 +42,10 @@ const Tweet = ({ post }: TweetProps) => {
     return actualPost.reactions.filter((r) => r.type === type).length ?? 0;
   };
 
+  useEffect(() => {
+    setActualPost(postById);
+  }, [postById]);
+
   const handleReaction = async (type: string) => {
     const reacted = actualPost.reactions.find(
       (r) => r.type === type && r.userId === user.id
@@ -53,7 +57,6 @@ const Tweet = ({ post }: TweetProps) => {
     }
     setEnabled(true);
     refetchPostById();
-    setActualPost(postById);
   };
 
   const hasReactedByType = (type: string): boolean => {
