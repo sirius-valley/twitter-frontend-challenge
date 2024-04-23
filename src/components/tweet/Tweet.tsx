@@ -4,7 +4,6 @@ import AuthorData from "./user-post-data/AuthorData";
 import type { Post } from "../../service";
 import { StyledReactionsContainer } from "./ReactionsContainer";
 import Reaction from "./reaction/Reaction";
-import { useHttpRequestService } from "../../service/HttpRequestService";
 import { IconType } from "../icon/Icon";
 import { StyledContainer } from "../common/Container";
 import ThreeDots from "../common/ThreeDots";
@@ -13,6 +12,7 @@ import ImageContainer from "./tweet-image/ImageContainer";
 import CommentModal from "../comment/comment-modal/CommentModal";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
+import { useCreateReaction, useDeleteReaction, useGetPostById } from "../../service/query";
 
 interface TweetProps {
   post: Post;
@@ -21,9 +21,22 @@ const Tweet = ({ post }: TweetProps) => {
   const [actualPost, setActualPost] = useState<Post>(post);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
+  const [enabled, setEnabled] = useState<boolean>(false);
   const user = useAppSelector((state) => state.user.user);
-  const service = useHttpRequestService();
   const navigate = useNavigate();
+
+  const {
+    mutate: createReaction
+  } = useCreateReaction();
+
+  const {
+    mutate: deleteReaction
+  } = useDeleteReaction();
+
+  const {
+    data: postById,
+    refetch: refetchPostById,
+  } = useGetPostById(post.id, enabled);
 
   const getCountByType = (type: string): number => {
     return actualPost.reactions.filter((r) => r.type === type).length ?? 0;
@@ -34,12 +47,13 @@ const Tweet = ({ post }: TweetProps) => {
       (r) => r.type === type && r.userId === user.id
     );
     if (reacted) {
-      await service.deleteReaction(reacted.id);
+      deleteReaction(reacted.id);
     } else {
-      await service.createReaction(actualPost.id, type);
+      createReaction({ postId: actualPost.id, reaction: type });
     }
-    const newPost = await service.getPostById(post.id);
-    setActualPost(newPost);
+    setEnabled(true);
+    refetchPostById();
+    setActualPost(postById);
   };
 
   const hasReactedByType = (type: string): boolean => {
