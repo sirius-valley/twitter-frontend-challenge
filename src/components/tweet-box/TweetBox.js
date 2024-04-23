@@ -12,17 +12,20 @@ import { StyledTweetBoxContainer } from "./TweetBoxContainer";
 import { StyledContainer } from "../common/Container";
 import { StyledButtonContainer } from "./ButtonContainer";
 import { useDispatch, useSelector } from "react-redux";
+import { useGetPosts } from "../../service/query";
 
 const TweetBox = (props) => {
   const { parentId, close, mobile } = props;
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
+  const [enabled, setEnabled] = useState(false);
 
   const { user, length, query } = useSelector((state) => state.user);
-  const httpService = useHttpRequestService();
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  const { data, refetch } = useGetPosts(query, enabled);
 
   const handleChange = (e) => {
     setContent(e.target.value);
@@ -33,8 +36,9 @@ const TweetBox = (props) => {
       setImages([]);
       setImagesPreview([]);
       dispatch(setLength(length + 1));
-      const posts = await httpService.getPosts(length + 1, "", query);
-      dispatch(updateFeed(posts));
+      setEnabled(true);
+      refetch();
+      dispatch(updateFeed(data));
       close && close();
     } catch (e) {
       console.log(e);
