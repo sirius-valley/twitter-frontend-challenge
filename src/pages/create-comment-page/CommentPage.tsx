@@ -5,7 +5,6 @@ import { Post } from "../../service";
 import AuthorData from "../../components/tweet/user-post-data/AuthorData";
 import ImageContainer from "../../components/tweet/tweet-image/ImageContainer";
 import { useLocation } from "react-router-dom";
-import { useHttpRequestService } from "../../service/HttpRequestService";
 import TweetInput from "../../components/tweet-input/TweetInput";
 import ImageInput from "../../components/common/ImageInput";
 import { setLength, updateFeed } from "../../redux/user";
@@ -15,43 +14,52 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledLine } from "../../components/common/Line";
 import { StyledP } from "../../components/common/text";
+import { useGetPostById, useGetPosts } from "../../service/query";
 
 const CommentPage = () => {
   const [content, setContent] = useState("");
   const [post, setPost] = useState<Post | undefined>(undefined);
   const [images, setImages] = useState<File[]>([]);
   const postId = useLocation().pathname.split("/")[3];
-  const service = useHttpRequestService();
+  const [enabled, setEnabled] = useState<boolean>(false);
   const { user, length, query } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
+  const { data, isLoading, error } = useGetPostById(query, true);
+  const { data: posts, isLoading: isPostsLoading, error: postsError, refetch } = useGetPosts(query, enabled);
 
   useEffect(() => {
     window.innerWidth > 600 && exit();
   }, []);
 
   useEffect(() => {
-    service
-      .getPostById(postId)
-      .then((res) => {
-        setPost(res);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [postId]);
+    if (!isLoading) {
+      if (data) setPost(data);
+      if (error) console.log(error);
+    }
+  }, [postId, data, isLoading])
 
   const exit = () => {
     window.history.back();
   };
 
+  useEffect(() => {
+    if (!isPostsLoading) {
+      if (posts) {
+        dispatch(updateFeed(posts));
+        exit();
+      }
+      if (postsError) console.log(postsError);
+    }
+  }, [posts, isPostsLoading]);
+
   const handleSubmit = async () => {
+    setEnabled(true);
     setContent("");
     setImages([]);
     dispatch(setLength(length + 1));
-    const posts = await service.getPosts(query);
-    dispatch(updateFeed(posts));
-    exit();
+    refetch();
   };
   const handleRemoveImage = (index: number) => {
     const newImages = images.filter((i, idx) => idx !== index);

@@ -1,24 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tab from "./tab/Tab";
 import { setQuery, updateFeed } from "../../../../../redux/user";
-import { useHttpRequestService } from "../../../../../service/HttpRequestService";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../../../../../redux/hooks";
 import { StyledTabBarContainer } from "./TabBarContainer";
+import { useGetPosts } from "../../../../../service/query";
 
 const TabBar = () => {
   const [activeFirstPage, setActiveFirstPage] = useState(true);
   const dispatch = useAppDispatch();
-  const service = useHttpRequestService();
   const { t } = useTranslation();
+  const [queryL, setQueryL] = useState("");
+
+  const { data, isLoading, error, refetch } = useGetPosts(queryL, true);
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (error) console.log(error);
+      if (data) dispatch(updateFeed(data));
+    }
+  }, [data, isLoading, queryL]);
 
   const handleClick = async (value: boolean, query: string) => {
     setActiveFirstPage(value);
     dispatch(setQuery(query));
-    const data = await service.getPosts(query).catch((e) => {
-      console.log(e);
-    });
-    dispatch(updateFeed(data));
+    setQueryL(query);
+    refetch();
   };
 
   return (

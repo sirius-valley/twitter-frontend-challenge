@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
 import FollowUserBox from "../../../../components/follow-user/FollowUserBox";
-import { useHttpRequestService } from "../../../../service/HttpRequestService";
 import { useTranslation } from "react-i18next";
 import { User } from "../../../../service";
 import { StyledSuggestionBoxContainer } from "./SuggestionBoxContainer";
+import { useGetRecommendedUsers } from "../../../../service/query";
 
 const SuggestionBox = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const httpService = useHttpRequestService();
   const { t } = useTranslation();
+  const { data, error, isLoading } = useGetRecommendedUsers(6, 0, true);
 
   useEffect(() => {
-    try {
-      httpService.getRecommendedUsers(6, 0).then((res) => {
-        setUsers(res);
-      });
-    } catch (e) {
-      console.log(e);
+    if (!isLoading) {
+      if (error) console.log(error);
+      if (data) setUsers(data);
     }
-  }, []);
+  }, [data, isLoading]);
 
   return (
     <StyledSuggestionBoxContainer>
