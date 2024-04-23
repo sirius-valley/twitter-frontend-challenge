@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../button/Button";
 import TweetInput from "../tweet-input/TweetInput";
-import { useHttpRequestService } from "../../service/HttpRequestService";
 import { setLength, updateFeed } from "../../redux/user";
 import ImageContainer from "../tweet/tweet-image/ImageContainer";
 import { BackArrowIcon } from "../icon/Icon";
@@ -25,8 +24,18 @@ const TweetBox = (props) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const { data, refetch } = useGetPosts(query, enabled);
+  const { data, refetch, error, isLoading } = useGetPosts(query, enabled);
 
+  useEffect(() => {
+    if(!isLoading) {
+      if(error) console.log(error);
+      if(data) {
+        dispatch(updateFeed(data));
+      }
+    }
+  }, [data, isLoading, error]);
+
+   
   const handleChange = (e) => {
     setContent(e.target.value);
   };
@@ -38,7 +47,6 @@ const TweetBox = (props) => {
       dispatch(setLength(length + 1));
       setEnabled(true);
       refetch();
-      dispatch(updateFeed(data));
       close && close();
     } catch (e) {
       console.log(e);
