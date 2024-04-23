@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setLength, updateFeed } from "../redux/user";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { useGetCommentsByPostId } from "../service/query";
@@ -8,23 +8,18 @@ interface UseGetCommentsProps {
 }
 
 export const useGetComments = ({ postId }: UseGetCommentsProps) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const posts = useAppSelector((state) => state.user.feed);
-  const [enabled, setEnabled] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
 
   const {
     data: CommentsByPostId,
     refetch: refetchCommentsByPostId,
+    error,
     isLoading
-  } = useGetCommentsByPostId(postId, enabled);
+  } = useGetCommentsByPostId(postId, true);
 
   useEffect(() => {
-    setLoading(true);
-    setError(false);
-    setEnabled(true);
     refetchCommentsByPostId();
     if (CommentsByPostId && !isLoading) {
       const updatedPosts = Array.from(new Set([...posts, ...CommentsByPostId])).filter(
@@ -32,9 +27,8 @@ export const useGetComments = ({ postId }: UseGetCommentsProps) => {
       );
       dispatch(updateFeed(updatedPosts));
       dispatch(setLength(updatedPosts.length));
-      setLoading(false);
     }
   }, [CommentsByPostId, postId]);
 
-  return { posts, loading, error };
+  return { posts, isLoading, error };
 };
