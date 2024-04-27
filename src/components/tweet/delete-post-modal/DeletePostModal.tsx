@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { DeleteIcon } from "../../icon/Icon";
 import Modal from "../../modal/Modal";
 import Button from "../../button/Button";
@@ -26,20 +26,17 @@ export const DeletePostModal = ({
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const { mutate: deletePost, isSuccess, error } = useDeletePost();
-
-  useEffect(() => {
-    if (isSuccess) {
-      const newFeed = feed.filter((post: Post) => post.id !== id);
-      dispatch(updateFeed(newFeed));
-      handleClose();
-    }
-    if (error) console.log(error)
-  }, [isSuccess, error]);
+  const { mutate: deletePost } = useDeletePost();
 
   const handleDelete = () => {
     try {
-      deletePost(id);
+      deletePost(id, {
+        onSuccess: () => {
+          const newFeed = feed.filter((post: Post) => post.id !== id);
+          dispatch(updateFeed(newFeed));
+          handleClose();
+        }
+      });
     } catch (error) {
       console.log(error);
     }
