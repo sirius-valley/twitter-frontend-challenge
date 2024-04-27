@@ -30,6 +30,7 @@ const TweetBox = (props) => {
     if(!isLoading) {
       if(error) console.log(error);
       if(data) {
+        dispatch(setLength(length + 1));
         dispatch(updateFeed(data));
       }
     }
@@ -44,7 +45,6 @@ const TweetBox = (props) => {
       setContent("");
       setImages([]);
       setImagesPreview([]);
-      dispatch(setLength(length + 1));
       setEnabled(true);
       refetch();
       close && close();
