@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Button from "../button/Button";
-import { useHttpRequestService } from "../../service/HttpRequestService";
 import UserDataBox from "../user-data-box/UserDataBox";
 import { useTranslation } from "react-i18next";
 import { ButtonType } from "../button/StyledButton";
@@ -22,17 +21,11 @@ const FollowUserBox = ({
   id,
 }: FollowUserBoxProps) => {
   const { 
-    mutate: followUser,
-    isSuccess: isSuccesFollow,
-    error: errorFollow,
-    reset: resetFollow 
+    mutate: followUser
   } = useFollowUser();
 
   const {
-    mutate: unfollowUser,
-    isSuccess: isSuccessUnfollow,
-    error: errorUnfollow,
-    reset: resetUnfollow
+    mutate: unfollowUser
   } = useUnfollowUser();
 
   const user = useAppSelector((state) => state.user.user);
@@ -50,14 +43,6 @@ const FollowUserBox = ({
     }
     setIsFollowing(!isFollowing);
   };
-
-  useEffect(() => {
-    if (isSuccesFollow) resetFollow();
-    if (errorFollow) console.log(errorFollow);
-    if (isSuccessUnfollow) resetUnfollow();
-    if (errorUnfollow) console.log(errorUnfollow);
-    
-  }, [isSuccesFollow, errorFollow, isSuccessUnfollow, errorUnfollow]);
 
   return (
     <div className="box-container">
