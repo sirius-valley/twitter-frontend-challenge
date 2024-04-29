@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BackArrowIcon } from "../../components/icon/Icon";
 import Button from "../../components/button/Button";
-import { Post } from "../../service";
+import {Post, User} from "../../service";
 import AuthorData from "../../components/tweet/user-post-data/AuthorData";
 import ImageContainer from "../../components/tweet/tweet-image/ImageContainer";
 import { useLocation } from "react-router-dom";
@@ -20,11 +20,20 @@ const CommentPage = () => {
   const [content, setContent] = useState("");
   const [post, setPost] = useState<Post | undefined>(undefined);
   const [images, setImages] = useState<File[]>([]);
+  const [user, setUser] = useState<User>()
   const postId = useLocation().pathname.split("/")[3];
   const service = useHttpRequestService();
-  const { user, length, query } = useAppSelector((state) => state.user);
+  const { length, query } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    handleGetUser().then(r => setUser(r))
+  }, []);
+
+  const handleGetUser = async () => {
+    return await service.me()
+  }
 
   useEffect(() => {
     window.innerWidth > 600 && exit();
@@ -96,7 +105,7 @@ const CommentPage = () => {
               placeholder={t("placeholder.comment")}
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              src={user.profilePicture}
+              src={user?.profilePicture}
             />
             {images.length > 0 && (
               <ImageContainer

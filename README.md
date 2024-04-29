@@ -4,6 +4,18 @@ This training project consists of taking a real project and adding, fixing, or i
 
 ## Challenges
 
+### Integration with your own Backend
+
+If you check HttpRequestService, you will see that the url of the Backend is `process.env.REACT_APP_API_URL`. 
+
+Make the App point to your backend url (typically http://localhost:8080)
+
+**Did you think this was that easy?**
+
+You will probably have some errors in the app due to your Backend not returning exactly what the Frontend expects.
+
+As we advance, be prepared to solve these errors as they appear.
+
 ### Protected Routes
 
 The objective of this feature is to add logic to protect certain routes that require an authenticated user to function. The following routes should be accessible to authenticated users:
@@ -49,6 +61,29 @@ The objective of this task is to improve the Axios services. The previous develo
 
 **Why is it important?** In order to reduce the duplicated lines, we need to know when and how to reduce them.
 
+### DRY, part two
+
+The "user" object is used in many places, like Header, CommentPage, etc.
+
+In all these places, we fetch the user from the Backend with service.me().
+
+Change this for the user to be fetched once (for example, in the login) and then save it to be used globally.
+
+### Caching makes your life (and the users') simpler  
+
+You may have noticed we do a lot of requests. Every time you go to a page, we request the data again from the BE.
+
+This can be solved, like in the previous step (**DRY, part two**) by saving the data globally with redux.
+
+But there is a much simpler way, called **caching**.
+
+By caching, the data you get from the Backend is saved so when you request it again it is automatically returned from the cache.
+
+Investigate about caching with [React query](https://tanstack.com/query) and implement it in all routes inside the httpRequestService.
+
+**Why is it important?** By caching the data, you not only save money by reducing the amounts of requests you do to the backend but also create a much more seamless experience for the user, as he only has to wait for the data to be fetched once
+
+**S(e)irius tip** Don't forget to investigate about [Mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) and [Query invalidations](https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation) 
 
 ### Bug Hunting time
 
@@ -73,6 +108,22 @@ After that, you have to create from scratch a button and an input field, and sho
 
 **Variants**: outlined, fulfilled, ghost & white
 **Size**: small, medium, large
+
+### Errors exist, and are not only for you
+
+Humans are not perfect. Sometimes we encounter errors. Whether it's a validation error, a backend error, or any other, the user needs to know (if it bears him).
+
+For us, developers, with a simple `console.error(e)` we are more than satisfied. But, unluckily, not all people are as smart as us.
+
+That's where toasts come to save the day.
+
+Toasts are a great way of showing the user that something happened. It can be an error toast (the most common one) but you may also se information, success, or waning toasts. For example, when you send an email in gmail, you will se a "Message sent" toast at the bottom.
+
+Lucky for you, the toast is already created inside the "toast" folder. 
+
+**What you have to do is implement it where you think is important to show the user some info, whether is an error or a success message**
+
+We've seen how important DRY is, so I don't want you to import the **Toast** component inside every file you use it. See how to implement it globally
 
 ### Infinite Scroll
 

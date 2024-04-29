@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Modal from "../../modal/Modal";
 import logo from "../../../assets/logo.png";
 import Button from "../../button/Button";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import {useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 import SwitchButton from "../../switch/SwitchButton";
-import { ButtonType } from "../../button/StyledButton";
-import { useAppSelector } from "../../../redux/hooks";
-import { StyledPromptContainer } from "./PromptContainer";
-import { StyledContainer } from "../../common/Container";
-import { StyledP } from "../../common/text";
+import {ButtonType} from "../../button/StyledButton";
+import {StyledPromptContainer} from "./PromptContainer";
+import {StyledContainer} from "../../common/Container";
+import {StyledP} from "../../common/text";
+import {useHttpRequestService} from "../../../service/HttpRequestService";
+import {User} from "../../../service";
 
 interface LogoutPromptProps {
   show: boolean;
@@ -18,12 +19,24 @@ interface LogoutPromptProps {
 const LogoutPrompt = ({ show }: LogoutPromptProps) => {
   const [showPrompt, setShowPrompt] = useState<boolean>(show);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const user = useAppSelector((state) => state.user.user);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const service = useHttpRequestService()
+  const [user, setUser] = useState<User>()
+
+
+  useEffect(() => {
+    handleGetUser().then(r => setUser(r))
+  }, []);
+
+  const handleGetUser = async () => {
+    return await service.me()
+  }
+
   const handleClick = () => {
     setShowModal(true);
   };
+
 
   const handleLanguageChange = () => {
     if (i18n.language === "es") {
@@ -61,7 +74,7 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
           </StyledContainer>
           <StyledContainer onClick={handleClick} alignItems={"center"}>
             <StyledP primary>{`${t("buttons.logout")} @${
-              user.username
+              user?.username
             }`}</StyledP>
           </StyledContainer>
         </StyledPromptContainer>
