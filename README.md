@@ -138,3 +138,18 @@ The objective of this task is to enhance the app's modals. To achieve this, you 
 ### Let’s chat
 
 The objective of this task is to add functionality to chat with someone. You have already done the backend job, now is the time to apply it to the Frontend. Create a service to add the sockets that you will use.
+
+### Finally, some testing
+
+Add some Unit tests to the more atomic components of the app. Which? Is up to you
+
+Which unit testing framework to use? You guessed right, is up to you too
+
+Here are a few options, but you can search for more:
+1. Jest
+2. Vitest
+3. Cypress for component testing
+
+Also, implement a CI/CD pipeline in github that runs these tests every time a push is made to your master branch.
+
+**Why is it important?** Having code that does not work in your master branch is something we should avoid at all costs. Runing tests when you push to it is a great way of reducing the risk 
