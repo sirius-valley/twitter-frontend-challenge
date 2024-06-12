@@ -61,14 +61,6 @@ The objective of this task is to improve the Axios services. The previous develo
 
 **Why is it important?** In order to reduce the duplicated lines, we need to know when and how to reduce them.
 
-### DRY, part two
-
-The "user" object is used in many places, like Header, CommentPage, etc.
-
-In all these places, we fetch the user from the Backend with service.me().
-
-Change this for the user to be fetched once (for example, in the login) and then save it to be used globally.
-
 ### Caching makes your life (and the users') simpler  
 
 You may have noticed we do a lot of requests. Every time you go to a page, we request the data again from the BE.
@@ -84,6 +76,14 @@ Investigate about caching with [React query](https://tanstack.com/query) and imp
 **Why is it important?** By caching the data, you not only save money by reducing the amounts of requests you do to the backend but also create a much more seamless experience for the user, as he only has to wait for the data to be fetched once
 
 **S(e)irius tip** Don't forget to investigate about [Mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) and [Query invalidations](https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation) 
+
+### Continuation
+
+The "user" object is used in many places, like Header, CommentPage, etc.
+
+In all these places, we fetch the user from the Backend with service.me().
+
+If you haven't move this to a cache query provider, do it so this info is cached by the backend
 
 ### Bug Hunting time
 
