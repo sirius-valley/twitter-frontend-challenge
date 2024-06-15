@@ -20,15 +20,11 @@ export const StyledTweetButton = styled.button`
   &:active {
     transform: scale(0.95);
   }
-
-  @media (max-width: 1265px) {
-    display: flex;
-  }
-
+    
   @media (max-width: 600px) {
     position: absolute;
-    top: -70px;
-    right: 16px;
+    top: -60%;
+    right: -100%;
     z-index: 1;
   }
 `;

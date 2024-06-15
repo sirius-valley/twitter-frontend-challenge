@@ -74,10 +74,7 @@ const NavBar = () => {
                 active={location.pathname === `/profile/${user?.id}`}
             />
             <StyledTweetButton
-                onClick={() =>
-                    window.innerWidth > 600
-                        ? setTweetModalOpen(true)
-                        : navigate("/compose/tweet")
+                onClick={() => navigate("/compose/tweet")
                 }
             >
               +

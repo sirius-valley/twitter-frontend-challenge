@@ -23,7 +23,7 @@ export const StyledPromptContainer = styled.div`
   }
 
   @media (max-width: 1265px) {
-    left: 7%;
+    right:50%;
     p {
       display: flex;
     }

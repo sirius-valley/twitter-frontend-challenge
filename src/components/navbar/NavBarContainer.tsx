@@ -19,9 +19,6 @@ export const StyledNavBarContainer = styled.div`
     gap: 16px;
     border-right: 1px solid var(--grayscale-container-line, #f0f3f4);
     margin-left: 2.5%;
-    p {
-      display: none;
-    }
   }
 
   @media (max-width: 600px) {
@@ -36,9 +33,5 @@ export const StyledNavBarContainer = styled.div`
     justify-content: center;
     padding: 0;
     margin-left: 0;
-
-    .icon {
-      display: none;
-    }
   }
 `;
