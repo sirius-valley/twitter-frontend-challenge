@@ -122,7 +122,7 @@ const ProfilePage = () => {
         <StyledContainer
             maxHeight={"100vh"}
             borderRight={"1px solid #ebeef0"}
-            flex={2}
+            maxWidth={'600px'}
         >
           {profile && (
               <>
