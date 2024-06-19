@@ -122,8 +122,7 @@ const ProfilePage = () => {
         <StyledContainer
             maxHeight={"100vh"}
             borderRight={"1px solid #ebeef0"}
-            flex={2}
-            maxWidth={"600px"}
+            maxWidth={'600px'}
         >
           {profile && (
               <>
@@ -132,7 +131,6 @@ const ProfilePage = () => {
                     maxHeight={"212px"}
                     padding={"16px"}
                 >
-                  <StyledH5>{profile?.name}</StyledH5>
                   <StyledContainer
                       alignItems={"center"}
                       padding={"24px 0 0 0"}

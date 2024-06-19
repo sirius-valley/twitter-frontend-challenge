@@ -14,6 +14,7 @@ const ThreeDots = ({ onClick }: { onClick: () => void }) => {
       padding={"2px"}
       borderRadius={"50%"}
       hoverable
+      marginRight={window.innerWidth < 700 ? 10 : 0}
       onClick={onClick}
     >
       <StyledDot />

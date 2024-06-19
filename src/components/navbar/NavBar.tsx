@@ -18,6 +18,7 @@ import {StyledNavItemsContainer} from "./navItem/NavItemsContainer";
 import {StyledP} from "../common/text";
 import {useHttpRequestService} from "../../service/HttpRequestService";
 import {User} from "../../service";
+import ProfileLogoutPrompt from "../profile-logout/ProfileLogoutPrompt";
 
 const NavBar = () => {
   const location = useLocation();
@@ -74,10 +75,7 @@ const NavBar = () => {
                 active={location.pathname === `/profile/${user?.id}`}
             />
             <StyledTweetButton
-                onClick={() =>
-                    window.innerWidth > 600
-                        ? setTweetModalOpen(true)
-                        : navigate("/compose/tweet")
+                onClick={() => navigate("/compose/tweet")
                 }
             >
               +
@@ -100,32 +98,7 @@ const NavBar = () => {
               }}
           />
         </StyledContainer>
-        <StyledContainer
-            flex={1}
-            maxHeight={"48px"}
-            flexDirection={"row"}
-            gap={"8px"}
-            alignItems={"center"}
-        >
-          <LogoutPrompt show={logoutOpen}/>
-          <Avatar
-              src={user?.profilePicture ?? Icon}
-              onClick={handleAvatarClick}
-              alt={user?.name ?? ""}
-          />
-          <StyledContainer
-              width={"100%"}
-              flexDirection={"row"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-          >
-            <StyledContainer padding={"4px 0"} gap={"4px"}>
-              <StyledP primary>{user?.name}</StyledP>
-              <StyledP primary={false}>{`@${user?.username}`}</StyledP>
-            </StyledContainer>
-            <ThreeDots onClick={handleLogout}/>
-          </StyledContainer>
-        </StyledContainer>
+          <ProfileLogoutPrompt margin={'50px 0'} direction={'column-reverse'}/>
       </StyledNavBarContainer>
   );
 };
