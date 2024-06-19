@@ -19,6 +19,16 @@ export const StyledNavBarContainer = styled.div`
         border-radius: 32px;
     }
     
+    .profile-info{
+        display: flex;
+        border-radius: 10px;
+        width: fit-content;
+        padding: 0 16px;
+        &:hover{
+            background-color: ${(props) => props.theme.colors.hover};
+        }
+    }
+    
     @media (max-width: 1265px) {
         display: flex;
         flex-direction: column;
@@ -31,7 +41,7 @@ export const StyledNavBarContainer = styled.div`
 
     @media (max-width: 600px) {
         background: ${(props) => props.theme.background};
-        max-height: 48px;
+        max-height: 56px;
         flex-direction: row;
         position: fixed;
         bottom: 0;

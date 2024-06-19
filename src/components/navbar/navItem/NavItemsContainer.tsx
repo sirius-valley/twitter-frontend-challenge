@@ -15,6 +15,6 @@ export const StyledNavItemsContainer = styled.div`
     max-width: 600px;
     flex-direction: row;
     align-items: center;
-    justify-content: start;
+    justify-content: space-around;
   }
 `;

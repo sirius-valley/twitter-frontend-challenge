@@ -8,7 +8,7 @@ interface ContainerProps {
     direction: string;
 }
 
-export const StyledHeaderLogoutPromptContainer = styled.div<ContainerProps>`
+export const StyledProfileLogoutPromptContainer = styled.div<ContainerProps>`
     display: flex;
     flex-direction: ${(props) => props.direction};
 `
