@@ -153,3 +153,10 @@ Here are a few options, but you can search for more:
 Also, implement a CI/CD pipeline in github that runs these tests every time a push is made to your master branch.
 
 **Why is it important?** Having code that does not work in your master branch is something we should avoid at all costs. Runing tests when you push to it is a great way of reducing the risk 
+
+### 🚀 To the moon
+
+Deploy your app to a hosting of your choice. Here are some recommended options:
+    - [Vercel](https://vercel.com/docs/deployments/overview)
+    - [Netlify](https://www.netlify.com/)
+    - [AWS](https://aws.amazon.com/)(You need previous AWS knowledge)
