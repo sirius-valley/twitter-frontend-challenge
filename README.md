@@ -157,6 +157,6 @@ Also, implement a CI/CD pipeline in github that runs these tests every time a pu
 ### 🚀 To the moon
 
 Deploy your app to a hosting of your choice. Here are some recommended options:
-    - [Vercel](https://vercel.com/docs/deployments/overview)
-    - [Netlify](https://www.netlify.com/)
-    - [AWS](https://aws.amazon.com/)(You need previous AWS knowledge)
+- [Vercel](https://vercel.com/docs/deployments/overview)
+- [Netlify](https://www.netlify.com/)
+- [AWS](https://aws.amazon.com/)(You need previous AWS knowledge)
