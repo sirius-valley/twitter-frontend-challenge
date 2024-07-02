@@ -160,3 +160,5 @@ Deploy your app to a hosting of your choice. Here are some recommended options:
 - [Vercel](https://vercel.com/docs/deployments/overview)
 - [Netlify](https://www.netlify.com/)
 - [AWS](https://aws.amazon.com/)(You need previous AWS knowledge)
+
+**PD**: Don't forget to change your frontend for it to connect to the backend you deployed for the Twitter Backend challenge
