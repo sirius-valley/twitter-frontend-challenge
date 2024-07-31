@@ -30,7 +30,9 @@
     "search": "Search Twitter",
     "tweet": "What's happening?!",
     "send": "Send a new message",
-    "comment" : "Tweet your reply"
+    "comment" : "Tweet your reply",
+    "email": "Enter your Email...",
+    "password": "Enter your password..."
   },
   "error": {
     "login": "Sorry, your username or password was incorrect. Please try again."
