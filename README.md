@@ -6,7 +6,7 @@ This training project consists of taking a real project and adding, fixing, or i
 
 ### Integration with your own Backend
 
-If you check HttpRequestService, you will see that the url of the Backend is `process.env.REACT_APP_API_URL`. 
+If you check HttpRequestService, you will see that the url of the Backend is `process.env.REACT_APP_API_URL`.
 
 Make the App point to your backend url (typically http://localhost:8080)
 
@@ -16,7 +16,7 @@ You will probably have some errors in the app due to your Backend not returning 
 
 As we advance, be prepared to solve these errors as they appear.
 
-### Protected Routes
+✅DONE✅### Protected Routes
 
 The objective of this feature is to add logic to protect certain routes that require an authenticated user to function. The following routes should be accessible to authenticated users:
 
@@ -55,13 +55,13 @@ The objective of this task is to read and comprehend how class components functi
 
 ### Don’t repeat yourself, STUPID (Opss, that was KISS)
 
-The objective of this task is to improve the Axios services. The previous developers have repeated the headers so many times. At the same time, we need to provide some logic where if we detect an error 401 (Unauthorized), you should log out the current user. 
+The objective of this task is to improve the Axios services. The previous developers have repeated the headers so many times. At the same time, we need to provide some logic where if we detect an error 401 (Unauthorized), you should log out the current user.
 
 **Sirius Tip:** Read about interceptors ;)
 
 **Why is it important?** In order to reduce the duplicated lines, we need to know when and how to reduce them.
 
-### Caching makes your life (and the users') simpler  
+### Caching makes your life (and the users') simpler
 
 You may have noticed we do a lot of requests. Every time you go to a page, we request the data again from the BE.
 
@@ -75,7 +75,7 @@ Investigate about caching with [React query](https://tanstack.com/query) and imp
 
 **Why is it important?** By caching the data, you not only save money by reducing the amounts of requests you do to the backend but also create a much more seamless experience for the user, as he only has to wait for the data to be fetched once
 
-**S(e)irius tip** Don't forget to investigate about [Mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) and [Query invalidations](https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation) 
+**S(e)irius tip** Don't forget to investigate about [Mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) and [Query invalidations](https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation)
 
 ### Continuation
 
@@ -88,6 +88,7 @@ If you haven't move this to a cache query provider, do it so this info is cached
 ### Bug Hunting time
 
 The objective of this task is to fix 2 bugs that the app has.
+
 1. We are not checking that the user already exists when registering.
 2. The menus (those kind of floating containers) when users click out of them, they are not closing.
 
@@ -119,7 +120,7 @@ That's where toasts come to save the day.
 
 Toasts are a great way of showing the user that something happened. It can be an error toast (the most common one) but you may also se information, success, or waning toasts. For example, when you send an email in gmail, you will se a "Message sent" toast at the bottom.
 
-Lucky for you, the toast is already created inside the "toast" folder. 
+Lucky for you, the toast is already created inside the "toast" folder.
 
 **What you have to do is implement it where you think is important to show the user some info, whether is an error or a success message**
 
@@ -146,17 +147,19 @@ Add some Unit tests to the more atomic components of the app. Which? Is up to yo
 Which unit testing framework to use? You guessed right, is up to you too
 
 Here are a few options, but you can search for more:
+
 1. Jest
 2. Vitest
 3. Cypress for component testing
 
 Also, implement a CI/CD pipeline in github that runs these tests every time a push is made to your master branch.
 
-**Why is it important?** Having code that does not work in your master branch is something we should avoid at all costs. Runing tests when you push to it is a great way of reducing the risk 
+**Why is it important?** Having code that does not work in your master branch is something we should avoid at all costs. Runing tests when you push to it is a great way of reducing the risk
 
 ### 🚀 To the moon
 
 Deploy your app to a hosting of your choice. Here are some recommended options:
+
 - [Vercel](https://vercel.com/docs/deployments/overview)
 - [Netlify](https://www.netlify.com/)
 - [AWS](https://aws.amazon.com/)(You need previous AWS knowledge)

@@ -1,8 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { getToken } from "../../util/localStorage";
+import { useToken } from "../../hooks/useToken";
 
 const PrivateRoute = () => {
-  const token = getToken();
+  //jwt decode
+  const {token} = useToken();
 
   if (!token) {
     return <Navigate to="sign-in" replace />;
