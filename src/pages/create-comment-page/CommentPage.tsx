@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BackArrowIcon } from "../../components/icon/Icon";
 import Button from "../../components/button/Button";
-import {Post, User} from "../../service";
+import { PostDTO, UserDTO } from "../../service";
 import AuthorData from "../../components/tweet/user-post-data/AuthorData";
 import ImageContainer from "../../components/tweet/tweet-image/ImageContainer";
 import { useLocation } from "react-router-dom";
@@ -18,9 +18,9 @@ import { StyledP } from "../../components/common/text";
 
 const CommentPage = () => {
   const [content, setContent] = useState("");
-  const [post, setPost] = useState<Post | undefined>(undefined);
+  const [post, setPost] = useState<PostDTO | undefined>(undefined);
   const [images, setImages] = useState<File[]>([]);
-  const [user, setUser] = useState<User>()
+  const [user, setUser] = useState<UserDTO>();
   const postId = useLocation().pathname.split("/")[3];
   const service = useHttpRequestService();
   const { length, query } = useAppSelector((state) => state.user);
@@ -28,12 +28,12 @@ const CommentPage = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    handleGetUser().then(r => setUser(r))
+    handleGetUser().then((r) => setUser(r));
   }, []);
 
   const handleGetUser = async () => {
-    return await service.me()
-  }
+    return await service.me();
+  };
 
   useEffect(() => {
     window.innerWidth > 600 && exit();

@@ -12,13 +12,13 @@ import { StyledTweetBoxContainer } from "./TweetBoxContainer";
 import { StyledContainer } from "../common/Container";
 import { StyledButtonContainer } from "./ButtonContainer";
 import { useDispatch, useSelector } from "react-redux";
-import { User } from "../../service";
+import { UserDTO } from "../../service";
 import { RootState } from "../../redux/store";
 type TweetBoxProps = {
   parentId?: string;
   close?: () => void;
-  borderless?: true;//???
-  mobile?: true;//???
+  borderless?: true; //???
+  mobile?: true; //???
 };
 const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
   const [content, setContent] = useState("");
@@ -30,7 +30,7 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const service = useHttpRequestService();
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<UserDTO>();
 
   useEffect(() => {
     handleGetUser().then((r) => setUser(r));

@@ -17,19 +17,19 @@ export interface PostData {
   images?: File[];
 }
 
-export interface Post {
+export interface PostDTO {
   id: string;
   content: string;
   parentId?: string;
   images?: string[];
   createdAt: Date;
   authorId: string;
-  author: Author;
-  reactions: Reaction[];
-  comments: Post[];
+  author: AuthorDTO;
+  reactions: ReactionDTO[];
+  comments: PostDTO[];
 }
 
-export interface Reaction {
+export interface ReactionDTO {
   id: string;
   type: string;
   createdAt: Date;
@@ -38,7 +38,7 @@ export interface Reaction {
   updatedAt: Date;
   deletedAt?: Date;
 }
-export interface Author {
+export interface AuthorDTO {
   id: string;
   name?: string;
   username: string;
@@ -47,16 +47,16 @@ export interface Author {
   createdAt: Date;
 }
 
-export interface User {
+export interface UserDTO {
   id: string;
   name?: string;
   username: string;
   profilePicture?: string;
   private: boolean;
   createdAt: Date;
-  followers: Author[];
-  following: Author[];
-  posts: Post[];
+  followers: AuthorDTO[];
+  following: AuthorDTO[];
+  posts: PostDTO[];
 }
 
 export interface MessageDTO {
@@ -65,11 +65,11 @@ export interface MessageDTO {
   createdAt: Date;
   chatId: string;
   senderId: string;
-  sender: Author;
+  sender: AuthorDTO;
 }
 
 export interface ChatDTO {
   id: string;
-  users: Author[];
+  users: AuthorDTO[];
   messages: MessageDTO[];
 }

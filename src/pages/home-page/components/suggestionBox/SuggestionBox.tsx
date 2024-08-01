@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import FollowUserBox from "../../../../components/follow-user/FollowUserBox";
 import { useHttpRequestService } from "../../../../service/HttpRequestService";
 import { useTranslation } from "react-i18next";
-import { User } from "../../../../service";
+import { UserDTO } from "../../../../service";
 import { StyledSuggestionBoxContainer } from "./SuggestionBoxContainer";
 
 const SuggestionBox = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserDTO[]>([]);
   const httpService = useHttpRequestService();
   const { t } = useTranslation();
 

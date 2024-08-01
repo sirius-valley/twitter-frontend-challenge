@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyledTweetContainer } from "./TweetContainer";
 import AuthorData from "./user-post-data/AuthorData";
-import type { Post, User } from "../../service";
+import type { PostDTO, UserDTO } from "../../service";
 import { StyledReactionsContainer } from "./ReactionsContainer";
 import Reaction from "./reaction/Reaction";
 import { useHttpRequestService } from "../../service/HttpRequestService";
@@ -14,16 +14,16 @@ import CommentModal from "../comment/comment-modal/CommentModal";
 import { useNavigate } from "react-router-dom";
 
 interface TweetProps {
-  post: Post;
+  post: PostDTO;
 }
 
 const Tweet = ({ post }: TweetProps) => {
-  const [actualPost, setActualPost] = useState<Post>(post);
+  const [actualPost, setActualPost] = useState<PostDTO>(post);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
   const service = useHttpRequestService();
   const navigate = useNavigate();
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<UserDTO>();
 
   useEffect(() => {
     handleGetUser().then((r) => setUser(r));

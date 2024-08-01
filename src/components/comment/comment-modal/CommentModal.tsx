@@ -1,5 +1,5 @@
 import React from "react";
-import { Post } from "../../../service";
+import { PostDTO } from "../../../service";
 import { PostModal } from "../../post-modal/PostModal";
 import AuthorData from "../../tweet/user-post-data/AuthorData";
 import { StyledContainer } from "../../common/Container";
@@ -9,7 +9,7 @@ import TweetBox from "../../tweet-box/TweetBox";
 import ImageContainer from "../../tweet/tweet-image/ImageContainer";
 
 interface CommentModalProps {
-  post: Post;
+  post: PostDTO;
   show: boolean;
   onClose: () => void;
 }
