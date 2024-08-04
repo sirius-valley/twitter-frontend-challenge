@@ -39,7 +39,6 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
   const handleGetUser = async () => {
     try {
       const user = await service.me();
-      console.log("Fetched user:", user);
       return user;
     } catch (error) {
       console.error("Error fetching user:", error);
@@ -52,13 +51,11 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
   };
   const handleSubmit = async () => {
     try {
-      console.log("Submitting...");
       setContent("");
       setImages([]);
       setImagesPreview([]);
       dispatch(setLength(length + 1));
       const posts = await httpService.getPosts(query);
-      console.log("Fetched posts:", posts);
       dispatch(updateFeed(posts));
       close && close();
     } catch (e) {
@@ -102,7 +99,7 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
           maxLength={240}
           placeholder={t("placeholder.tweet")}
           value={content}
-          src={user?.profilePicture}
+          src={user?.image}
         />
         <StyledContainer padding={"0 0 0 10%"}>
           <ImageContainer

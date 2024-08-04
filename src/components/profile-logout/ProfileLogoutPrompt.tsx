@@ -50,7 +50,7 @@ const ProfileLogoutPrompt = ({
       cursor={"pointer"}
     >
       <StyledProfileLogoutPromptContainer direction={direction}>
-        <img src={user?.profilePicture ?? icon} className="icon" alt="Icon" />
+        <img src={user?.image ?? icon} className="icon" alt="Icon" />
         {logoutOpen && (
           <StyledLogoutPrompt
             margin={margin}

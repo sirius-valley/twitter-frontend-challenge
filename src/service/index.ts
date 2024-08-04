@@ -1,23 +1,23 @@
-export interface SingUpData {
+export interface SingUpData {//SignupInputDTO✅
   name: string;
   password: string;
   email: string;
   username: string;
 }
 
-export interface SingInData {
+export interface SingInData {//LoginInputDTO✅
   username?: string;
   email?: string;
   password: string;
 }
 
-export interface PostData {
+export interface PostData {//CreatePostInputDTO✅
   content: string;
   parentId?: string;
   images?: File[];
 }
 
-export interface PostDTO {
+export interface PostDTO {//ExtendedPostDTO✅
   id: string;
   content: string;
   parentId?: string;
@@ -29,7 +29,7 @@ export interface PostDTO {
   comments: PostDTO[];
 }
 
-export interface ReactionDTO {
+export interface ReactionDTO {//ReactionDTO✅
   id: string;
   type: string;
   createdAt: Date;
@@ -38,28 +38,28 @@ export interface ReactionDTO {
   updatedAt: Date;
   deletedAt?: Date;
 }
-export interface AuthorDTO {
+export interface AuthorDTO {//UserViewDTO✅
   id: string;
   name?: string;
   username: string;
-  profilePicture?: string;
-  private: boolean;
+  image?: string;
+  isPrivate: boolean;
   createdAt: Date;
 }
 
-export interface UserDTO {
+export interface UserDTO {//ExtendedViewDTO✅
   id: string;
   name?: string;
   username: string;
-  profilePicture?: string;
-  private: boolean;
+  image?: string;
+  isPrivate: boolean;
   createdAt: Date;
   followers: AuthorDTO[];
   following: AuthorDTO[];
   posts: PostDTO[];
 }
 
-export interface MessageDTO {
+export interface MessageDTO {//MessageDTO✅
   id: string;
   content: string;
   createdAt: Date;
@@ -68,7 +68,7 @@ export interface MessageDTO {
   sender: AuthorDTO;
 }
 
-export interface ChatDTO {
+export interface ChatDTO {//ChatDTO✅
   id: string;
   users: AuthorDTO[];
   messages: MessageDTO[];

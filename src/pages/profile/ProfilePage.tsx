@@ -140,7 +140,7 @@ const ProfilePage = () => {
                 <ProfileInfo
                   name={profile!.name!}
                   username={profile!.username}
-                  profilePicture={profile!.profilePicture}
+                  profilePicture={profile!.image}
                 />
                 <Button
                   buttonType={handleButtonType().component}

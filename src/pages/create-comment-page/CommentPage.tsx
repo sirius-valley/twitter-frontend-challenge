@@ -90,7 +90,7 @@ const CommentPage = () => {
             name={post.author.name ?? "Name"}
             username={post.author.username}
             createdAt={post.createdAt}
-            profilePicture={post.author.profilePicture}
+            profilePicture={post.author.image}
           />
           <StyledContainer flexDirection={"row"}>
             <StyledLine />
@@ -105,7 +105,7 @@ const CommentPage = () => {
               placeholder={t("placeholder.comment")}
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              src={user?.profilePicture}
+              src={user?.image}
             />
             {images.length > 0 && (
               <ImageContainer

@@ -18,11 +18,11 @@ const CommentModal = ({ post, show, onClose }: CommentModalProps) => {
     <PostModal show={show} onClose={onClose}>
       <StyledContainer gap={"16px"}>
         <AuthorData
-          id={post.authorId}
-          name={post.author.name ?? "Name"}
-          username={post.author.username}
-          createdAt={post.createdAt}
-          profilePicture={post.author.profilePicture}
+          id={post?.authorId}
+          name={post?.author?.name ?? "Name"}
+          username={post?.author?.username}
+          createdAt={post?.createdAt}
+          profilePicture={post?.author?.image}
         />
         <StyledContainer flexDirection={"row"}>
           <StyledLine />

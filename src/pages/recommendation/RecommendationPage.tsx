@@ -44,7 +44,7 @@ const RecommendationPage = () => {
                   key={"recommendation-" + user.id}
                   name={user.name}
                   username={user.username}
-                  profilePicture={user.profilePicture}
+                  profilePicture={user.image}
                   id={user.id}
                 />
               </StyledContainer>
@@ -55,7 +55,7 @@ const RecommendationPage = () => {
                 key={"recommendation-" + user.id}
                 name={user.name}
                 username={user.username}
-                profilePicture={user.profilePicture}
+                profilePicture={user.image}
                 id={user.id}
               />
             );

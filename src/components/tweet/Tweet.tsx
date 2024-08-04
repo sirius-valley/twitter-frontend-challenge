@@ -12,6 +12,7 @@ import DeletePostModal from "./delete-post-modal/DeletePostModal";
 import ImageContainer from "./tweet-image/ImageContainer";
 import CommentModal from "../comment/comment-modal/CommentModal";
 import { useNavigate } from "react-router-dom";
+import { constants } from "buffer";
 
 interface TweetProps {
   post: PostDTO;
@@ -32,7 +33,6 @@ const Tweet = ({ post }: TweetProps) => {
   const handleGetUser = async () => {
     return await service.me();
   };
-
   const getCountByType = (type: string): number => {
     return actualPost?.reactions?.filter((r) => r.type === type).length ?? 0;
   };
@@ -67,11 +67,11 @@ const Tweet = ({ post }: TweetProps) => {
         maxHeight={"48px"}
       >
         <AuthorData
-          id={post.author.id}
-          name={post.author.name ?? "Name"}
-          username={post.author.username}
-          createdAt={post.createdAt}
-          profilePicture={post.author.profilePicture}
+          id={post?.author?.id}
+          name={post?.author?.name ?? "Name"}
+          username={post?.author?.username}
+          createdAt={post?.createdAt}
+          profilePicture={post?.author?.image}
         />
         {post.authorId === user?.id && (
           <>

@@ -25,7 +25,7 @@ export const SearchResultModal = ({
                     username={author.username}
                     name={author.name!}
                     id={author.id}
-                    profilePicture={author.profilePicture!}
+                    profilePicture={author.image!}
                   />
                 );
               })}

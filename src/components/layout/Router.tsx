@@ -57,7 +57,7 @@ export const ROUTER = createBrowserRouter([
             element: <TweetPage />,
           },
           {
-            path: "/post/:id",
+            path: "/comment/:id",
             element: <CommentPage />,
           },
         ],
