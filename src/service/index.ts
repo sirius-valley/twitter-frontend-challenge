@@ -10,6 +10,9 @@ export interface SingInData {//LoginInputDTO✅
   email?: string;
   password: string;
 }
+export interface ReactionData{//CreateReactionInputDTO✅
+  type: 'LIKE' | 'RETWEET';
+}
 
 export interface PostData {//CreatePostInputDTO✅
   content: string;
