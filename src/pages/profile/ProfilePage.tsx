@@ -5,7 +5,7 @@ import Modal from "../../components/modal/Modal";
 import { useTranslation } from "react-i18next";
 import { UserDTO } from "../../service";
 import { ButtonType } from "../../components/button/StyledButton";
-import { useHttpRequestService } from "../../service/HttpRequestService";
+import { useHttpRequestService } from "../../service/oldService";
 import Button from "../../components/button/Button";
 import ProfileFeed from "../../components/feed/ProfileFeed";
 import { StyledContainer } from "../../components/common/Container";

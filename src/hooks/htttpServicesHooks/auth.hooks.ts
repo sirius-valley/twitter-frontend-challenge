@@ -1,10 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { SingInData, SingUpData, UserDTO } from "../../service";
-import { fetchData, postData } from "../../service/oldSerivces";
+import { SingInData, SingUpData } from "../../service";
+import { postData } from "../../service/HttpRequestService";
 import { login_endpoint, signup_endpoint } from "../../endpoints";
 
-
-
+//use Mutators
 export const useSignup = ( data: Partial<SingUpData>) =>{  
 
   return postData<Partial<SingUpData>, any>(signup_endpoint,data);

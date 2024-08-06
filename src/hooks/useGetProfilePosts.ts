@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHttpRequestService } from "../service/HttpRequestService";
+import { useHttpRequestService } from "../service/oldService";
 import { updateFeed } from "../redux/user";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";

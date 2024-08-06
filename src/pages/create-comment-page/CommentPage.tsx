@@ -5,7 +5,7 @@ import { PostDTO, UserDTO } from "../../service";
 import AuthorData from "../../components/tweet/user-post-data/AuthorData";
 import ImageContainer from "../../components/tweet/tweet-image/ImageContainer";
 import { useLocation } from "react-router-dom";
-import { useHttpRequestService } from "../../service/HttpRequestService";
+import { useHttpRequestService } from "../../service/oldService";
 import TweetInput from "../../components/tweet-input/TweetInput";
 import ImageInput from "../../components/common/ImageInput";
 import { setLength, updateFeed } from "../../redux/user";
@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledLine } from "../../components/common/Line";
 import { StyledP } from "../../components/common/text";
+import { useGetPosts } from "../../hooks/htttpServicesHooks/post.hooks";
 
 const CommentPage = () => {
   const [content, setContent] = useState("");
@@ -24,6 +25,7 @@ const CommentPage = () => {
   const postId = useLocation().pathname.split("/")[3];
   const service = useHttpRequestService();
   const { length, query } = useAppSelector((state) => state.user);
+  const {data: posts, isLoading} = useGetPosts();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -58,8 +60,10 @@ const CommentPage = () => {
     setContent("");
     setImages([]);
     dispatch(setLength(length + 1));
-    const posts = await service.getPosts(query);
-    dispatch(updateFeed(posts));
+    if(posts){
+      dispatch(updateFeed(posts));
+    }
+    
     exit();
   };
   const handleRemoveImage = (index: number) => {
@@ -80,7 +84,7 @@ const CommentPage = () => {
           buttonType={ButtonType.DEFAULT}
           size={"SMALL"}
           onClick={handleSubmit}
-          disabled={content.length === 0}
+          disabled={content.length === 0 || isLoading }
         />
       </StyledContainer>
       {post && (

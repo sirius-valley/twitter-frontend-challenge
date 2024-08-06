@@ -1,10 +1,8 @@
-import React from "react";
 import Feed from "./Feed";
-import { useGetFeed } from "../../hooks/useGetFeed";
+import { useGetPosts } from "../../hooks/htttpServicesHooks/post.hooks";
 
 const ContentFeed = () => {
-  const { posts, loading } = useGetFeed();
-
-  return <Feed posts={posts} loading={loading} />;
+  const { data,isLoading } = useGetPosts()
+  return <Feed posts={data} loading={isLoading} />;
 };
 export default ContentFeed;

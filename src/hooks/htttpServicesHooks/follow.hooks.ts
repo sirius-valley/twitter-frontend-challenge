@@ -1,9 +1,7 @@
-import { postData } from "../../service/oldSerivces";
+import { followUser_param_endpoint, unfollowUser_param_endpoint } from "../../endpoints";
+import { postData } from "../../service/HttpRequestService";
 
-
-const followUser_param_endpoint = (userId: string)=> `/follower/follow/${userId}`
-const unfollowUser_param_endpoint = (userId: string)=> `/follower/unfollow/${userId}`
-
+//Use Mutators
 export const useFollowUser = (userId:string) =>{
   return postData(followUser_param_endpoint(userId));
 }

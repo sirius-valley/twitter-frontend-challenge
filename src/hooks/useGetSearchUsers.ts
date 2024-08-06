@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AuthorDTO } from "../service";
-import { useHttpRequestService } from "../service/HttpRequestService";
+import { useHttpRequestService } from "../service/oldService";
 import { LIMIT } from "../util/Constants";
 
 interface UseGetRecommendationsProps {

@@ -7,7 +7,7 @@ import CommentFeed from "../../components/feed/CommentFeed";
 import TweetBox from "../../components/tweet-box/TweetBox";
 import Loader from "../../components/loader/Loader";
 import { PostDTO } from "../../service";
-import { useHttpRequestService } from "../../service/HttpRequestService";
+import { useHttpRequestService } from "../../service/oldService";
 
 const PostPage = () => {
   //Use State

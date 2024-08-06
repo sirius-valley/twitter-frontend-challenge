@@ -4,7 +4,7 @@ import AuthorData from "./user-post-data/AuthorData";
 import type { PostDTO, UserDTO } from "../../service";
 import { StyledReactionsContainer } from "./ReactionsContainer";
 import Reaction from "./reaction/Reaction";
-import { useHttpRequestService } from "../../service/HttpRequestService";
+import { useHttpRequestService } from "../../service/oldService";
 import { IconType } from "../icon/Icon";
 import { StyledContainer } from "../common/Container";
 import ThreeDots from "../common/ThreeDots";

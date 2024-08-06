@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "../button/Button";
-import { useHttpRequestService } from "../../service/HttpRequestService";
+import { useHttpRequestService } from "../../service/oldService";
 import UserDataBox from "../user-data-box/UserDataBox";
 import { useTranslation } from "react-i18next";
 import { ButtonType } from "../button/StyledButton";

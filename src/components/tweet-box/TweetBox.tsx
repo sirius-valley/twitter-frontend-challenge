@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Button from "../button/Button";
 import TweetInput from "../tweet-input/TweetInput";
-import { useHttpRequestService } from "../../service/HttpRequestService";
+import { useHttpRequestService } from "../../service/oldService";
 import { setLength, updateFeed } from "../../redux/user";
 import ImageContainer from "../tweet/tweet-image/ImageContainer";
 import { BackArrowIcon } from "../icon/Icon";
@@ -14,6 +14,7 @@ import { StyledButtonContainer } from "./ButtonContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { UserDTO } from "../../service";
 import { RootState } from "../../redux/store";
+import { useGetPosts } from "../../hooks/htttpServicesHooks/post.hooks";
 type TweetBoxProps = {
   parentId?: string;
   close?: () => void;
@@ -26,11 +27,12 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
 
   const { length, query } = useSelector((state: RootState) => state.user);
-  const httpService = useHttpRequestService();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const service = useHttpRequestService();
   const [user, setUser] = useState<UserDTO>();
+  const { data: postData, isLoading} = useGetPosts();
+
 
   useEffect(() => {
     handleGetUser().then((r) => setUser(r));
@@ -55,8 +57,10 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
       setImages([]);
       setImagesPreview([]);
       dispatch(setLength(length + 1));
-      const posts = await httpService.getPosts(query);
-      dispatch(updateFeed(posts));
+      if(postData){
+        dispatch(updateFeed(postData));
+      }
+      
       close && close();
     } catch (e) {
       console.error("Error submitting:", e);
@@ -89,7 +93,7 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
             buttonType={ButtonType.DEFAULT}
             size={"SMALL"}
             onClick={handleSubmit}
-            disabled={content.length === 0}
+            disabled={content.length === 0 || isLoading}
           />
         </StyledContainer>
       )}

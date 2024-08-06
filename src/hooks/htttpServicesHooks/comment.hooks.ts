@@ -1,17 +1,39 @@
+import { useQuery } from "@tanstack/react-query";
+import {  deleteCommentById_param_endpoint, getCommentById_param_endpoint, getCommentsByCommentId_param_endpoint as getCommentsByPostId_param_endpoint, getCommentsFromUser_param_endpoint, commentMe_endpoint, postComment_endpoint } from "../../endpoints";
 import { PostData, PostDTO } from "../../service";
-import { deleteData, fetchData, postData } from "../../service/oldSerivces";
+import { deleteData, fetchData, postData } from "../../service/HttpRequestService";
 import { S3Service } from "../../service/S3Service";
 
-const me_endpoint: string = "/comments/me"
+//use Query
+export const useGetMyComments = () =>{
+  return useQuery({
+    queryKey: [`getMyComments`],
+    queryFn: () =>fetchData(commentMe_endpoint)
+  })
+}
+export const useGetCommentById = (commentId: string) =>{
+  return useQuery({
+    queryKey: [`getCommentsById`],
+    queryFn: () =>fetchData(getCommentById_param_endpoint(commentId))
+  })
+}
+export const useGetCommentsFromUser = (userId: string) =>{
+  return useQuery({
+    queryKey: [`getCommentsByUser`],
+    queryFn: () =>fetchData(getCommentsFromUser_param_endpoint(userId))
+  })
+}
+export const useGetCommentsByCommentId = (commentId: string) =>{
+  return useQuery({
+    queryKey: [`getCommentsByPostId`],
+    queryFn: () =>fetchData(getCommentsByPostId_param_endpoint(commentId))
+  })
+}
 
-const getPostById_param_endpoint = (commentId: string) => `/comment/${commentId}`
-const deletePostById_param_endpoint = (commentId: string) => `/comment/${commentId}`
-const getCommentsFromUser_param_endpoint = (userId: string) => `/comment/by_user/${userId}`
-const getCommentsByCommentId_param_endpoint = (commentId: string) => `/comment/by_post/${commentId}`
-//usePostComments
+//Use Mutators
 export const usePostComment = (data: PostData) =>{
   const callback = async () =>{
-    const res = await postData<PostData, PostDTO>(getPosts_endpoint, data);
+    const res = await postData<PostData, PostDTO>(postComment_endpoint, data);
 
       const { upload } = S3Service;
       
@@ -21,18 +43,6 @@ export const usePostComment = (data: PostData) =>{
   }
   return [callback] as const;
 }
-export const useGetMyComments = () =>{
-  return fetchData(me_endpoint);
-}
-export const useGetCommentById = (commentId: string) =>{
-  return fetchData(getPostById_param_endpoint(commentId));
-}
-export const useGetCommentsFromUser = (userId: string) =>{
-  return fetchData(getCommentsFromUser_param_endpoint(userId));
-}
-export const useGetCommentsByCommentId = (commentId: string) =>{
-  return fetchData(getCommentsByCommentId_param_endpoint(commentId));
-}
 export const useDeleteCommentById = (commentId: string) =>{
-  return deleteData(deletePostById_param_endpoint(commentId));
+  return deleteData(deleteCommentById_param_endpoint(commentId));
 }

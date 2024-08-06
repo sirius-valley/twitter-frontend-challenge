@@ -1,16 +1,33 @@
+import { useQuery } from "@tanstack/react-query";
+import { deletePostById_param_endpoint, getPostById_param_endpoint, getPosts_endpoint, getPostsFromUser_param_endpoint, postPost_endpoint } from "../../endpoints";
 import { PostData, PostDTO } from "../../service";
-import { deleteData, fetchData, postData } from "../../service/oldSerivces";
+import { deleteData, fetchData, postData } from "../../service/HttpRequestService";
 import { S3Service } from "../../service/S3Service";
 
-const getPosts_endpoint: string = "/post"
+//Use Query
+export const useGetPosts = () =>{
+  return useQuery({
+    queryKey: [`getAllPosts`],
+    queryFn: () =>fetchData(getPosts_endpoint)
+  })
+}
+export const useGetPostById = (postId: string) =>{
+  return useQuery({
+    queryKey: [`getPostById`],
+    queryFn: () =>fetchData(getPostById_param_endpoint(postId))
+  })
+}
+export const useGetPostsFromUser = (userId: string) =>{
+  return useQuery({
+    queryKey: [`getPostByUser`],
+    queryFn: () =>fetchData(getPostsFromUser_param_endpoint(userId))
+  })
+}
 
-const getPostById_param_endpoint = (postId: string) => `/post/${postId}`
-const deletePostById_param_endpoint = (postId: string) => `/post/${postId}`
-const getPostsFromUser_param_endpoint = (userId: string) => `/post/by_user/${userId}`
-//usePostPost
+//Use Mutators
 export const usePostPost = (data: PostData) =>{
   const callback = async () =>{
-    const res = await postData<PostData, PostDTO>(getPosts_endpoint, data);
+    const res = await postData<PostData, PostDTO>(postPost_endpoint, data);
 
       const { upload } = S3Service;
       
@@ -20,16 +37,7 @@ export const usePostPost = (data: PostData) =>{
   }
   return [callback] as const;
 }
-
-export const useGetPosts = () =>{
-  return fetchData(getPosts_endpoint);
-}
-export const useGetPostById = (postId: string) =>{
-  return fetchData(getPostById_param_endpoint(postId));
-}
-export const useGetPostsFromUser = (userId: string) =>{
-  return fetchData(getPostsFromUser_param_endpoint(userId));
-}
-export const useDeletePostById = (postId: string) =>{
+export const useDeletePostById = (postId: string) =>{//mutators
   return deleteData(deletePostById_param_endpoint(postId));
+  
 }

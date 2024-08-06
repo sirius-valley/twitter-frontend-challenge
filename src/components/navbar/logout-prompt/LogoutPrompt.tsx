@@ -9,7 +9,7 @@ import { ButtonType } from "../../button/StyledButton";
 import { StyledPromptContainer } from "./PromptContainer";
 import { StyledContainer } from "../../common/Container";
 import { StyledP } from "../../common/text";
-import { useHttpRequestService } from "../../../service/HttpRequestService";
+import { useHttpRequestService } from "../../../service/oldService";
 import { UserDTO } from "../../../service";
 
 interface LogoutPromptProps {

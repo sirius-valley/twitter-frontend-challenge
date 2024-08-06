@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import SearchResultModal from "./search-result-modal/SearchResultModal";
 import { AuthorDTO } from "../../service";
-import { useHttpRequestService } from "../../service/HttpRequestService";
+import { useHttpRequestService } from "../../service/oldService";
 import { useTranslation } from "react-i18next";
 import { StyledSearchBarContainer } from "./SearchBarContainer";
 import { StyledSearchBarInput } from "./SearchBarInput";

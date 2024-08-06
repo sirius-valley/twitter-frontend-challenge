@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import icon from "../../assets/icon.jpg";
 import { StyledP } from "../common/text";
 import { StyledContainer } from "../common/Container";
-import { useHttpRequestService } from "../../service/HttpRequestService";
+import { useHttpRequestService } from "../../service/oldService";
 import { UserDTO } from "../../service";
 
 interface ProfileLogoutPromptProps {

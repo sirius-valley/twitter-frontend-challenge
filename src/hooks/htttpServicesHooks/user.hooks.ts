@@ -1,25 +1,36 @@
-import { deleteData, fetchData } from "../../service/oldSerivces"
+import { useQuery } from "@tanstack/react-query";
+import { delete_endpoint, getUser_param_endpoint, recommendedUsers_endpoint, searchedUsers_param_endpoint, userMe_endpoint } from "../../endpoints";
+import { deleteData, fetchData } from "../../service/HttpRequestService"
 import { OffsetPagination } from "../../util/Pagination";
 
-const me_endpoint: string = "/user/me"
-const delete_endpoint: string = "/user/"
-const recommendedUsers_endpoint: string = "/user/"
 
-const getUser_param_endpoint = (id: string) => `/user/${id}`
-const searchedUsers_param_endpoint = (username: string) => `/user/by_username/${username}`
-
+//Use Query
 export const useGetMyUser = () =>{
-  return fetchData(me_endpoint);
+  return useQuery({
+    queryKey: [`getMyComments`],
+    queryFn: () =>fetchData(userMe_endpoint)
+  })
 }
 export const useGetRecommendedUsers = (limit: number, skip: number) =>{
-  return fetchData<OffsetPagination>(recommendedUsers_endpoint, {limit:limit,skip:skip});
+  return useQuery({
+    queryKey: [`getMyComments`],
+    queryFn: () =>fetchData<OffsetPagination>(recommendedUsers_endpoint, {limit:limit,skip:skip})
+  })
 }
 export const useGetSearchUsers = (username: string, limit: number, skip: number) =>{
-  return fetchData<OffsetPagination>(searchedUsers_param_endpoint(username), {limit:limit,skip:skip});
+  return useQuery({
+    queryKey: [`getMyComments`],
+    queryFn: () =>fetchData<OffsetPagination>(searchedUsers_param_endpoint(username), {limit:limit,skip:skip})
+  })
 }
 export const useGetUser = (id: string) =>{
-  return fetchData(getUser_param_endpoint(id));
+  return useQuery({
+    queryKey: [`getMyComments`],
+    queryFn: () =>fetchData(getUser_param_endpoint(id))
+  })
 }
+
+//Use Mutators
 export const useDeleteUser = ()=>{
   return deleteData(delete_endpoint);
 }
