@@ -9,21 +9,22 @@ import { StyledUserSuggestionContainer } from "./UserSeuggestionContainer";
 import { useGetPosts } from "../../hooks/htttpServicesHooks/post.hooks";
 
 const HomePage = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const query = useAppSelector((state) => state.user.query);
+  
+  // const dispatch = useAppDispatch();
+  // const navigate = useNavigate();
+  // const query = useAppSelector((state) => state.user.query);
 
-  const {isLoading,data, isError, error} = useGetPosts();
-  useEffect(() => {
-    if (isLoading) return;
+  // const {isLoading,data, isError, error} = useGetPosts();
+  // useEffect(() => {
+  //   if (isLoading) return;
 
-    if (isError) {
-      console.error("Error fetching posts:", error);
-      navigate("/sign-in");
-      return;
-    }
-    if (data)dispatch(updateFeed(data));
-  }, [data, isLoading, isError, error, dispatch, navigate]);
+  //   if (isError) {
+  //     console.error("Error fetching posts:", error);
+  //     navigate("/sign-in");
+  //     return;
+  //   }
+  //   if (data)dispatch(updateFeed(data));
+  // }, [data, isLoading, isError, error, dispatch, navigate]);
 
   return (
     <>

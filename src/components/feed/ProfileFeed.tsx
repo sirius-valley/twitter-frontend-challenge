@@ -1,14 +1,18 @@
-import React from "react";
 import Feed from "./Feed";
-import { useGetProfilePosts } from "../../hooks/useGetProfilePosts";
+import { useGetPostsFromUser } from "../../hooks/htttpServicesHooks/post.hooks";
+import { Navigate, useParams } from "react-router-dom";
 
 const ProfileFeed = () => {
-  const { posts, loading } = useGetProfilePosts();
+  const id = useParams().id;
 
-  return (
-    <>
-      <Feed posts={posts} loading={loading} />
-    </>
-  );
+  if(id){
+    const{data: posts, isLoading} = useGetPostsFromUser(id)
+    return (
+      <>
+        <Feed posts={posts} loading={isLoading} />
+      </>
+    );
+  }
+  return (<Navigate to="/" replace />);
 };
 export default ProfileFeed;

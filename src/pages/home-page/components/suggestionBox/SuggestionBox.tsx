@@ -1,47 +1,37 @@
-import React, { useEffect, useState } from "react";
 import FollowUserBox from "../../../../components/follow-user/FollowUserBox";
-import { useHttpRequestService } from "../../../../service/oldService";
 import { useTranslation } from "react-i18next";
-import { UserDTO } from "../../../../service";
 import { StyledSuggestionBoxContainer } from "./SuggestionBoxContainer";
+import { useGetRecommendedUsers } from "../../../../hooks/htttpServicesHooks/user.hooks";
+import { useEffect } from "react";
 
 const SuggestionBox = () => {
-  const [users, setUsers] = useState<UserDTO[]>([]);
-  const httpService = useHttpRequestService();
   const { t } = useTranslation();
+  const {data: users, isLoading} = useGetRecommendedUsers(6,0);
 
-  useEffect(() => {
-    try {
-      httpService.getRecommendedUsers(6, 0).then((res) => {
-        setUsers(res);
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
-
+useEffect(() => {
+  console.log('Users:', users);
+}, [users]);
   return (
     <StyledSuggestionBoxContainer>
       <h6>{t("suggestion.who-to-follow")}</h6>
-      {users.length > 0 ? (
-        users
-          .filter((value, index, array) => {
-            return array.indexOf(value) === index;
-          })
-          .slice(0, 5)
-          .map((user) => (
-            <FollowUserBox
-              key={user.id}
-              id={user.id}
-              name={user.name}
-              username={user.username}
-              profilePicture={user.image}
-            />
-          ))
+      {(!isLoading && users.length > 0) ? (
+      users
+      .filter((user, index, array) => array.indexOf(user) === index)
+      .slice(0, 5)
+      .map((user) => (
+        <FollowUserBox
+          key={user.id}
+          id={user.id}
+          name={user.name}
+          username={user.username}
+          profilePicture={user.image}
+        />
+      ))
       ) : (
+        
         <p>{t("suggestion.no-recommendations")}</p>
       )}
-      {users.length > 5 && (
+      {!isLoading && users.length > 5 && (
         <a href="/recommendations">{t("suggestion.show-more")}</a>
       )}
     </StyledSuggestionBoxContainer>

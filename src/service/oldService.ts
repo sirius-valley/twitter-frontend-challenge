@@ -51,52 +51,52 @@ const httpRequestService = {
   //     return res.data;
   //   }
   // },
-  getPostById: async (id: string) => {
-    const res = await axios.get(`${url}/post/${id}`, {
-    });
-    if (res.status === 200) {
-      return res.data;
-    }
-  },
-  getPostsFromProfile: async (id: string) => {
-    const res = await axios.get(`${url}/post/by_user/${id}`, {
-    });
+  // getPostById: async (id: string) => {
+  //   const res = await axios.get(`${url}/post/${id}`, {
+  //   });
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },
+  // getPostsFromProfile: async (id: string) => {
+  //   const res = await axios.get(`${url}/post/by_user/${id}`, {
+  //   });
 
-    if (res.status === 200) {
-      return res.data;
-    }
-  },
-  getPaginatedPostsFromProfile: async ( //NO SE USA
-    limit: number,
-    after: string,
-    id: string
-  ) => {
-    const res = await axios.get(`${url}/post/by_user/${id}`, {
-      params: {
-        limit,
-        after,
-      },
-    });
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },
+  // getPaginatedPostsFromProfile: async ( //NO SE USA
+  //   limit: number,
+  //   after: string,
+  //   id: string
+  // ) => {
+  //   const res = await axios.get(`${url}/post/by_user/${id}`, {
+  //     params: {
+  //       limit,
+  //       after,
+  //     },
+  //   });
 
-    if (res.status === 200) {
-      return res.data;
-    }
-  },
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },
   deletePost: async (id: string) => {
     await axios.delete(`${url}/post/${id}`, {
     });
   },//User
-  getRecommendedUsers: async (limit: number, skip: number) => {
-    const res = await axios.get(`${url}/user`, {
-      params: {
-        limit,
-        skip,
-      },
-    });
-    if (res.status === 200) {
-      return res.data;
-    }
-  },
+  // getRecommendedUsers: async (limit: number, skip: number) => {
+  //   const res = await axios.get(`${url}/user`, {
+  //     params: {
+  //       limit,
+  //       skip,
+  //     },
+  //   });
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },
   me: async () => {
     const res = await axios.get(`${url}/user/me`, {
     });

@@ -10,9 +10,9 @@ import Button from "../../components/button/Button";
 import ProfileFeed from "../../components/feed/ProfileFeed";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledH5 } from "../../components/common/text";
+import { useGetMyUser, useGetUserById } from "../../hooks/htttpServicesHooks/user.hooks";
 
 const ProfilePage = () => {
-  const [profile, setProfile] = useState<UserDTO | null>(null);
   const [following, setFollowing] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalValues, setModalValues] = useState({
@@ -22,20 +22,17 @@ const ProfilePage = () => {
     buttonText: "",
   });
   const service = useHttpRequestService();
-  const [user, setUser] = useState<UserDTO>();
 
   const id = useParams().id;
   const navigate = useNavigate();
 
   const { t } = useTranslation();
 
-  useEffect(() => {
-    handleGetUser().then((r) => setUser(r));
-  }, []);
+  const {data: user, isLoading: loadingUser} = useGetMyUser();
 
-  const handleGetUser = async () => {
-    return await service.me();
-  };
+  if (!id) return null;
+  
+  const {data: profile, isLoading} = useGetUserById(id);
 
   const handleButtonType = (): { component: ButtonType; text: string } => {
     if (profile?.id === user?.id)
@@ -55,16 +52,9 @@ const ProfilePage = () => {
       service.unfollowUser(profile!.id).then(async () => {
         setFollowing(false);
         setShowModal(false);
-        await getProfileData();
       });
     }
   };
-
-  useEffect(() => {
-    getProfileData().then();
-  }, [id]);
-
-  if (!id) return null;
 
   const handleButtonAction = async () => {
     if (profile?.id === user?.id) {
@@ -86,38 +76,9 @@ const ProfilePage = () => {
         });
       } else {
         await service.followUser(id);
-        service.getProfile(id).then((res) => setProfile(res));
       }
-      return await getProfileData();
     }
   };
-
-  const getProfileData = async () => {
-    service
-      .getProfile(id)
-      .then((res) => {
-        setProfile(res);
-        setFollowing(
-          res
-            ? res?.followers.some(
-                (follower: UserDTO) => follower.id === user?.id
-              )
-            : false
-        );
-      })
-      .catch(() => {
-        service
-          .getProfileView(id)
-          .then((res) => {
-            setProfile(res);
-            setFollowing(false);
-          })
-          .catch((error2) => {
-            console.log(error2);
-          });
-      });
-  };
-
   return (
     <>
       <StyledContainer
@@ -147,6 +108,7 @@ const ProfilePage = () => {
                   size={"100px"}
                   onClick={handleButtonAction}
                   text={handleButtonType().text}
+                  disabled={loadingUser}
                 />
               </StyledContainer>
             </StyledContainer>
@@ -167,6 +129,7 @@ const ProfilePage = () => {
                   text={modalValues.buttonText}
                   size={"MEDIUM"}
                   onClick={handleSubmit}
+                  disabled={loadingUser}
                 />
               }
               onClose={() => {

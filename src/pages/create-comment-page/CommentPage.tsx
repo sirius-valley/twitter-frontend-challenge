@@ -15,17 +15,18 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledLine } from "../../components/common/Line";
 import { StyledP } from "../../components/common/text";
-import { useGetPosts } from "../../hooks/htttpServicesHooks/post.hooks";
+import { useGetPostById } from "../../hooks/htttpServicesHooks/post.hooks";
+import { useGetCommentById } from "../../hooks/htttpServicesHooks/comment.hooks";
 
 const CommentPage = () => {
   const [content, setContent] = useState("");
-  const [post, setPost] = useState<PostDTO | undefined>(undefined);
   const [images, setImages] = useState<File[]>([]);
   const [user, setUser] = useState<UserDTO>();
   const postId = useLocation().pathname.split("/")[3];
+  const {data: post, isLoading: loadingPost, isError,error} = useGetPostById(postId);
   const service = useHttpRequestService();
   const { length, query } = useAppSelector((state) => state.user);
-  const {data: posts, isLoading} = useGetPosts();
+  const {data: comments, isLoading: loadingComments} = useGetCommentById(postId);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -40,18 +41,6 @@ const CommentPage = () => {
   useEffect(() => {
     window.innerWidth > 600 && exit();
   }, []);
-
-  useEffect(() => {
-    service
-      .getPostById(postId)
-      .then((res) => {
-        setPost(res);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [postId]);
-
   const exit = () => {
     window.history.back();
   };
@@ -60,8 +49,8 @@ const CommentPage = () => {
     setContent("");
     setImages([]);
     dispatch(setLength(length + 1));
-    if(posts){
-      dispatch(updateFeed(posts));
+    if(comments){
+      dispatch(updateFeed(comments));
     }
     
     exit();
@@ -84,10 +73,10 @@ const CommentPage = () => {
           buttonType={ButtonType.DEFAULT}
           size={"SMALL"}
           onClick={handleSubmit}
-          disabled={content.length === 0 || isLoading }
+          disabled={content.length === 0 || loadingComments || loadingPost}
         />
       </StyledContainer>
-      {post && (
+      {(post && !loadingPost) && (
         <StyledContainer gap={"16px"}>
           <AuthorData
             id={post.authorId}

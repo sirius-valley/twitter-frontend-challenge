@@ -10,18 +10,17 @@ export const AxiosInterceptor = () =>{
   }; 
 
   axios.interceptors.request.use((request)=>{
-    console.log("Request");
     return UpdateToken(request);
   });
 
   axios.interceptors.response.use(
     (response)=>{
-      console.log("Response");
       return response
     },
     (error)=>{
       if(error.response.status >= 400){
         localStorage.removeItem("token");
+        console.log(error);
       }
       return Promise.reject(error);
     });

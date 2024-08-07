@@ -8,31 +8,16 @@ import TweetBox from "../../components/tweet-box/TweetBox";
 import Loader from "../../components/loader/Loader";
 import { PostDTO } from "../../service";
 import { useHttpRequestService } from "../../service/oldService";
+import { useGetPostById } from "../../hooks/htttpServicesHooks/post.hooks";
 
 const PostPage = () => {
   //Use State
   const [postId, SetPostId] = useState<string>(
     window.location.href.split("/")[4]
   );
-  const [post, SetPost] = useState<PostDTO | null>(null);
 
   //Proper Hooks
-  const httpService = useHttpRequestService();
-
-  //UseCallback
-  const fetchPost = useCallback(async () => {
-    try {
-      const postData: PostDTO = await httpService.getPostById(postId);
-      if (postData != null) SetPost(postData);
-      else throw new Error("Not found post");
-    } catch (e) {
-      console.error(e);
-    }
-  }, [postId]);
-  //UseEffect
-  useEffect(() => {
-    fetchPost();
-  }, [fetchPost]);
+  const {data: post, isLoading, isError, error} = useGetPostById(postId);
 
   return (
     <StyledContainer borderRight={"1px solid #ebeef0"}>
@@ -44,7 +29,7 @@ const PostPage = () => {
         <StyledH5>Tweet</StyledH5>
       </StyledContainer>
       <StyledFeedContainer>
-        {post ? (
+        {post && !isLoading ? (
           <>
             <Tweet post={post} />
             <StyledContainer
