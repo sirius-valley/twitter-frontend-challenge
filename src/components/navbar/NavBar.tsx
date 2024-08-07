@@ -19,6 +19,7 @@ import { StyledP } from "../common/text";
 import { useHttpRequestService } from "../../service/oldService";
 import { UserDTO } from "../../service";
 import ProfileLogoutPrompt from "../profile-logout/ProfileLogoutPrompt";
+import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
 
 const NavBar = () => {
   const location = useLocation();
@@ -26,16 +27,8 @@ const NavBar = () => {
   const [tweetModalOpen, setTweetModalOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const service = useHttpRequestService();
-  const [user, setUser] = useState<UserDTO>();
   const { t } = useTranslation();
-
-  useEffect(() => {
-    handleGetUser().then((r) => setUser(r));
-  }, []);
-
-  const handleGetUser = async () => {
-    return await service.me();
-  };
+  const { data: user } = useGetMyUser();
 
   const handleAvatarClick = () => {
     if (window.innerWidth < 1265) {

@@ -11,6 +11,7 @@ import { StyledContainer } from "../../common/Container";
 import { StyledP } from "../../common/text";
 import { useHttpRequestService } from "../../../service/oldService";
 import { UserDTO } from "../../../service";
+import { useGetMyUser } from "../../../hooks/htttpServicesHooks/user.hooks";
 
 interface LogoutPromptProps {
   show: boolean;
@@ -22,15 +23,8 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const service = useHttpRequestService();
-  const [user, setUser] = useState<UserDTO>();
+  const { data: user } = useGetMyUser();
 
-  useEffect(() => {
-    handleGetUser().then((r) => setUser(r));
-  }, []);
-
-  const handleGetUser = async () => {
-    return await service.me();
-  };
 
   const handleClick = () => {
     setShowModal(true);

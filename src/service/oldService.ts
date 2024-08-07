@@ -97,13 +97,13 @@ const httpRequestService = {
   //     return res.data;
   //   }
   // },
-  me: async () => {
-    const res = await axios.get(`${url}/user/me`, {
-    });
-    if (res.status === 200) {
-      return res.data;
-    }
-  },
+  // me: async () => {
+  //   const res = await axios.get(`${url}/user/me`, {
+  //   });
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },
   searchUsers: async (username: string, limit: number, skip: number) => {
     try {
       const cancelToken = axios.CancelToken.source();

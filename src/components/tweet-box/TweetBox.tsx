@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserDTO } from "../../service";
 import { RootState } from "../../redux/store";
 import { useGetPosts } from "../../hooks/htttpServicesHooks/post.hooks";
+import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
 type TweetBoxProps = {
   parentId?: string;
   close?: () => void;
@@ -30,23 +31,10 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const service = useHttpRequestService();
-  const [user, setUser] = useState<UserDTO>();
   const { data: postData, isLoading} = useGetPosts();
+  const { data: user } = useGetMyUser();
 
 
-  useEffect(() => {
-    handleGetUser().then((r) => setUser(r));
-  }, []);
-
-  const handleGetUser = async () => {
-    try {
-      const user = await service.me();
-      return user;
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      throw error;
-    }
-  };
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);

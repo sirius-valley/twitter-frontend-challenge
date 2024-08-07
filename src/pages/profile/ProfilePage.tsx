@@ -10,7 +10,10 @@ import Button from "../../components/button/Button";
 import ProfileFeed from "../../components/feed/ProfileFeed";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledH5 } from "../../components/common/text";
-import { useGetMyUser, useGetUserById } from "../../hooks/htttpServicesHooks/user.hooks";
+import {
+  useGetMyUser,
+  useGetUserById,
+} from "../../hooks/htttpServicesHooks/user.hooks";
 
 const ProfilePage = () => {
   const [following, setFollowing] = useState<boolean>(false);
@@ -28,11 +31,9 @@ const ProfilePage = () => {
 
   const { t } = useTranslation();
 
-  const {data: user, isLoading: loadingUser} = useGetMyUser();
-
+  const { data: user, isLoading: loadingUser } = useGetMyUser();
+  const { data: profile, isLoading } = useGetUserById(id || "");
   if (!id) return null;
-  
-  const {data: profile, isLoading} = useGetUserById(id);
 
   const handleButtonType = (): { component: ButtonType; text: string } => {
     if (profile?.id === user?.id)

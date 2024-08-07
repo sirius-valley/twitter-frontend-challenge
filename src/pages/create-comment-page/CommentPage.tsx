@@ -17,26 +17,20 @@ import { StyledLine } from "../../components/common/Line";
 import { StyledP } from "../../components/common/text";
 import { useGetPostById } from "../../hooks/htttpServicesHooks/post.hooks";
 import { useGetCommentById } from "../../hooks/htttpServicesHooks/comment.hooks";
+import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
 
 const CommentPage = () => {
   const [content, setContent] = useState("");
   const [images, setImages] = useState<File[]>([]);
-  const [user, setUser] = useState<UserDTO>();
   const postId = useLocation().pathname.split("/")[3];
-  const {data: post, isLoading: loadingPost, isError,error} = useGetPostById(postId);
+  const { data: post, isLoading: loadingPost } = useGetPostById(postId);
   const service = useHttpRequestService();
   const { length, query } = useAppSelector((state) => state.user);
-  const {data: comments, isLoading: loadingComments} = useGetCommentById(postId);
+  const { data: comments, isLoading: loadingComments } =
+    useGetCommentById(postId);
+  const { data: user } = useGetMyUser();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-
-  useEffect(() => {
-    handleGetUser().then((r) => setUser(r));
-  }, []);
-
-  const handleGetUser = async () => {
-    return await service.me();
-  };
 
   useEffect(() => {
     window.innerWidth > 600 && exit();
@@ -49,10 +43,10 @@ const CommentPage = () => {
     setContent("");
     setImages([]);
     dispatch(setLength(length + 1));
-    if(comments){
+    if (comments) {
       dispatch(updateFeed(comments));
     }
-    
+
     exit();
   };
   const handleRemoveImage = (index: number) => {
@@ -76,7 +70,7 @@ const CommentPage = () => {
           disabled={content.length === 0 || loadingComments || loadingPost}
         />
       </StyledContainer>
-      {(post && !loadingPost) && (
+      {post && !loadingPost && (
         <StyledContainer gap={"16px"}>
           <AuthorData
             id={post.authorId}

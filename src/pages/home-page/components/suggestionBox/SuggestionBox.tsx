@@ -6,29 +6,25 @@ import { useEffect } from "react";
 
 const SuggestionBox = () => {
   const { t } = useTranslation();
-  const {data: users, isLoading} = useGetRecommendedUsers(6,0);
+  const { data: users, isLoading } = useGetRecommendedUsers(6, 0);
 
-useEffect(() => {
-  console.log('Users:', users);
-}, [users]);
   return (
     <StyledSuggestionBoxContainer>
       <h6>{t("suggestion.who-to-follow")}</h6>
-      {(!isLoading && users.length > 0) ? (
-      users
-      .filter((user, index, array) => array.indexOf(user) === index)
-      .slice(0, 5)
-      .map((user) => (
-        <FollowUserBox
-          key={user.id}
-          id={user.id}
-          name={user.name}
-          username={user.username}
-          profilePicture={user.image}
-        />
-      ))
+      {!isLoading && users.length > 0 ? (
+        users
+          .filter((user, index, array) => array.indexOf(user) === index)
+          .slice(0, 5)
+          .map((user) => (
+            <FollowUserBox
+              key={user.id}
+              id={user.id}
+              name={user.name}
+              username={user.username}
+              profilePicture={user.image}
+            />
+          ))
       ) : (
-        
         <p>{t("suggestion.no-recommendations")}</p>
       )}
       {!isLoading && users.length > 5 && (

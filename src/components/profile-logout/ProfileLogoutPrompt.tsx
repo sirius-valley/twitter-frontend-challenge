@@ -7,8 +7,7 @@ import React, { useEffect, useState } from "react";
 import icon from "../../assets/icon.jpg";
 import { StyledP } from "../common/text";
 import { StyledContainer } from "../common/Container";
-import { useHttpRequestService } from "../../service/oldService";
-import { UserDTO } from "../../service";
+import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
 
 interface ProfileLogoutPromptProps {
   margin: string;
@@ -20,16 +19,7 @@ const ProfileLogoutPrompt = ({
   direction,
 }: ProfileLogoutPromptProps) => {
   const [logoutOpen, setLogoutOpen] = useState(false);
-  const service = useHttpRequestService();
-  const [user, setUser] = useState<UserDTO>();
-
-  useEffect(() => {
-    handleGetUser().then((r) => setUser(r));
-  }, []);
-
-  const handleGetUser = async () => {
-    return await service.me();
-  };
+  const { data: user } = useGetMyUser();
 
   const handleLogout = () => {
     setLogoutOpen(!logoutOpen);

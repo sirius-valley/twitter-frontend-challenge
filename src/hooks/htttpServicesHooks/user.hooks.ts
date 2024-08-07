@@ -20,13 +20,13 @@ export const useGetRecommendedUsers = (limit: number, skip: number) =>{
   })
 }
 export const useGetSearchUsers = (username: string, limit: number, skip: number) =>{
-  return useQuery({
+  return useQuery<UserDTO[], Error>({
     queryKey: [`GetSearchUsers`],
     queryFn: () =>fetchData<OffsetPagination>(searchedUsers_param_endpoint(username), {limit:limit,skip:skip})
   })
 }
 export const useGetUserById = (id: string) =>{
-  return useQuery({
+  return useQuery<UserDTO, Error>({
     queryKey: [`GetUserById`],
     queryFn: () =>fetchData(getUser_param_endpoint(id))
   })

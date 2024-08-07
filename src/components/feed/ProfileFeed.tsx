@@ -4,9 +4,8 @@ import { Navigate, useParams } from "react-router-dom";
 
 const ProfileFeed = () => {
   const id = useParams().id;
-
+  const { data: posts, isLoading } = useGetPostsFromUser(id || '');
   if(id){
-    const{data: posts, isLoading} = useGetPostsFromUser(id)
     return (
       <>
         <Feed posts={posts} loading={isLoading} />
