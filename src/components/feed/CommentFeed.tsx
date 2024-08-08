@@ -1,18 +1,15 @@
 import React from "react";
 import Feed from "./Feed";
-import { useGetComments } from "../../hooks/useGetComments";
+import { useGetCommentById } from "../../hooks/htttpServicesHooks/comment.hooks";
 
 interface CommentFeedProps {
   postId: string;
 }
 const CommentFeed = ({ postId }: CommentFeedProps) => {
-  const { posts, loading } = useGetComments({
-    postId,
-  });
-
+  const { data: posts, isLoading } = useGetCommentById(postId);
   return (
     <>
-      <Feed posts={posts} loading={loading} />
+      <Feed posts={posts} loading={isLoading} />
     </>
   );
 };

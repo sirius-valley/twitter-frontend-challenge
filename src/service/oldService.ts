@@ -33,17 +33,17 @@ const httpRequestService = {
       return res.data;
     }
   },
-  getPaginatedPosts: async (limit: number, after: string, query: string) => { //NO SE USA
-    const res = await axios.get(`${url}/post/${query}`, {
-      params: {
-        limit,
-        after,
-      },
-    });
-    if (res.status === 200) {
-      return res.data;
-    }
-  },
+  // getPaginatedPosts: async (limit: number, after: string, query: string) => { //NO SE USA
+  //   const res = await axios.get(`${url}/post/${query}`, {
+  //     params: {
+  //       limit,
+  //       after,
+  //     },
+  //   });
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },
   // getPosts: async (query: string) => {
   //   const res = await axios.get(`${url}/post/${query}`, {
   //   });
@@ -123,21 +123,21 @@ const httpRequestService = {
   //     if (!axios.isCancel(error)) console.log(error);
   //   }
   // },
-  getProfile: async (id: string) => {
-    const res = await axios.get(`${url}/user/profile/${id}`, {
-    });
-    if (res.status === 200) {
-      return res.data;
-    }
-  },
-  getProfileView: async (id: string) => {
-    const res = await axios.get(`${url}/user/${id}`, {
-    });
+  // getProfile: async (id: string) => {
+  //   const res = await axios.get(`${url}/user/profile/${id}`, {
+  //   });
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },
+  // getProfileView: async (id: string) => {
+  //   const res = await axios.get(`${url}/user/${id}`, {
+  //   });
 
-    if (res.status === 200) {
-      return res.data;
-    }
-  },
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },
   deleteProfile: async () => {
     const res = await axios.delete(`${url}/user/me`, {
     });
@@ -176,69 +176,69 @@ const httpRequestService = {
       return res.data;
     }
   },
-  getChats: async () => { //NO SE YSA
-    const res = await axios.get(`${url}/chat`, {
-    });
+  // getChats: async () => { //NO SE YSA
+  //   const res = await axios.get(`${url}/chat`, {
+  //   });
 
-    if (res.status === 200) {
-      return res.data;
-    }
-  },
-  getMutualFollows: async () => { //NO SE USA
-    const res = await axios.get(`${url}/follow/mutual`, {
-    });
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },
+  // getMutualFollows: async () => { //NO SE USA
+  //   const res = await axios.get(`${url}/follow/mutual`, {
+  //   });
 
-    if (res.status === 200) {
-      return res.data;
-    }
-  },//Socket
-  createChat: async (id: string) => { //NO SE USA
-    const res = await axios.post(
-      `${url}/chat`,
-      {
-        users: [id],
-      },
-      {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      }
-    );
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },//Socket
+  // createChat: async (id: string) => { //NO SE USA
+  //   const res = await axios.post(
+  //     `${url}/chat`,
+  //     {
+  //       users: [id],
+  //     },
+  //     {
+  //       headers: {
+  //         Authorization: localStorage.getItem("token"),
+  //       },
+  //     }
+  //   );
 
-    if (res.status === 201) {
-      return res.data;
-    }
-  },
-  getChat: async (id: string) => { //NO SE USA
-    const res = await axios.get(`${url}/chat/${id}`, {
-    });
+  //   if (res.status === 201) {
+  //     return res.data;
+  //   }
+  // },
+  // getChat: async (id: string) => { //NO SE USA
+  //   const res = await axios.get(`${url}/chat/${id}`, {
+  //   });
 
-    if (res.status === 200) {
-      return res.data;
-    }
-  },//Comment
-  getPaginatedCommentsByPostId: async ( //NO SE USA
-    id: string,
-    limit: number,
-    after: string
-  ) => {
-    const res = await axios.get(`${url}/post/comment/by_post/${id}`, {
-      params: {
-        limit,
-        after,
-      },
-    });
-    if (res.status === 200) {
-      return res.data;
-    }
-  },
-  getCommentsByPostId: async (id: string) => { //NO SE USA
-    const res = await axios.get(`${url}/post/comment/by_post/${id}`, {
-    });
-    if (res.status === 200) {
-      return res.data;
-    }
-  },
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },//Comment
+  // getPaginatedCommentsByPostId: async ( //NO SE USA
+  //   id: string,
+  //   limit: number,
+  //   after: string
+  // ) => {
+  //   const res = await axios.get(`${url}/post/comment/by_post/${id}`, {
+  //     params: {
+  //       limit,
+  //       after,
+  //     },
+  //   });
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },
+  // getCommentsByPostId: async (id: string) => { //NO SE USA
+  //   const res = await axios.get(`${url}/post/comment/by_post/${id}`, {
+  //   });
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },
 };
 
 const useHttpRequestService = () => httpRequestService;
