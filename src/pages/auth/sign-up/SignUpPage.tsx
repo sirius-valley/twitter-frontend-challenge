@@ -4,7 +4,6 @@ import logo from "../../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import AuthWrapper from "../../../pages/auth/AuthWrapper";
-import { useHttpRequestService } from "../../../service/oldService";
 import LabeledInput from "../../../components/labeled-input/LabeledInput";
 import Button from "../../../components/button/Button";
 import { ButtonType } from "../../../components/button/StyledButton";
@@ -21,7 +20,6 @@ const SignUpPage = () => {
   const [data, setData] = useState<Partial<SignUpData>>({});
   const [error, setError] = useState(false);
 
-  const httpRequestService = useHttpRequestService();
   const navigate = useNavigate();
   const { t } = useTranslation();
 

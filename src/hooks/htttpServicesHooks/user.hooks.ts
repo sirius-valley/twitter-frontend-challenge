@@ -3,38 +3,47 @@ import { delete_endpoint, getUser_param_endpoint, recommendedUsers_endpoint, sea
 import { deleteData, fetchData } from "../../service/HttpRequestService"
 import { OffsetPagination } from "../../util/Pagination";
 import { AuthorDTO, UserDTO } from "../../service";
-import user from "../../redux/user";
 
 
 //Use Query
 export const useGetMyUser = () =>{
-  return useQuery({
+  return useQuery<UserDTO>({
     queryKey: [`GetMyUser`],
-    queryFn: () =>fetchData(userMe_endpoint)
+    queryFn: () =>fetchData(userMe_endpoint),
+    staleTime: Infinity,
   })
 }
 export const useGetRecommendedUsers = (limit: number, skip: number) =>{
-  return useQuery<UserDTO[], Error>({
+  return useQuery<AuthorDTO[]>({
     queryKey: [`GetRecommendedUsers`],
     queryFn: () =>fetchData<OffsetPagination>(recommendedUsers_endpoint, {limit:limit,skip:skip}),
-    initialData: [] 
+    initialData: [] ,
+    staleTime: 50000
   })
 }
 export const useGetSearchUsers = (username: string, limit: number, skip: number) =>{
-  return useQuery<AuthorDTO[], Error>({
+  return useQuery<AuthorDTO[]>({
     queryKey: [`GetSearchUsers`, username],
     queryFn: () =>fetchData<OffsetPagination>(searchedUsers_param_endpoint(username), {limit:limit,skip:skip}),
-    enabled: username.trim() != ""    
+    enabled: username.trim() != "" 
   })
 }
 export const useGetUserById = (id: string) =>{
-  return useQuery<UserDTO, Error>({
-    queryKey: [`GetUserById`],
-    queryFn: () =>fetchData(getUser_param_endpoint(id))
+  return useQuery<UserDTO>({
+    queryKey: [`GetUserById`, id],
+    queryFn: () =>fetchData(getUser_param_endpoint(id)),
+    staleTime: Infinity
   })
 }
 
 //Use Mutators
 export const useDeleteUser = ()=>{
-  return deleteData(delete_endpoint);
+
+  const deleteUser = async () =>{
+    deleteData(delete_endpoint);
+  }
+
+  return{
+    deleteUser
+  }
 }

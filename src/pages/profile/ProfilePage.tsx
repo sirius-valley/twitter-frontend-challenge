@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import ProfileInfo from "./ProfileInfo";
 import { useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/modal/Modal";
 import { useTranslation } from "react-i18next";
-import { UserDTO } from "../../service";
 import { ButtonType } from "../../components/button/StyledButton";
-import { useHttpRequestService } from "../../service/oldService";
 import Button from "../../components/button/Button";
 import ProfileFeed from "../../components/feed/ProfileFeed";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledH5 } from "../../components/common/text";
 import {
+  useDeleteUser,
   useGetMyUser,
   useGetUserById,
 } from "../../hooks/htttpServicesHooks/user.hooks";
+import {
+  useFollowUser,
+  useUnfollowUser,
+} from "../../hooks/htttpServicesHooks/follow.hooks";
 
 const ProfilePage = () => {
   const [following, setFollowing] = useState<boolean>(false);
@@ -24,7 +27,6 @@ const ProfilePage = () => {
     type: ButtonType.DEFAULT,
     buttonText: "",
   });
-  const service = useHttpRequestService();
 
   const id = useParams().id;
   const navigate = useNavigate();
@@ -32,7 +34,10 @@ const ProfilePage = () => {
   const { t } = useTranslation();
 
   const { data: user, isLoading: loadingUser } = useGetMyUser();
-  const { data: profile, isLoading } = useGetUserById(id || "");
+  const { data: profile } = useGetUserById(id || "");
+  const { mutate: unfollowUser } = useUnfollowUser();
+  const { mutate: followUser } = useFollowUser();
+  const { deleteUser } = useDeleteUser();
   if (!id) return null;
 
   const handleButtonType = (): { component: ButtonType; text: string } => {
@@ -45,15 +50,14 @@ const ProfilePage = () => {
 
   const handleSubmit = () => {
     if (profile?.id === user?.id) {
-      service.deleteProfile().then(() => {
+      deleteUser().then(() => {
         localStorage.removeItem("token");
         navigate("/sign-in");
       });
     } else {
-      service.unfollowUser(profile!.id).then(async () => {
-        setFollowing(false);
-        setShowModal(false);
-      });
+      unfollowUser(profile!.id);
+      setFollowing(false);
+      setShowModal(false);
     }
   };
 
@@ -76,7 +80,7 @@ const ProfilePage = () => {
           buttonText: t("buttons.unfollow"),
         });
       } else {
-        await service.followUser(id);
+        await followUser(id);
       }
     }
   };

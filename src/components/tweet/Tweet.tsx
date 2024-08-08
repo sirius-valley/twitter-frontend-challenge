@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import{ useState } from "react";
 import { StyledTweetContainer } from "./TweetContainer";
 import AuthorData from "./user-post-data/AuthorData";
-import type { PostDTO, ReactionDTO, UserDTO } from "../../service";
+import type {
+  PostDTO,
+  ReactionData,
+  ReactionDTO,
+  UserDTO,
+} from "../../service";
 import { StyledReactionsContainer } from "./ReactionsContainer";
 import Reaction from "./reaction/Reaction";
-import { useHttpRequestService } from "../../service/oldService";
 import { IconType } from "../icon/Icon";
 import { StyledContainer } from "../common/Container";
 import ThreeDots from "../common/ThreeDots";
@@ -13,6 +17,10 @@ import ImageContainer from "./tweet-image/ImageContainer";
 import CommentModal from "../comment/comment-modal/CommentModal";
 import { useNavigate } from "react-router-dom";
 import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
+import {
+  useDeleteReaction,
+  usePostReaction,
+} from "../../hooks/htttpServicesHooks/reaction.hooks";
 
 interface TweetProps {
   post: PostDTO;
@@ -21,12 +29,15 @@ interface TweetProps {
 const Tweet = ({ post }: TweetProps) => {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
-  const {data: user, isLoading: loadingUser} = useGetMyUser();
-  const service = useHttpRequestService();
+  const { data: user, isLoading: loadingUser } = useGetMyUser();
+  const { mutate: createReaction } = usePostReaction();
+  const { mutate: deleteReaction } = useDeleteReaction();
   const navigate = useNavigate();
 
   const getCountByType = (type: string): number => {
-    return post?.reactions?.filter((r: ReactionDTO) => r.type === type).length ?? 0;
+    return (
+      post?.reactions?.filter((r: ReactionDTO) => r.type === type).length ?? 0
+    );
   };
 
   const handleReaction = async (type: string) => {
@@ -34,16 +45,20 @@ const Tweet = ({ post }: TweetProps) => {
       (r: ReactionDTO) => r.type === type && r.userId === user?.id
     );
     if (reacted) {
-      await service.deleteReaction(reacted.id);
+      await deleteReaction(reacted.id);
     } else {
-      await service.createReaction(post.id, type);
+      if (type === "LIKE" || type === "RETWEET") {
+        const rdto: ReactionData = {
+          type: type,
+        };
+        await createReaction({ postId: post.id, data: rdto });
+      }
     }
-    //estaba aca el service porque se actualizaba cuando le das o no a la reaction, 
   };
 
   const hasReactedByType = (type: string): boolean => {
     return post.reactions.some(
-        (r: ReactionDTO) => r.type === type && r.userId === user?.id
+      (r: ReactionDTO) => r.type === type && r.userId === user?.id
     );
   };
 
@@ -80,7 +95,11 @@ const Tweet = ({ post }: TweetProps) => {
           </>
         )}
       </StyledContainer>
-      <StyledContainer onClick={() => navigate(`/post/${post.id}`)}>
+      <StyledContainer
+        onClick={() => {
+          navigate(`/post/${post.id}`, { replace: true });
+        }}
+      >
         <p>{post.content}</p>
       </StyledContainer>
       {post.images && post.images!.length > 0 && (

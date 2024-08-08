@@ -3,12 +3,12 @@ export const signup_endpoint: string = "/auth/signup"
 export const login_endpoint: string = "/auth/login"
 
 //Comment
-export const commentMe_endpoint: string = "/comments/me"
-export const postComment_endpoint: string = "/comments"
+export const commentMe_endpoint: string = "/comment/me"
+export const postComment_endpoint: string = "/comment"
 export const getCommentById_param_endpoint = (commentId: string) => `/comment/${commentId}`
-export const deleteCommentById_param_endpoint = (commentId: string) => `/comment/${commentId}`
+export const deleteCommentById_param_endpoint = (commentId: string) => `/comment/by_post/${commentId}`
 export const getCommentsFromUser_param_endpoint = (userId: string) => `/comment/by_user/${userId}`
-export const getCommentsByCommentId_param_endpoint = (commentId: string) => `/comment/by_post/${commentId}`
+export const getCommentsByPostId_param_endpoint = (commentId: string) => `/comment/by_post/${commentId}`
 
 //Post
 export const getPosts_endpoint: string = "/post"

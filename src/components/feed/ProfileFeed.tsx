@@ -8,7 +8,7 @@ const ProfileFeed = () => {
   if(id){
     return (
       <>
-        <Feed posts={posts} loading={isLoading} />
+        <Feed posts={posts ? posts : []} loading={isLoading} />
       </>
     );
   }

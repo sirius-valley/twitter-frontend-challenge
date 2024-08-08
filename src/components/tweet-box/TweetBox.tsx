@@ -1,8 +1,6 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Button from "../button/Button";
 import TweetInput from "../tweet-input/TweetInput";
-import { useHttpRequestService } from "../../service/oldService";
-import { setLength, updateFeed } from "../../redux/user";
 import ImageContainer from "../tweet/tweet-image/ImageContainer";
 import { BackArrowIcon } from "../icon/Icon";
 import ImageInput from "../common/ImageInput";
@@ -12,9 +10,12 @@ import { StyledTweetBoxContainer } from "./TweetBoxContainer";
 import { StyledContainer } from "../common/Container";
 import { StyledButtonContainer } from "./ButtonContainer";
 import { useDispatch, useSelector } from "react-redux";
-import { UserDTO } from "../../service";
+import { PostData, UserDTO } from "../../service";
 import { RootState } from "../../redux/store";
-import { useGetPosts } from "../../hooks/htttpServicesHooks/post.hooks";
+import {
+  useGetPosts,
+  usePostPost,
+} from "../../hooks/htttpServicesHooks/post.hooks";
 import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
 type TweetBoxProps = {
   parentId?: string;
@@ -30,25 +31,36 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
   const { length, query } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const service = useHttpRequestService();
-  const { data: postData, isLoading} = useGetPosts();
+  const { data: postData, isLoading } = useGetPosts();
+  const { mutate, isError, isSuccess, error } = usePostPost();
   const { data: user } = useGetMyUser();
-
-
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
   const handleSubmit = async () => {
     try {
+      // setContent("");
+      // setImages([]);
+      // setImagesPreview([]);
+      //dispatch(setLength(length + 1));
+      // if(postData){
+
+      //   //dispatch(updateFeed(postData));
+      // }
+      const postData: PostData = {
+        content: content,
+        images: images,
+        parentId: undefined,
+      };
+      await mutate(postData);
+
+      
+
       setContent("");
       setImages([]);
       setImagesPreview([]);
-      dispatch(setLength(length + 1));
-      if(postData){
-        dispatch(updateFeed(postData));
-      }
-      
+
       close && close();
     } catch (e) {
       console.error("Error submitting:", e);

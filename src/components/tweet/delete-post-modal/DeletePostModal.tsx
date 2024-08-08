@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { DeleteIcon } from "../../icon/Icon";
 import Modal from "../../modal/Modal";
 import Button from "../../button/Button";
-import { updateFeed } from "../../../redux/user";
-import { useHttpRequestService } from "../../../service/oldService";
 import { useTranslation } from "react-i18next";
 import { ButtonType } from "../../button/StyledButton";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { PostDTO } from "../../../service";
 import { StyledDeletePostModalContainer } from "./DeletePostModalContainer";
+import { useDeletePostById } from "../../../hooks/htttpServicesHooks/post.hooks";
 
 interface DeletePostModalProps {
   show: boolean;
@@ -22,16 +19,11 @@ export const DeletePostModal = ({
   onClose,
 }: DeletePostModalProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const feed = useAppSelector((state) => state.user.feed);
-  const dispatch = useAppDispatch();
-  const service = useHttpRequestService();
   const { t } = useTranslation();
-
+  const {mutate} = useDeletePostById();
   const handleDelete = () => {
     try {
-      service.deletePost(id).then((res) => console.log(res));
-      const newFeed = feed.filter((post: PostDTO) => post.id !== id);
-      dispatch(updateFeed(newFeed));
+      mutate(id);
       handleClose();
     } catch (error) {
       console.log(error);

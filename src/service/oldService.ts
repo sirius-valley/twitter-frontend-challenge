@@ -22,17 +22,17 @@ const httpRequestService = {
       return true;
     }
   },//Post
-  createPost: async (data: PostData) => { //NO SE USA
-    const res = await axios.post(`${url}/post`, data);
-    if (res.status === 201) {
-      const { upload } = S3Service;
-      for (const imageUrl of res.data.images) {
-        const index: number = res.data.images.indexOf(imageUrl);
-        await upload(data.images![index], imageUrl);
-      }
-      return res.data;
-    }
-  },
+  // createPost: async (data: PostData) => { //NO SE USA
+  //   const res = await axios.post(`${url}/post`, data);
+  //   if (res.status === 201) {
+  //     const { upload } = S3Service;
+  //     for (const imageUrl of res.data.images) {
+  //       const index: number = res.data.images.indexOf(imageUrl);
+  //       await upload(data.images![index], imageUrl);
+  //     }
+  //     return res.data;
+  //   }
+  // },
   // getPaginatedPosts: async (limit: number, after: string, query: string) => { //NO SE USA
   //   const res = await axios.get(`${url}/post/${query}`, {
   //     params: {
@@ -82,10 +82,10 @@ const httpRequestService = {
   //     return res.data;
   //   }
   // },
-  deletePost: async (id: string) => {
-    await axios.delete(`${url}/post/${id}`, {
-    });
-  },//User
+  // deletePost: async (id: string) => {
+  //   await axios.delete(`${url}/post/${id}`, {
+  //   });
+  // },//User
   // getRecommendedUsers: async (limit: number, skip: number) => {
   //   const res = await axios.get(`${url}/user`, {
   //     params: {
@@ -138,44 +138,44 @@ const httpRequestService = {
   //     return res.data;
   //   }
   // },
-  deleteProfile: async () => {
-    const res = await axios.delete(`${url}/user/me`, {
-    });
+  // deleteProfile: async () => {
+  //   const res = await axios.delete(`${url}/user/me`, {
+  //   });
 
-    if (res.status === 204) {
-      localStorage.removeItem("token");
-    }
-  },//Reaction
-  createReaction: async (postId: string, reaction: string) => {
-    const res = await axios.post(
-      `${url}/reaction/${postId}`,
-      { type: reaction });
+  //   if (res.status === 204) {
+  //     localStorage.removeItem("token");
+  //   }
+  // },//Reaction
+  // createReaction: async (postId: string, reaction: string) => {
+  //   const res = await axios.post(
+  //     `${url}/reaction/${postId}`,
+  //     { type: reaction });
 
-    if (res.status === 201) {
-      return res.data;
-    }
-  },
-  deleteReaction: async (reactionId: string) => {
-    const res = await axios.delete(`${url}/reaction/${reactionId}`, {
-    });
+  //   if (res.status === 201) {
+  //     return res.data;
+  //   }
+  // },
+  // deleteReaction: async (reactionId: string) => {
+  //   const res = await axios.delete(`${url}/reaction/${reactionId}`, {
+  //   });
 
-    if (res.status === 200) {
-      return res.data;
-    }
-  },//Follow
-  followUser: async (userId: string) => {
-    const res = await axios.post(
-      `${url}/follow/${userId}`);
-    if (res.status === 201) {
-      return res.data;
-    }
-  },
-  unfollowUser: async (userId: string) => {
-    const res = await axios.post(`${url}/unfollow/${userId}`);
-    if (res.status === 200) {
-      return res.data;
-    }
-  },
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },//Follow
+  // followUser: async (userId: string) => {
+  //   const res = await axios.post(
+  //     `${url}/follow/${userId}`);
+  //   if (res.status === 201) {
+  //     return res.data;
+  //   }
+  // },
+  // unfollowUser: async (userId: string) => {
+  //   const res = await axios.post(`${url}/unfollow/${userId}`);
+  //   if (res.status === 200) {
+  //     return res.data;
+  //   }
+  // },
   // getChats: async () => { //NO SE YSA
   //   const res = await axios.get(`${url}/chat`, {
   //   });
@@ -241,11 +241,11 @@ const httpRequestService = {
   // },
 };
 
-const useHttpRequestService = () => httpRequestService;
+// const useHttpRequestService = () => httpRequestService;
 
-// For class component (remove when unused)
-class HttpService {
-  service = httpRequestService;
-}
+// // For class component (remove when unused)
+// class HttpService {
+//   service = httpRequestService;
+// }
 
-export { useHttpRequestService, HttpService };
+// export { useHttpRequestService, HttpService };

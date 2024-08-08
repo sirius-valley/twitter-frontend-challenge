@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../button/Button";
-import { useHttpRequestService } from "../../service/oldService";
 import UserDataBox from "../user-data-box/UserDataBox";
 import { useTranslation } from "react-i18next";
 import { ButtonType } from "../button/StyledButton";
 import "./FollowUserBox.css";
-import { AuthorDTO, UserDTO } from "../../service";
+import { AuthorDTO } from "../../service";
 import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
+import {
+  useFollowUser,
+  useUnfollowUser,
+} from "../../hooks/htttpServicesHooks/follow.hooks";
 
 interface FollowUserBoxProps {
   profilePicture?: string;
@@ -22,16 +25,17 @@ const FollowUserBox = ({
   id,
 }: FollowUserBoxProps) => {
   const { t } = useTranslation();
-  const service = useHttpRequestService();
   const { data: user, isLoading } = useGetMyUser();
+  const { mutate: unfollowUser } = useFollowUser();
+  const { mutate: followUser } = useUnfollowUser();
 
   const [isFollowing, setIsFollowing] = useState(false);
 
   const handleFollow = async () => {
     if (isFollowing) {
-      await service.unfollowUser(id);
+      await unfollowUser(id);
     } else {
-      await service.followUser(id);
+      await followUser(id);
     }
     setIsFollowing(!isFollowing);
   };
@@ -46,7 +50,7 @@ const FollowUserBox = ({
       />
       <Button
         text={
-          !isLoading
+          !isLoading && user
             ? user.following.some((f: AuthorDTO) => f.id === id)
               ? t("buttons.unfollow")
               : t("buttons.follow")

@@ -9,7 +9,6 @@ import { ButtonType } from "../../button/StyledButton";
 import { StyledPromptContainer } from "./PromptContainer";
 import { StyledContainer } from "../../common/Container";
 import { StyledP } from "../../common/text";
-import { useHttpRequestService } from "../../../service/oldService";
 import { UserDTO } from "../../../service";
 import { useGetMyUser } from "../../../hooks/htttpServicesHooks/user.hooks";
 
@@ -22,7 +21,6 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const service = useHttpRequestService();
   const { data: user } = useGetMyUser();
 
 

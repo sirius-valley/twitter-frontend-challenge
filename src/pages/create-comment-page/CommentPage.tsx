@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BackArrowIcon } from "../../components/icon/Icon";
 import Button from "../../components/button/Button";
-import { PostDTO, UserDTO } from "../../service";
 import AuthorData from "../../components/tweet/user-post-data/AuthorData";
 import ImageContainer from "../../components/tweet/tweet-image/ImageContainer";
 import { useLocation } from "react-router-dom";
-import { useHttpRequestService } from "../../service/oldService";
 import TweetInput from "../../components/tweet-input/TweetInput";
 import ImageInput from "../../components/common/ImageInput";
 import { setLength, updateFeed } from "../../redux/user";
@@ -15,26 +13,25 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledLine } from "../../components/common/Line";
 import { StyledP } from "../../components/common/text";
-import { useGetPostById } from "../../hooks/htttpServicesHooks/post.hooks";
-import { useGetCommentById } from "../../hooks/htttpServicesHooks/comment.hooks";
+import {
+  useGetCommentById,
+  useGetCommentsByPostId,
+} from "../../hooks/htttpServicesHooks/comment.hooks";
 import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
 
 const CommentPage = () => {
   const [content, setContent] = useState("");
   const [images, setImages] = useState<File[]>([]);
-  const postId = useLocation().pathname.split("/")[3];
-  const { data: post, isLoading: loadingPost } = useGetPostById(postId);
-  const service = useHttpRequestService();
+  const commentId = window.location.href.split("/")[4];
+  const { data: comment, isLoading: loadingComment } =
+    useGetCommentById(commentId);
   const { length, query } = useAppSelector((state) => state.user);
   const { data: comments, isLoading: loadingComments } =
-    useGetCommentById(postId);
+    useGetCommentsByPostId(commentId);
   const { data: user } = useGetMyUser();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-
-  useEffect(() => {
-    window.innerWidth > 600 && exit();
-  }, []);
+  console.log(comment);
   const exit = () => {
     window.history.back();
   };
@@ -67,23 +64,23 @@ const CommentPage = () => {
           buttonType={ButtonType.DEFAULT}
           size={"SMALL"}
           onClick={handleSubmit}
-          disabled={content.length === 0 || loadingComments || loadingPost}
+          disabled={content.length === 0 || loadingComments || loadingComment}
         />
       </StyledContainer>
-      {post && !loadingPost && (
+      {comment && !loadingComment && (
         <StyledContainer gap={"16px"}>
           <AuthorData
-            id={post.authorId}
-            name={post.author.name ?? "Name"}
-            username={post.author.username}
-            createdAt={post.createdAt}
-            profilePicture={post.author.image}
+            id={comment.authorId}
+            name={comment.author?.name ?? "Name"}
+            username={comment.author?.username}
+            createdAt={comment.createdAt}
+            profilePicture={comment.author?.image}
           />
           <StyledContainer flexDirection={"row"}>
             <StyledLine />
             <StyledContainer gap={"8px"}>
-              <StyledP primary>{post.content}</StyledP>
-              {post.images && <ImageContainer images={post.images} />}
+              <StyledP primary>{comment.content}</StyledP>
+              {comment.images && <ImageContainer images={comment.images} />}
             </StyledContainer>
           </StyledContainer>
           <StyledContainer gap={"4px"}>
@@ -104,7 +101,7 @@ const CommentPage = () => {
             <StyledContainer padding={"0 0 0 10%"}>
               <ImageInput
                 setImages={setImages}
-                parentId={`comment-page-${postId}`}
+                parentId={`comment-page-${commentId}`}
               />
             </StyledContainer>
           </StyledContainer>

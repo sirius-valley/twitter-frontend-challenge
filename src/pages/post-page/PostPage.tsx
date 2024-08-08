@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledH5 } from "../../components/common/text";
 import { StyledFeedContainer } from "../home-page/components/contentContainer/FeedContainer";
@@ -6,18 +6,14 @@ import Tweet from "../../components/tweet/Tweet";
 import CommentFeed from "../../components/feed/CommentFeed";
 import TweetBox from "../../components/tweet-box/TweetBox";
 import Loader from "../../components/loader/Loader";
-import { PostDTO } from "../../service";
-import { useHttpRequestService } from "../../service/oldService";
 import { useGetPostById } from "../../hooks/htttpServicesHooks/post.hooks";
+import { useParams } from "react-router-dom";
 
 const PostPage = () => {
   //Use State
-  const [postId, SetPostId] = useState<string>(
-    window.location.href.split("/")[4]
-  );
-
+  const { id: postId } = useParams();
   //Proper Hooks
-  const {data: post, isLoading, isError, error} = useGetPostById(postId);
+  const { data, isLoading, isError, error } = useGetPostById(postId!);
 
   return (
     <StyledContainer borderRight={"1px solid #ebeef0"}>
@@ -29,9 +25,9 @@ const PostPage = () => {
         <StyledH5>Tweet</StyledH5>
       </StyledContainer>
       <StyledFeedContainer>
-        {post && !isLoading ? (
+        {data && !isLoading ? (
           <>
-            <Tweet post={post} />
+            <Tweet post={data} />
             <StyledContainer
               borderBottom={"1px solid #ebeef0"}
               padding={"16px"}
@@ -40,7 +36,7 @@ const PostPage = () => {
             </StyledContainer>
 
             <StyledContainer minHeight={"53.5vh"}>
-              <CommentFeed postId={postId} />
+              <CommentFeed postId={postId!} />
             </StyledContainer>
           </>
         ) : (

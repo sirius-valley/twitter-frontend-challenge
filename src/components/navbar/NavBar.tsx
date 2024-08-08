@@ -16,7 +16,6 @@ import { StyledContainer } from "../common/Container";
 import { StyledIconContainer } from "./IconContainer";
 import { StyledNavItemsContainer } from "./navItem/NavItemsContainer";
 import { StyledP } from "../common/text";
-import { useHttpRequestService } from "../../service/oldService";
 import { UserDTO } from "../../service";
 import ProfileLogoutPrompt from "../profile-logout/ProfileLogoutPrompt";
 import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
@@ -26,7 +25,6 @@ const NavBar = () => {
   const navigate = useNavigate();
   const [tweetModalOpen, setTweetModalOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
-  const service = useHttpRequestService();
   const { t } = useTranslation();
   const { data: user } = useGetMyUser();
 

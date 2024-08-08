@@ -1,50 +1,33 @@
-import React, { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import SearchResultModal from "./search-result-modal/SearchResultModal";
 import { useTranslation } from "react-i18next";
 import { StyledSearchBarContainer } from "./SearchBarContainer";
 import { StyledSearchBarInput } from "./SearchBarInput";
 import { useGetSearchUsers } from "../../hooks/htttpServicesHooks/user.hooks";
-import Loader from "../loader/Loader";
-import { queryClient } from "../layout/Layout";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export const SearchBar = () => {
   const [query, setQuery] = useState<string>("");
-  const [debouncedQuery, setDebouncedQuery] = useState<string>(query);
-  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
+  const searchQuery = useDebounce(query, 300);
   const { t } = useTranslation();
-
-  const {
-    data: results,
-    isLoading,
-    error,
-  } = useGetSearchUsers(debouncedQuery, 4, 0);
-
+  const { data: results } = useGetSearchUsers(searchQuery, 4, 0);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputQuery = e.target.value;
-    setQuery(inputQuery);
-    if (debounceTimer.current) {
-      clearTimeout(debounceTimer.current);
-    }
-    debounceTimer.current = setTimeout(() => {
-      setDebouncedQuery(inputQuery);
-    }, 300);
+    setQuery(e.target.value);
   };
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
 
-  return isLoading ? (
-    <Loader />
-  ) : (
+  return(
     <StyledSearchBarContainer>
-      <StyledSearchBarInput //??? porque se deselecciona?
+      <StyledSearchBarInput
         onChange={handleChange}
         value={query}
         placeholder={t("placeholder.search")}
       />
-      {results && debouncedQuery.length > 0 && (
-        <SearchResultModal show={query.length > 0} results={results} />
-      )}
+      {
+        <SearchResultModal
+          show={searchQuery.length > 0}
+          results={results || []}
+        />
+      }
     </StyledSearchBarContainer>
   );
 };
