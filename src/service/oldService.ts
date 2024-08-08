@@ -104,25 +104,25 @@ const httpRequestService = {
   //     return res.data;
   //   }
   // },
-  searchUsers: async (username: string, limit: number, skip: number) => {
-    try {
-      const cancelToken = axios.CancelToken.source();
+  // searchUsers: async (username: string, limit: number, skip: number) => {
+  //   try {
+  //     const cancelToken = axios.CancelToken.source();
 
-      const response = await axios.get(`${url}/user/by_username/${username}`, {
-        params: {
-          limit,
-          skip,
-        },
-        cancelToken: cancelToken.token,
-      });
+  //     const response = await axios.get(`${url}/user/by_username/${username}`, {
+  //       params: {
+  //         limit,
+  //         skip,
+  //       },
+  //       cancelToken: cancelToken.token,
+  //     });
 
-      if (response.status === 200) {
-        return response.data;
-      }
-    } catch (error) {
-      if (!axios.isCancel(error)) console.log(error);
-    }
-  },
+  //     if (response.status === 200) {
+  //       return response.data;
+  //     }
+  //   } catch (error) {
+  //     if (!axios.isCancel(error)) console.log(error);
+  //   }
+  // },
   getProfile: async (id: string) => {
     const res = await axios.get(`${url}/user/profile/${id}`, {
     });

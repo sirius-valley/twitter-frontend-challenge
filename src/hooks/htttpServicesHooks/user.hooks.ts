@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { delete_endpoint, getUser_param_endpoint, recommendedUsers_endpoint, searchedUsers_param_endpoint, userMe_endpoint } from "../../endpoints";
 import { deleteData, fetchData } from "../../service/HttpRequestService"
 import { OffsetPagination } from "../../util/Pagination";
-import { UserDTO } from "../../service";
+import { AuthorDTO, UserDTO } from "../../service";
+import user from "../../redux/user";
 
 
 //Use Query
@@ -20,9 +21,10 @@ export const useGetRecommendedUsers = (limit: number, skip: number) =>{
   })
 }
 export const useGetSearchUsers = (username: string, limit: number, skip: number) =>{
-  return useQuery<UserDTO[], Error>({
-    queryKey: [`GetSearchUsers`],
-    queryFn: () =>fetchData<OffsetPagination>(searchedUsers_param_endpoint(username), {limit:limit,skip:skip})
+  return useQuery<AuthorDTO[], Error>({
+    queryKey: [`GetSearchUsers`, username],
+    queryFn: () =>fetchData<OffsetPagination>(searchedUsers_param_endpoint(username), {limit:limit,skip:skip}),
+    enabled: username.trim() != ""    
   })
 }
 export const useGetUserById = (id: string) =>{

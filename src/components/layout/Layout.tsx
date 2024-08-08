@@ -25,7 +25,7 @@ i18next.use(initReactI18next).init({
   },
   fallbackLng: "en",
 });
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 export const Layout = () => {
   return (

@@ -23,7 +23,7 @@ const FollowUserBox = ({
 }: FollowUserBoxProps) => {
   const { t } = useTranslation();
   const service = useHttpRequestService();
-  const { data: user } = useGetMyUser();
+  const { data: user, isLoading } = useGetMyUser();
 
   const [isFollowing, setIsFollowing] = useState(false);
 
@@ -46,8 +46,10 @@ const FollowUserBox = ({
       />
       <Button
         text={
-          user.following.some((f: AuthorDTO) => f.id === id)
-            ? t("buttons.unfollow")
+          !isLoading
+            ? user.following.some((f: AuthorDTO) => f.id === id)
+              ? t("buttons.unfollow")
+              : t("buttons.follow")
             : t("buttons.follow")
         }
         buttonType={isFollowing ? ButtonType.DELETE : ButtonType.FOLLOW}
