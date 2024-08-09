@@ -7,21 +7,21 @@ const url =
 
 const httpRequestService = {
 
-  //Auth
-  signUp: async (data: Partial<SingUpData>) => {
-    const res = await axios.post(`${url}/auth/signup`, data);
-    if (res.status === 201) {
-      localStorage.setItem("token", `Bearer ${res.data.token}`);
-      return true;
-    }
-  },
-  signIn: async (data: SingInData) => {
-    const res = await axios.post(`${url}/auth/login`, data);
-    if (res.status === 200) {
-      localStorage.setItem("token", `Bearer ${res.data.token}`);
-      return true;
-    }
-  },//Post
+  // //Auth
+  // signUp: async (data: Partial<SingUpData>) => {
+  //   const res = await axios.post(`${url}/auth/signup`, data);
+  //   if (res.status === 201) {
+  //     localStorage.setItem("token", `Bearer ${res.data.token}`);
+  //     return true;
+  //   }
+  // },
+  // signIn: async (data: SingInData) => {
+  //   const res = await axios.post(`${url}/auth/login`, data);
+  //   if (res.status === 200) {
+  //     localStorage.setItem("token", `Bearer ${res.data.token}`);
+  //     return true;
+  //   }
+  // },//Post
   // createPost: async (data: PostData) => { //NO SE USA
   //   const res = await axios.post(`${url}/post`, data);
   //   if (res.status === 201) {

@@ -8,6 +8,7 @@ import LabeledInput from "../../../components/labeled-input/LabeledInput";
 import Button from "../../../components/button/Button";
 import { ButtonType } from "../../../components/button/StyledButton";
 import { StyledH3 } from "../../../components/common/text";
+import { useSignup } from "../../../hooks/htttpServicesHooks/auth.hooks";
 
 interface SignUpData {
   name: string;
@@ -18,8 +19,7 @@ interface SignUpData {
 }
 const SignUpPage = () => {
   const [data, setData] = useState<Partial<SignUpData>>({});
-  const [error, setError] = useState(false);
-
+  const { mutate: signUp, isError: error } = useSignup();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -29,10 +29,12 @@ const SignUpPage = () => {
     };
   const handleSubmit = async () => {
     const { confirmPassword, ...requestData } = data;
-    httpRequestService
-      .signUp(requestData)
-      .then(() => navigate("/"))
-      .catch(() => setError(false));
+
+    try {
+      signUp(requestData);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

@@ -86,6 +86,7 @@ const Tweet = ({ post }: TweetProps) => {
               onClose={() => {
                 setShowDeleteModal(false);
               }}
+              parentId={post.parentId}
             />
             <ThreeDots
               onClick={() => {

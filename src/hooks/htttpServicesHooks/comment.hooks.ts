@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {  deleteCommentById_param_endpoint, getCommentById_param_endpoint, getCommentsByPostId_param_endpoint as getCommentsByPostId_param_endpoint, getCommentsFromUser_param_endpoint, commentMe_endpoint, postComment_endpoint } from "../../endpoints";
+import {  deleteCommentById_param_endpoint, getCommentById_param_endpoint, getCommentsByPostId_param_endpoint as getCommentsByPostId_param_endpoint, getCommentsFromUser_param_endpoint, commentMe_endpoint, postComment_param_endpoint } from "../../endpoints";
 import { PostData, PostDTO } from "../../service";
 import { deleteData, fetchData, postData } from "../../service/HttpRequestService";
 import { S3Service } from "../../service/S3Service";
@@ -42,9 +42,9 @@ type usePostCommentProps ={
   images?: string[];
 }
 //Use Mutators
-export const usePostComment = (data: PostData) =>{
+export const usePostComment = () =>{
   return useMutation<PostDTO, Error, PostData>({
-    mutationKey: ["usePostPost"],
+    mutationKey: ["PostComment"],
     mutationFn: (data: PostData): Promise<PostDTO> => {
 
       const dto: usePostCommentProps = {
@@ -53,7 +53,7 @@ export const usePostComment = (data: PostData) =>{
         parentId: data.parentId, 
       }
 
-      return postData<usePostCommentProps, PostDTO>(postComment_endpoint, dto)
+      return postData<usePostCommentProps, PostDTO>(postComment_param_endpoint(data.parentId!), dto)
     },
     onSuccess: async (data, variables) => {
       const { upload } = S3Service;
@@ -63,16 +63,27 @@ export const usePostComment = (data: PostData) =>{
           await upload(variables.images![index], imageUrl);
         }
       }
+      queryClient.invalidateQueries({ queryKey: ['getCommentsByPostId', variables.parentId!] })
+      queryClient.invalidateQueries({ queryKey: ['getPostById', variables.parentId!] })
     },
     onError: (error) => {
       console.error('Error al crear el post:', error);
     },
   });
 }
+
+type DeletePostProps = {
+  id: string;
+  parentId: string;
+}
 export const useDeleteCommentById = () =>{
-  return useMutation<void,Error,string>({
-    mutationKey: ["useDeletePostById"],
-    mutationFn: (commentId: string): Promise<void> => deleteData(deleteCommentById_param_endpoint(commentId)),
+  return useMutation<void,Error,DeletePostProps>({
+    mutationKey: ["DeletePostById"],
+    mutationFn: (props: DeletePostProps): Promise<void> => deleteData(deleteCommentById_param_endpoint(props.id)),
+    onSuccess:(data,props) =>{
+      queryClient.invalidateQueries({ queryKey: ['getCommentsByPostId', props.parentId] })
+      queryClient.invalidateQueries({ queryKey: ['getPostById', props.parentId] })
+    },
     onError: (error) => {
       console.error('Error al crear el post:', error);
     },

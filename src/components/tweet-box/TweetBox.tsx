@@ -17,6 +17,7 @@ import {
   usePostPost,
 } from "../../hooks/htttpServicesHooks/post.hooks";
 import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
+import { usePostComment } from "../../hooks/htttpServicesHooks/comment.hooks";
 type TweetBoxProps = {
   parentId?: string;
   close?: () => void;
@@ -32,7 +33,8 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { data: postData, isLoading } = useGetPosts();
-  const { mutate, isError, isSuccess, error } = usePostPost();
+  const { mutate: createPost } = usePostPost();
+  const { mutate: createComment } = usePostComment();
   const { data: user } = useGetMyUser();
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -40,23 +42,16 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
   };
   const handleSubmit = async () => {
     try {
-      // setContent("");
-      // setImages([]);
-      // setImagesPreview([]);
-      //dispatch(setLength(length + 1));
-      // if(postData){
-
-      //   //dispatch(updateFeed(postData));
-      // }
       const postData: PostData = {
         content: content,
         images: images,
-        parentId: undefined,
+        parentId: parentId,
       };
-      await mutate(postData);
-
-      
-
+      if (parentId != undefined) {
+        await createComment(postData);
+      } else {
+        await createPost(postData);
+      }
       setContent("");
       setImages([]);
       setImagesPreview([]);

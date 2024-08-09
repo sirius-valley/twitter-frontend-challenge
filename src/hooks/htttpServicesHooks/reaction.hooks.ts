@@ -13,6 +13,9 @@ export const usePostReaction = () =>{
   return useMutation<ReactionDTO,Error,usePostReactionProps>({
     mutationKey: ["useDeletePostById"],
     mutationFn: ({postId,data}: usePostReactionProps): Promise<ReactionDTO> => postData<ReactionData, ReactionDTO>(createReaction_param_endpoint(postId), data),
+    onSuccess:()=>{
+
+    },
     onError: (error) => {
       console.error('Error al crear el post:', error);
     },

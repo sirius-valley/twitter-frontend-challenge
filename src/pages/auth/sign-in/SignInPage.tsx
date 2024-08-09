@@ -7,19 +7,22 @@ import LabeledInput from "../../../components/labeled-input/LabeledInput";
 import Button from "../../../components/button/Button";
 import { ButtonType } from "../../../components/button/StyledButton";
 import { StyledH3 } from "../../../components/common/text";
+import { useLogin } from "../../../hooks/htttpServicesHooks/auth.hooks";
 
 const SignInPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const {mutate: signIn, isError: error} = useLogin()
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const handleSubmit = () => {
-    httpRequestService
-      .signIn({ email, password })
-      .then(() => navigate("/"))
-      .catch(() => setError(true));
+      
+      try {
+        signIn({ email, password })
+      } catch (error) {
+        console.error(error)
+      }
   };
 
   return (
