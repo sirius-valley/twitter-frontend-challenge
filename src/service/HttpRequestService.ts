@@ -17,6 +17,7 @@ export const fetchData = async <T,>(endpoint: string, params?: T) =>{
   throw new Error(`Error Fetching data: ${res.status}`);
 }
 export const deleteData = async (endpoint: string) => {
+  console.log(endpoint)
   const res = await axios.delete(`${url}${endpoint}`);
   if (res.status === 200)return res.data;
   throw new Error(`Error deleting data: ${res.status}`);

@@ -77,7 +77,7 @@ Investigate about caching with [React query](https://tanstack.com/query) and imp
 
 **S(e)irius tip** Don't forget to investigate about [Mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) and [Query invalidations](https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation)
 
-### Continuation
+✅DONE✅### Continuation
 
 The "user" object is used in many places, like Header, CommentPage, etc.
 
