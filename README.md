@@ -61,7 +61,7 @@ The objective of this task is to improve the Axios services. The previous develo
 
 **Why is it important?** In order to reduce the duplicated lines, we need to know when and how to reduce them.
 
-### Caching makes your life (and the users') simpler
+✅DONE✅### Caching makes your life (and the users') simpler
 
 You may have noticed we do a lot of requests. Every time you go to a page, we request the data again from the BE.
 
