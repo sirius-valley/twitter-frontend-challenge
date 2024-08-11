@@ -35,7 +35,8 @@
     "password": "Enter your password..."
   },
   "error": {
-    "login": "Sorry, your username or password was incorrect. Please try again."
+    "login": "Sorry, your username or password was incorrect. Please try again.",
+    "signup": "Sorry, the user you are creating already exist. Please try again."
   },
   "input-params": {
     "username": "Username",

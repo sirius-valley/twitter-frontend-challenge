@@ -36,6 +36,15 @@ const SignUpPage = () => {
       console.error(error);
     }
   };
+  const enoughData = (): boolean => {
+    return (
+      data.email !== undefined &&
+      data.password != undefined &&
+      data.confirmPassword != undefined &&
+      data.username != undefined &&
+      data.name != undefined
+    );
+  };
 
   return (
     <AuthWrapper>
@@ -83,6 +92,9 @@ const SignUpPage = () => {
               error={error}
               onChange={handleChange("confirmPassword")}
             />
+            <p className={"error-message"}>
+              {(error && enoughData()) && t("error.signup")}
+            </p>
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <Button
