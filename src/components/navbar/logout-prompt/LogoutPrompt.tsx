@@ -22,7 +22,7 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { data: user } = useGetMyUser();
-  const logoutRef = useRef<HTMLDivElement>(null);
+  
 
   const handleClick = () => {
     setShowModal(true);
@@ -40,26 +40,14 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
     localStorage.removeItem("token");
     navigate("/sign-in");
   };
-  console.log(show)
   useEffect(() => {
     setShowPrompt(show);
-
-
   }, [show]);
-  useEffect(()=>{
-    const handler = (e: MouseEvent) => {
-      if (logoutRef.current && !logoutRef.current.contains(e.target as Node)) {
-        setShowPrompt(false);
-      }
-    };
 
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  },[setShowPrompt])
   return (
     <>
       {showPrompt && (
-        <StyledPromptContainer ref={logoutRef}>
+        <StyledPromptContainer>
           <StyledContainer
             flexDirection={"row"}
             gap={"16px"}

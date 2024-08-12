@@ -85,7 +85,7 @@ In all these places, we fetch the user from the Backend with service.me().
 
 If you haven't move this to a cache query provider, do it so this info is cached by the backend
 
-### Bug Hunting time
+✅DONE✅### Bug Hunting time
 
 The objective of this task is to fix 2 bugs that the app has.
 
