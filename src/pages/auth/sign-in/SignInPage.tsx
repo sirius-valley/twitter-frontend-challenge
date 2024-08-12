@@ -8,21 +8,30 @@ import Button from "../../../components/button/Button";
 import { ButtonType } from "../../../components/button/StyledButton";
 import { StyledH3 } from "../../../components/common/text";
 import { useLogin } from "../../../hooks/htttpServicesHooks/auth.hooks";
+import { ErrorMessage, Form, Formik } from "formik";
+import * as Yup from "yup";
 
+const validationSchema = Yup.object({
+  Email: Yup.string().email("Invalid email address").required("Required"),
+  Password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .matches(/[A-Z]/, "Password must contain an uppercase letter")
+    .matches(/[a-z]/, "Password must contain a lowercase letter")
+    .matches(/[0-9]/, "Password must contain a number")
+    .matches(/[^A-Za-z0-9]/, "Password must contain a special character")
+    .required("Required"),
+});
 const SignInPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const {mutate: signIn, isError: error} = useLogin()
+  const { mutate: signIn, isError: signInError } = useLogin();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const handleSubmit = () => {
-      
-      try {
-        signIn({ email, password })
-      } catch (error) {
-        console.error(error)
-      }
+  const handleSubmit = (value: { Email: string; Password: string }) => {
+    try {
+      signIn({ email: value.Email, password: value.Password });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -33,38 +42,62 @@ const SignInPage = () => {
             <img src={logo} alt={"Twitter Logo"} />
             <StyledH3>{t("title.login")}</StyledH3>
           </div>
-          <div className={"input-container"}>
-            <LabeledInput
-              required
-              placeholder={t("placeholder.email")}
-              title={t("input-params.email")}
-              error={error}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <LabeledInput
-              type="password"
-              required
-              placeholder={t("placeholder.password")}
-              title={t("input-params.password")}
-              error={error}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <p className={"error-message"}>{error && t("error.login")}</p>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <Button
-              text={t("buttons.login")}
-              buttonType={ButtonType.FOLLOW}
-              size={"MEDIUM"}
-              onClick={handleSubmit}
-            />
-            <Button
-              text={t("buttons.register")}
-              buttonType={ButtonType.OUTLINED}
-              size={"MEDIUM"}
-              onClick={() => navigate("/sign-up")}
-            />
-          </div>
+          <Formik
+            initialValues={{
+              Email: "",
+              Password: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting }: any) => (
+              <Form>
+                <div className={"input-container"}>
+                  <LabeledInput
+                    name="Email"
+                    required
+                    placeholder={t("placeholder.email")}
+                    title={t("input-params.email")}
+                    type="text"
+                  />
+                  <LabeledInput
+                    name="Password"
+                    type="password"
+                    required
+                    placeholder={t("placeholder.password")}
+                    title={t("input-params.password")}
+                  />
+                  <div>
+                    {signInError && (
+                      <p className={"error-message"}>{t("error.login")}</p>
+                    )}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Button
+                    type="submit"
+                    text={t("buttons.login")}
+                    buttonType={ButtonType.FOLLOW}
+                    size={"MEDIUM"}
+                    disabled={isSubmitting}
+                  />
+                  <Button
+                    text={t("buttons.register")}
+                    buttonType={ButtonType.OUTLINED}
+                    size={"MEDIUM"}
+                    onClick={() => navigate("/sign-up")}
+                    disabled={isSubmitting}
+                  />
+                </div>
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
     </AuthWrapper>
