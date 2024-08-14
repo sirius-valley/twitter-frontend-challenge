@@ -110,7 +110,7 @@ After that, you have to create from scratch a button and an input field, and sho
 **Variants**: outlined, fulfilled, ghost & white
 **Size**: small, medium, large
 
-### Errors exist, and are not only for you
+✅DONE✅### Errors exist, and are not only for you
 
 Humans are not perfect. Sometimes we encounter errors. Whether it's a validation error, a backend error, or any other, the user needs to know (if it bears him).
 

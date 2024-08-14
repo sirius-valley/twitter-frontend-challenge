@@ -4,6 +4,8 @@ import { PostData, PostDTO } from "../../service";
 import { deleteData, fetchData, postData } from "../../service/HttpRequestService";
 import { S3Service } from "../../service/S3Service";
 import { queryClient } from "../../components/layout/Layout";
+import { ToastType } from "../../components/toast/Toast";
+import { useToast } from "../../components/toast/ToastProvider";
 
 //use Query
 export const useGetMyComments = () =>{
@@ -43,6 +45,7 @@ type usePostCommentProps ={
 }
 //Use Mutators
 export const usePostComment = () =>{
+  const{addToast} = useToast()
   return useMutation<PostDTO, Error, PostData>({
     mutationKey: ["PostComment"],
     mutationFn: (data: PostData): Promise<PostDTO> => {
@@ -65,9 +68,11 @@ export const usePostComment = () =>{
       }
       queryClient.invalidateQueries({ queryKey: ['getCommentsByPostId', variables.parentId!] })
       queryClient.invalidateQueries({ queryKey: ['getPostById', variables.parentId!] })
+      addToast({message:"Comment created successfully ", type:ToastType.SUCCESS})
     },
     onError: (error) => {
-      console.error('Error al crear el post:', error);
+      addToast({message:"Error creating comment", type:ToastType.ALERT})
+      console.error('PostComment Error: ', error);
     },
   });
 }
@@ -77,15 +82,18 @@ type DeletePostProps = {
   parentId: string;
 }
 export const useDeleteCommentById = () =>{
+  const{addToast} = useToast()
   return useMutation<void,Error,DeletePostProps>({
     mutationKey: ["DeletePostById"],
     mutationFn: (props: DeletePostProps): Promise<void> => deleteData(deleteCommentById_param_endpoint(props.id)),
     onSuccess:(data,props) =>{
       queryClient.invalidateQueries({ queryKey: ['getCommentsByPostId', props.parentId] })
       queryClient.invalidateQueries({ queryKey: ['getPostById', props.parentId] })
+      addToast({message:"Comment deleted successfully", type:ToastType.SUCCESS})
     },
     onError: (error) => {
-      console.error('Error al crear el post:', error);
+      addToast({message:"Error deleting comment", type:ToastType.ALERT})
+      console.error('DeleteComment Error: ', error);
     },
     
   })

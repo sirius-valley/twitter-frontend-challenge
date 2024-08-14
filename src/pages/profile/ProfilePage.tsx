@@ -17,6 +17,8 @@ import {
   useFollowUser,
   useUnfollowUser,
 } from "../../hooks/htttpServicesHooks/follow.hooks";
+import { useToast } from "../../components/toast/ToastProvider";
+import { ToastType } from "../../components/toast/Toast";
 
 const ProfilePage = () => {
   const [following, setFollowing] = useState<boolean>(false);
@@ -27,6 +29,7 @@ const ProfilePage = () => {
     type: ButtonType.DEFAULT,
     buttonText: "",
   });
+  const{addToast} = useToast()
 
   const id = useParams().id;
   const navigate = useNavigate();
@@ -53,6 +56,7 @@ const ProfilePage = () => {
       deleteUser().then(() => {
         localStorage.removeItem("token");
         navigate("/sign-in");
+        addToast({message:"User deleted Successfully ", type:ToastType.SUCCESS})
       });
     } else {
       unfollowUser(profile!.id);

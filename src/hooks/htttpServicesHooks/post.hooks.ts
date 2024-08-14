@@ -4,6 +4,8 @@ import { PostData, PostDTO } from "../../service";
 import { deleteData, fetchData, postData } from "../../service/HttpRequestService";
 import { S3Service } from "../../service/S3Service";
 import { queryClient } from "../../components/layout/Layout";
+import { useToast } from "../../components/toast/ToastProvider";
+import { ToastType } from "../../components/toast/Toast";
 
 //Use Query
 export const useGetPosts = () =>{
@@ -38,6 +40,7 @@ type usePostPostProps ={
 }
 //Use Mutators
 export const usePostPost = () =>{
+  const{addToast} = useToast()
   return useMutation<PostDTO, Error, PostData>({
     mutationKey: ["usePostPost"],
     mutationFn: (data: PostData): Promise<PostDTO> => {
@@ -59,21 +62,26 @@ export const usePostPost = () =>{
         }
       }
       queryClient.invalidateQueries({ queryKey: ['getAllPosts'] })
+      addToast({message:"Post created successfully ", type:ToastType.SUCCESS})
     },
     onError: (error) => {
-      console.error('Error al crear el post:', error);
+      addToast({message:"Error creating post", type:ToastType.ALERT})
+      console.error('PostPost Error: ', error);
     },
   });
 }
 export const useDeletePostById = () =>{//mutators
+  const{addToast} = useToast()
   return useMutation<void,Error,string>({
     mutationKey: ["useDeletePostById"],
     mutationFn: (postId: string): Promise<void> => deleteData(deletePostById_param_endpoint(postId)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getAllPosts'] })
+      addToast({message:"Post deleted successfully", type:ToastType.SUCCESS})
     },
     onError: (error) => {
-      console.error('Error al crear el post:', error);
+      addToast({message:"Error deleting post", type:ToastType.ALERT})
+      console.error('Delete Error: ', error);
     },
     
   })

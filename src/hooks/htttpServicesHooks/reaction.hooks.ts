@@ -3,6 +3,8 @@ import { createReaction_param_endpoint, deleteReaction_param_endpoint } from "..
 import { ReactionData, ReactionDTO } from "../../service";
 import { deleteData, postData } from "../../service/HttpRequestService"
 import { queryClient } from "../../components/layout/Layout";
+import { useToast } from "../../components/toast/ToastProvider";
+import { ToastType } from "../../components/toast/Toast";
 
 
 
@@ -11,6 +13,7 @@ type usePostReactionProps = {
   data: ReactionData
 }
 export const usePostReaction = () =>{
+  const{addToast} = useToast()
   return useMutation<ReactionDTO,Error,usePostReactionProps>({
     mutationKey: ["useDeletePostById"],
     mutationFn: ({postId,data}: usePostReactionProps): Promise<ReactionDTO> => postData<ReactionData, ReactionDTO>(createReaction_param_endpoint(postId), data),
@@ -22,14 +25,17 @@ export const usePostReaction = () =>{
       queryClient.invalidateQueries({ queryKey: ['getCommentsById'] })
       queryClient.invalidateQueries({ queryKey: ['getCommentsByUser'] })
       queryClient.invalidateQueries({ queryKey: ['getCommentsByPostId'] })
+      addToast({message:"Reaction posted successfully", type:ToastType.SUCCESS})
     },
     onError: (error) => {
-      console.error('Error al crear el post:', error);
+      addToast({message:"Error posting reaction", type:ToastType.ALERT})
+      console.error('ReactionPost Error', error);
     },
     
   })
 }
 export const useDeleteReaction = ()=>{
+  const{addToast} = useToast()
   return useMutation<ReactionDTO,Error,string>({
     mutationKey: ["useDeletePostById"],
     mutationFn: (reactionId: string): Promise<ReactionDTO> => deleteData(deleteReaction_param_endpoint(reactionId)),
@@ -41,9 +47,11 @@ export const useDeleteReaction = ()=>{
       queryClient.invalidateQueries({ queryKey: ['getCommentsById'] })
       queryClient.invalidateQueries({ queryKey: ['getCommentsByUser'] })
       queryClient.invalidateQueries({ queryKey: ['getCommentsByPostId'] })
+      addToast({message:"Reaction deleted successfully", type:ToastType.SUCCESS})
     },
     onError: (error) => {
-      console.error('Error al borrar un post:', error);
+      addToast({message:"Error deleting reaction", type:ToastType.ALERT})
+      console.error('ReactionDelete Error', error);
     },
     
   })

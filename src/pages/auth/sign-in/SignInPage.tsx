@@ -8,7 +8,7 @@ import Button from "../../../components/button/Button";
 import { ButtonType } from "../../../components/button/StyledButton";
 import { StyledH3 } from "../../../components/common/text";
 import { useLogin } from "../../../hooks/htttpServicesHooks/auth.hooks";
-import { ErrorMessage, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object({
@@ -22,10 +22,9 @@ const validationSchema = Yup.object({
     .required("Required"),
 });
 const SignInPage = () => {
-  const { mutate: signIn, isError: signInError } = useLogin();
+  const { mutate: signIn, isError: signInError} = useLogin();
   const navigate = useNavigate();
   const { t } = useTranslation();
-
   const handleSubmit = (value: { Email: string; Password: string }) => {
     try {
       signIn({ email: value.Email, password: value.Password });
@@ -33,7 +32,7 @@ const SignInPage = () => {
       console.error(error);
     }
   };
-
+  
   return (
     <AuthWrapper>
       <div className={"border"}>
