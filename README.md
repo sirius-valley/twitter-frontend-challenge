@@ -126,7 +126,7 @@ Lucky for you, the toast is already created inside the "toast" folder.
 
 We've seen how important DRY is, so I don't want you to import the **Toast** component inside every file you use it. See how to implement it globally
 
-### Infinite Scroll
+✅DONE✅### Infinite Scroll
 
 The objective of this task is to add an infinite scroller to see tweets on the home screen. This is the way that X (ex twitter) has to load tweets.
 

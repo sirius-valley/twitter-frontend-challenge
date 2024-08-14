@@ -25,13 +25,8 @@ const CommentPage = () => {
   const commentId = window.location.href.split("/")[4];
   const { data: comment, isLoading: loadingComment } =
     useGetCommentById(commentId);
-  const { length, query } = useAppSelector((state) => state.user);
-  const { data: comments, isLoading: loadingComments } =
-    useGetCommentsByPostId(commentId);
   const { data: user } = useGetMyUser();
-  const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  console.log(comment);
   const exit = () => {
     window.history.back();
   };
@@ -39,10 +34,6 @@ const CommentPage = () => {
   const handleSubmit = async () => {
     setContent("");
     setImages([]);
-    dispatch(setLength(length + 1));
-    if (comments) {
-      dispatch(updateFeed(comments));
-    }
 
     exit();
   };
@@ -50,6 +41,9 @@ const CommentPage = () => {
     const newImages = images.filter((i, idx) => idx !== index);
     setImages(newImages);
   };
+  useEffect(() => {
+    window.innerWidth > 600 && exit();
+  }, []);
 
   return (
     <StyledContainer padding={"16px"}>
@@ -64,7 +58,7 @@ const CommentPage = () => {
           buttonType={ButtonType.DEFAULT}
           size={"SMALL"}
           onClick={handleSubmit}
-          disabled={content.length === 0 || loadingComments || loadingComment}
+          disabled={content.length === 0 || loadingComment}
         />
       </StyledContainer>
       {comment && !loadingComment && (

@@ -2,7 +2,6 @@ import { useState } from "react";
 import Tab from "./tab/Tab";
 import { useTranslation } from "react-i18next";
 import { StyledTabBarContainer } from "./TabBarContainer";
-import { useGetPosts } from "../../../../../hooks/htttpServicesHooks/post.hooks";
 import { useDispatch } from "react-redux";
 import { updatePage } from "../../../../../redux/post";
 
