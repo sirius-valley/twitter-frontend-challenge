@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { deletePostById_param_endpoint, getPostById_param_endpoint, getPosts_endpoint, getPostsFromUser_param_endpoint, postPost_endpoint } from "../../endpoints";
 import { PostData, PostDTO } from "../../service";
 import { deleteData, fetchData, postData } from "../../service/HttpRequestService";
@@ -6,15 +6,22 @@ import { S3Service } from "../../service/S3Service";
 import { queryClient } from "../../components/layout/Layout";
 import { useToast } from "../../components/toast/ToastProvider";
 import { ToastType } from "../../components/toast/Toast";
+import { CursorPagination } from "../../util/Pagination";
 
 //Use Query
-export const useGetPosts = () =>{
-  return useQuery<PostDTO[]>({
+export const useGetPosts = (params: CursorPagination) =>{
+  return useInfiniteQuery<PostDTO[]>({
     queryKey: [`getAllPosts`],
-    queryFn: () =>fetchData(getPosts_endpoint),
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: true,
-    staleTime: 50000
+    queryFn: () => fetchData<CursorPagination>(getPosts_endpoint,params),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage)=>{
+      lastPage[lastPage.length-1].id
+    }
+    // queryKey: [`getAllPosts`],
+    // queryFn: () =>fetchData<CursorPagination>(getPosts_endpoint),
+    // refetchOnWindowFocus: false,
+    // refetchOnReconnect: true,
+    // staleTime: 50000
   })
 }
 export const useGetPostById = (postId: string) =>{

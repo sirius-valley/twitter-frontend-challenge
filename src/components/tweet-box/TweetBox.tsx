@@ -9,11 +9,10 @@ import { ButtonType } from "../button/StyledButton";
 import { StyledTweetBoxContainer } from "./TweetBoxContainer";
 import { StyledContainer } from "../common/Container";
 import { StyledButtonContainer } from "./ButtonContainer";
-import { useDispatch, useSelector } from "react-redux";
-import { PostData, UserDTO } from "../../service";
-import { RootState } from "../../redux/store";
+import {  } from "react-redux";
+import { PostData } from "../../service";
+
 import {
-  useGetPosts,
   usePostPost,
 } from "../../hooks/htttpServicesHooks/post.hooks";
 import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
@@ -28,12 +27,8 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
   const [content, setContent] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
-
-  const { length, query } = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { data: postData, isLoading } = useGetPosts();
-  const { mutate: createPost } = usePostPost();
+  const { mutate: createPost, isPending } = usePostPost();
   const { mutate: createComment } = usePostComment();
   const { data: user } = useGetMyUser();
 
@@ -88,7 +83,7 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
             buttonType={ButtonType.DEFAULT}
             size={"SMALL"}
             onClick={handleSubmit}
-            disabled={content.length === 0 || isLoading}
+            disabled={content.length === 0 || isPending}
           />
         </StyledContainer>
       )}
