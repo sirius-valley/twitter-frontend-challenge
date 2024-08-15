@@ -6,7 +6,6 @@ import ImageContainer from "../../components/tweet/tweet-image/ImageContainer";
 import { useLocation } from "react-router-dom";
 import TweetInput from "../../components/tweet-input/TweetInput";
 import ImageInput from "../../components/common/ImageInput";
-import { setLength, updateFeed } from "../../redux/user";
 import { useTranslation } from "react-i18next";
 import { ButtonType } from "../../components/button/StyledButton";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
