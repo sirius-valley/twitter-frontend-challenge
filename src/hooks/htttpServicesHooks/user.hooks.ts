@@ -24,7 +24,7 @@ export const useGetSearchUsers = (username: string, limit: number, skip: number)
   return useQuery<AuthorDTO[]>({
     queryKey: [`GetSearchUsers`, username],
     queryFn: () =>fetchData<OffsetPagination>(searchedUsers_param_endpoint(username), {limit:limit,skip:skip}),
-    enabled: username.trim() != "" 
+    enabled: username.trim() !== "" 
   })
 }
 export const useGetUserById = (id: string) =>{

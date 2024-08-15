@@ -1,8 +1,6 @@
-import React from "react";
 import { PostDTO } from "../../service";
 import { StyledContainer } from "../common/Container";
 import Tweet from "../tweet/Tweet";
-import Loader from "../loader/Loader";
 
 interface FeedProps {
   posts: PostDTO[];

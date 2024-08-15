@@ -31,7 +31,7 @@ export const useGetPosts = () => {
     },
     initialPageParam:{ limit: LIMIT, after: undefined, before: undefined },
     getNextPageParam: (lastPage) => {
-      return lastPage.length == LIMIT
+      return lastPage.length === LIMIT
         ? { limit: LIMIT, after: lastPage[lastPage.length - 1].id, before: undefined }
         : undefined;
     },
@@ -59,7 +59,7 @@ export const useGetPostsFromUser = (userId: string) => {
     },
     initialPageParam:{ limit: LIMIT, after: undefined, before: undefined },
     getNextPageParam: (lastPage) => {
-      return lastPage.length == LIMIT
+      return lastPage.length === LIMIT
         ? { limit: LIMIT, after: lastPage[lastPage.length - 1].id, before: undefined }
         : undefined;
     },

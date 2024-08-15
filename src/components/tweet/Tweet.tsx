@@ -5,7 +5,6 @@ import type {
   PostDTO,
   ReactionData,
   ReactionDTO,
-  UserDTO,
 } from "../../service";
 import { StyledReactionsContainer } from "./ReactionsContainer";
 import Reaction from "./reaction/Reaction";
@@ -29,7 +28,7 @@ interface TweetProps {
 const Tweet = ({ post }: TweetProps) => {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
-  const { data: user, isLoading: loadingUser } = useGetMyUser();
+  const { data: user} = useGetMyUser();
   const { mutate: createReaction } = usePostReaction();
   const { mutate: deleteReaction } = useDeleteReaction();
   const navigate = useNavigate();

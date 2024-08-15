@@ -2,7 +2,6 @@ import FollowUserBox from "../../../../components/follow-user/FollowUserBox";
 import { useTranslation } from "react-i18next";
 import { StyledSuggestionBoxContainer } from "./SuggestionBoxContainer";
 import { useGetRecommendedUsers } from "../../../../hooks/htttpServicesHooks/user.hooks";
-import { useEffect } from "react";
 
 const SuggestionBox = () => {
   const { t } = useTranslation();

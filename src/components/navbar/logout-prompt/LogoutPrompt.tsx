@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../modal/Modal";
 import logo from "../../../assets/logo.png";
 import Button from "../../button/Button";
@@ -9,7 +9,6 @@ import { ButtonType } from "../../button/StyledButton";
 import { StyledPromptContainer } from "./PromptContainer";
 import { StyledContainer } from "../../common/Container";
 import { StyledP } from "../../common/text";
-import { UserDTO } from "../../../service";
 import { useGetMyUser } from "../../../hooks/htttpServicesHooks/user.hooks";
 
 interface LogoutPromptProps {

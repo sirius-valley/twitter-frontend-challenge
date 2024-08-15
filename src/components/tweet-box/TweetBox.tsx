@@ -9,12 +9,10 @@ import { ButtonType } from "../button/StyledButton";
 import { StyledTweetBoxContainer } from "./TweetBoxContainer";
 import { StyledContainer } from "../common/Container";
 import { StyledButtonContainer } from "./ButtonContainer";
-import {  } from "react-redux";
+import {} from "react-redux";
 import { PostData } from "../../service";
 
-import {
-  usePostPost,
-} from "../../hooks/htttpServicesHooks/post.hooks";
+import { usePostPost } from "../../hooks/htttpServicesHooks/post.hooks";
 import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
 import { usePostComment } from "../../hooks/htttpServicesHooks/comment.hooks";
 type TweetBoxProps = {
@@ -42,7 +40,7 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
         images: images,
         parentId: parentId,
       };
-      if (parentId != undefined) {
+      if (parentId !== undefined) {
         await createComment(postData);
       } else {
         await createPost(postData);

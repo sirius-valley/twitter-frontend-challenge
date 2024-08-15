@@ -1,5 +1,3 @@
-import type { ChangeEvent } from "react";
-import React, { useState } from "react";
 import logo from "../../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -9,7 +7,7 @@ import Button from "../../../components/button/Button";
 import { ButtonType } from "../../../components/button/StyledButton";
 import { StyledH3 } from "../../../components/common/text";
 import { useSignup } from "../../../hooks/htttpServicesHooks/auth.hooks";
-import { ErrorMessage, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object({

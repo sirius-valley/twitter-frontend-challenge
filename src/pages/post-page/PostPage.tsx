@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledH5 } from "../../components/common/text";
 import { StyledFeedContainer } from "../home-page/components/contentContainer/FeedContainer";
@@ -13,7 +12,7 @@ const PostPage = () => {
   //Use State
   const { id: postId } = useParams();
   //Proper Hooks
-  const { data, isLoading, isError, error } = useGetPostById(postId!);
+  const { data, isLoading} = useGetPostById(postId!);
 
   return (
     <StyledContainer borderRight={"1px solid #ebeef0"}>

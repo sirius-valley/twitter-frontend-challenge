@@ -2,7 +2,7 @@ import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import {
   deleteCommentById_param_endpoint,
   getCommentById_param_endpoint,
-  getCommentsByPostId_param_endpoint as getCommentsByPostId_param_endpoint,
+  getCommentsByPostId_param_endpoint,
   getCommentsFromUser_param_endpoint,
   commentMe_endpoint,
   postComment_param_endpoint,
@@ -54,7 +54,7 @@ export const useGetCommentsByPostId = (commentId: string) => {
     },
     initialPageParam:{ limit: LIMIT, after: undefined, before: undefined },
     getNextPageParam: (lastPage) => {
-      return lastPage.length == LIMIT
+      return lastPage.length === LIMIT
         ? { limit: LIMIT, after: lastPage[lastPage.length - 1].id, before: undefined }
         : undefined;
     },

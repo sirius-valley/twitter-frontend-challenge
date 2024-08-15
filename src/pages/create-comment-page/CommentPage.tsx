@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BackArrowIcon } from "../../components/icon/Icon";
 import Button from "../../components/button/Button";
 import AuthorData from "../../components/tweet/user-post-data/AuthorData";
 import ImageContainer from "../../components/tweet/tweet-image/ImageContainer";
-import { useLocation } from "react-router-dom";
 import TweetInput from "../../components/tweet-input/TweetInput";
 import ImageInput from "../../components/common/ImageInput";
 import { useTranslation } from "react-i18next";
 import { ButtonType } from "../../components/button/StyledButton";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledLine } from "../../components/common/Line";
 import { StyledP } from "../../components/common/text";
 import {
   useGetCommentById,
-  useGetCommentsByPostId,
 } from "../../hooks/htttpServicesHooks/comment.hooks";
 import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
 

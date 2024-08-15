@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+
 import { StyledToastContainer } from "./ToastContainer";
 import { AlertIcon, LikeIcon } from "../icon/Icon";
 
