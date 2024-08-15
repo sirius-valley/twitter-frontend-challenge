@@ -130,7 +130,7 @@ We've seen how important DRY is, so I don't want you to import the **Toast** com
 
 The objective of this task is to add an infinite scroller to see tweets on the home screen. This is the way that X (ex twitter) has to load tweets.
 
-### Portals
+✅DONE✅### Portals
 
 The objective of this task is to enhance the app's modals. To achieve this, you need to master the art of Portals 🕳️. This feature, though not widely known, is useful for injecting components into another location without complexity.
 
