@@ -5,7 +5,7 @@ import { ButtonType } from "../button/StyledButton";
 import { StyledModalContainer } from "./ModalContainer";
 import { StyledContainer } from "../common/Container";
 import { StyledH5, StyledP } from "../common/text";
-
+import ReactDom from "react-dom"
 interface ModalProps {
   show: boolean;
   title: string;
@@ -23,7 +23,7 @@ const Modal = ({
   img,
   title,
 }: ModalProps) => {
-  return (
+  return ReactDom.createPortal(
     <>
       {show && (
         <StyledBlurredBackground>
@@ -56,7 +56,8 @@ const Modal = ({
           </StyledModalContainer>
         </StyledBlurredBackground>
       )}
-    </>
+    </>,
+    document.getElementById('portal')!
   );
 };
 
