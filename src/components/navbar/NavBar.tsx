@@ -1,4 +1,4 @@
-import {useState } from "react";
+import { useState } from "react";
 import NavItem from "./navItem/NavItem";
 import Button from "../button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -45,6 +45,15 @@ const NavBar = () => {
             icon={IconType.PROFILE}
             selectedIcon={IconType.ACTIVE_PROFILE}
             active={location.pathname === `/profile/${user?.id}`}
+          />
+          <NavItem
+            title={t("navbar.message")}
+            onClick={() => {
+              navigate(`/chat`);
+            }}
+            icon={IconType.MESSAGE}
+            selectedIcon={IconType.ACTIVE_MESSAGE}
+            active={location.pathname === `/chat`}
           />
           <StyledTweetButton onClick={() => navigate("/compose/tweet")}>
             +

@@ -26,8 +26,8 @@ const FollowUserBox = ({
 }: FollowUserBoxProps) => {
   const { t } = useTranslation();
   const { data: user, isLoading } = useGetMyUser();
-  const { mutate: unfollowUser } = useFollowUser();
-  const { mutate: followUser } = useUnfollowUser();
+  const { mutate: followUser } = useFollowUser();
+  const { mutate: unfollowUser } = useUnfollowUser();
 
   const [isFollowing, setIsFollowing] = useState(false);
 
