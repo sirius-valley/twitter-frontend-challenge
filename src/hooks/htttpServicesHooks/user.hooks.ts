@@ -13,11 +13,10 @@ export const useGetMyUser = () =>{
     staleTime: Infinity,
   })
 }
-export const useGetRecommendedUsers = (limit: number, skip: number) =>{
+export const useGetRecommendedUsers = (limit: number, skip: number | undefined) =>{
   return useQuery<AuthorDTO[]>({
     queryKey: [`GetRecommendedUsers`],
     queryFn: () =>fetchData<OffsetPagination>(recommendedUsers_endpoint, {limit:limit,skip:skip}),
-    initialData: [] ,
     staleTime: 50000
   })
 }
