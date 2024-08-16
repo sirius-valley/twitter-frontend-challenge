@@ -41,7 +41,7 @@ const Chat = ({ chat, onClick }: ChatProps) => {
 
   useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      messagesEndRef.current.scrollIntoView({ behavior: "instant" });
     }
   }, [chat.messages]);
   return (
