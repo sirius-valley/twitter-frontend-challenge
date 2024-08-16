@@ -26,6 +26,7 @@ const ChatPage = () => {
   const [friends, SetFriends] = useState<AuthorDTO[]>([]);
   const [actualChat, setActualChat] = useState<ChatDTO | null>(null);
   const { otherUserId } = useSelector((state: RootState) => state.chat);
+  const [mobile, setMobile] = useState<boolean>(false);
 
   useEffect(() => {
     const socketIo = io(URL, {
@@ -52,8 +53,8 @@ const ChatPage = () => {
       setActualChat(object);
     });
 
-    socketIo.on("createMessage", (object: MessageDTO) => {  
-      console.log(object)
+    socketIo.on("createMessage", (object: MessageDTO) => {
+      console.log(object);
       setActualChat((prevChat) => {
         if (!prevChat) return null;
         return {
@@ -76,35 +77,52 @@ const ChatPage = () => {
     }
   }, [otherUserId]);
 
+  useEffect(() => {
+    if (window.innerWidth <= 600) setMobile(true);
+    else setMobile(false);
+  }, []);
   const createMessage = (chatId: string, content: string) => {
     if (chatId !== "" && content !== "" && socket) {
       socket.emit("createMessage", { chatId: chatId, content: content });
     }
   };
+
+  /**
+   * al ser menor a 600 deberia:
+   * Si tiene seleccionado algun id de algun amigo:
+   *  mostrarse solo el chat
+   * Sino tiene seleccionado ningun id de algun amigo:
+   *  mostrarse la lista de amigos
+   */
   return (
     <>
-      <StyledContainer
-        maxHeight={"100vh"}
-        borderRight={"1px solid #ebeef0"}
-        maxWidth={"600px"}
-      >
-        <StyledHeaderContainer
-          style={{ display: "flex", justifyContent: "space-around" }}
+      {(!mobile || (mobile && otherUserId === "")) && (
+        <StyledContainer
+          maxHeight={"100vh"}
+          borderRight={"1px solid #ebeef0"}
+          maxWidth={"600px"}
         >
-          <p>Friends</p>
-        </StyledHeaderContainer>
-        <StyledContainer>
-          {friends &&
-            friends.map((friend, index) => (
-              <FriendBox key={index} friend={friend}></FriendBox>
-            ))}
+          <StyledHeaderContainer
+            style={{ display: "flex", justifyContent: "space-around" }} 
+            
+          >
+            <p>Friends</p>
+          </StyledHeaderContainer>
+          <StyledContainer>
+            {friends &&
+              friends.map((friend, index) => (
+                <FriendBox key={index} friend={friend}></FriendBox>
+              ))}
+          </StyledContainer>
         </StyledContainer>
-      </StyledContainer>
-      {actualChat ? (
+      )}
+      {(!mobile || (mobile && otherUserId !== "")) && actualChat ? (
         <>
           <Chat chat={actualChat} onClick={createMessage} />
         </>
-      ): <StyledContainer></StyledContainer>}
+      ) : (
+        <StyledContainer></StyledContainer>
+      )}
     </>
   );
 };
