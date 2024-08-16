@@ -10,6 +10,7 @@ export const StyledAvatarContainer = styled.div`
   align-items: center;
   width: 100%;
   max-width: ${(props: AvatarContainerProps) => props.width || "48px"};
+  min-width: ${(props: AvatarContainerProps) => props.width || "48px"};
   height: ${(props: AvatarContainerProps) => props.height || "48px"};
   border-radius: 50%;
   cursor: pointer;
