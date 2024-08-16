@@ -2,8 +2,7 @@ import styled from "styled-components";
 
 export const StyledIconContainer = styled.div`
   position: absolute;
-  right: 12px;
-  top: 50%;
+  right: 16px;
   transform: translateY(-50%);
   background-color: #b8b8c9;
   color: white;
@@ -15,4 +14,5 @@ export const StyledIconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: rotate(180deg);
 `;

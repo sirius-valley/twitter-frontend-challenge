@@ -10,9 +10,8 @@ import { StyledUserSuggestionContainer } from "../home-page/UserSeuggestionConta
 import { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
 import Chat from "../../components/chat/Chat";
-import chat from "../../redux/chat";
-import { StyledFriendsContainer } from "../../components/chat/StyledFriendsContainer";
-import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
+import { useDispatch } from "react-redux";
+import { updateUserId } from "../../redux/chat";
 
 // Define la URL del servidor aquí
 const URL: string =
@@ -27,7 +26,8 @@ const ChatPage = () => {
   const [actualChat, setActualChat] = useState<ChatDTO | null>(null);
   const { otherUserId } = useSelector((state: RootState) => state.chat);
   const [mobile, setMobile] = useState<boolean>(false);
-
+  const [friendId, setFriendId] = useState<string>("");
+  const dispatch = useDispatch();
   useEffect(() => {
     const socketIo = io(URL, {
       extraHeaders: {
@@ -36,13 +36,13 @@ const ChatPage = () => {
     });
 
     socketIo.on("connect", () => {
-      console.log("Connected to socket server");
       setSocket(socketIo);
+      setFriendId(otherUserId);
       socketIo.emit("joinLobby", {});
     });
 
-    socketIo.on("connect_error", (error) => {
-      console.error("Socket connection error:", error);
+    socketIo.on("error", (error) => {
+      console.error("Socket error:", error);
     });
 
     socketIo.on("joinLobby", (object: AuthorDTO[]) => {
@@ -66,7 +66,7 @@ const ChatPage = () => {
     return () => {
       if (socketIo) {
         socketIo.disconnect();
-        console.log("Socket disconnected");
+        dispatch(updateUserId(""));
       }
     };
   }, []);
@@ -75,6 +75,7 @@ const ChatPage = () => {
     if (otherUserId !== "" && socket) {
       socket.emit("createRoom", { otherUserId: otherUserId });
     }
+    setFriendId(otherUserId);
   }, [otherUserId]);
 
   useEffect(() => {
@@ -96,15 +97,14 @@ const ChatPage = () => {
    */
   return (
     <>
-      {(!mobile || (mobile && otherUserId === "")) && (
+      {(!mobile || (mobile && friendId === "")) && (
         <StyledContainer
           maxHeight={"100vh"}
           borderRight={"1px solid #ebeef0"}
           maxWidth={"600px"}
         >
           <StyledHeaderContainer
-            style={{ display: "flex", justifyContent: "space-around" }} 
-            
+            style={{ display: "flex", justifyContent: "space-around" }}
           >
             <p>Friends</p>
           </StyledHeaderContainer>
@@ -116,7 +116,7 @@ const ChatPage = () => {
           </StyledContainer>
         </StyledContainer>
       )}
-      {(!mobile || (mobile && otherUserId !== "")) && actualChat ? (
+      {(!mobile || (mobile && friendId !== "")) && actualChat ? (
         <>
           <Chat chat={actualChat} onClick={createMessage} />
         </>

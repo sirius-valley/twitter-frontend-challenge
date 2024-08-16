@@ -33,7 +33,8 @@
     "send": "Send a new message",
     "comment" : "Tweet your reply",
     "email": "Enter your Email...",
-    "password": "Enter your password..."
+    "password": "Enter your password...",
+    "message": "Type your message..."
   },
   "error": {
     "login": "Sorry, your username or password was incorrect. Please try again.",

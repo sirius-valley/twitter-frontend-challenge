@@ -55,9 +55,11 @@ const NavBar = () => {
             selectedIcon={IconType.ACTIVE_MESSAGE}
             active={location.pathname === `/chat`}
           />
-          <StyledTweetButton onClick={() => navigate("/compose/tweet")}>
-            +
-          </StyledTweetButton>
+          {location.pathname !== `/chat` && (
+            <StyledTweetButton onClick={() => navigate("/compose/tweet")}>
+              +
+            </StyledTweetButton>
+          )}
         </StyledNavItemsContainer>
         <StyledContainer width={"100%"}>
           <Button
