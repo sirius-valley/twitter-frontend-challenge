@@ -69,6 +69,7 @@ const Chat = ({ chat, onClick }: ChatProps) => {
         alignItems={"center"}
         justifyContent={"space-between"}
         borderBottom={"1px solid #ebeef0"}
+        height={"66px"}
       >
         {mobile && <BackArrowIcon onClick={exit} />}
         <FriendData

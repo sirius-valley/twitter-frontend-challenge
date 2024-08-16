@@ -88,13 +88,6 @@ const ChatPage = () => {
     }
   };
 
-  /**
-   * al ser menor a 600 deberia:
-   * Si tiene seleccionado algun id de algun amigo:
-   *  mostrarse solo el chat
-   * Sino tiene seleccionado ningun id de algun amigo:
-   *  mostrarse la lista de amigos
-   */
   return (
     <>
       {(!mobile || (mobile && friendId === "")) && (
