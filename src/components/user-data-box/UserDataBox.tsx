@@ -1,5 +1,5 @@
 import Avatar from "../common/avatar/Avatar";
-import icon from "../../assets/icon.jpg";
+import icon from "../../assets/icon.png";
 import { useNavigate } from "react-router-dom";
 import { StyledUserContainer } from "./StyledUserContainer";
 import { StyledUserInfoContainer } from "./StyledUserInfoContainer";

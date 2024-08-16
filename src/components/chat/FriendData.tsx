@@ -1,5 +1,5 @@
 import Avatar from "../common/avatar/Avatar";
-import Icon from "../../assets/icon.jpg";
+import Icon from "../../assets/icon.png";
 import { StyledChatAuthorContainer } from "./StyledChatAuthorContainer";
 import { StyledChatName } from "./StyledChatName";
 

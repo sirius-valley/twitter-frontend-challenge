@@ -4,7 +4,7 @@ import {
   StyledProfileLogoutPromptContainer,
 } from "./StyledProfileLogoutPromptContainer";
 import React, { useEffect, useRef, useState } from "react";
-import icon from "../../assets/icon.jpg";
+import icon from "../../assets/icon.png";
 import { StyledP } from "../common/text";
 import { StyledContainer } from "../common/Container";
 import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
