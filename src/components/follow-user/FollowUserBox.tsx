@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../button/Button";
 import UserDataBox from "../user-data-box/UserDataBox";
 import { useTranslation } from "react-i18next";
@@ -31,6 +31,18 @@ const FollowUserBox = ({
 
   const [isFollowing, setIsFollowing] = useState(false);
 
+  const checkFollowingStatus = () => {
+    if (user) {
+      return user.following.some((f: AuthorDTO) => f.id === id);
+    }
+    return false;
+  };
+  useEffect(() => {
+    if (user) {
+      setIsFollowing(checkFollowingStatus());
+    }
+  }, [user]);
+
   const handleFollow = async () => {
     if (isFollowing) {
       await unfollowUser(id);
@@ -39,6 +51,7 @@ const FollowUserBox = ({
     }
     setIsFollowing(!isFollowing);
   };
+  useEffect(() => {}, []);
 
   return (
     <StyledFollowUserBox>
@@ -51,7 +64,7 @@ const FollowUserBox = ({
       <Button
         text={
           !isLoading && user
-            ? user.following.some((f: AuthorDTO) => f.id === id)
+            ? isFollowing
               ? t("buttons.unfollow")
               : t("buttons.follow")
             : t("buttons.follow")
