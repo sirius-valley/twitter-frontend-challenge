@@ -99,6 +99,7 @@ const Chat = ({ chat, onClick }: ChatProps) => {
         alignItems={"center"}
         justifyContent={"space-between"}
         borderTop={"1px solid #ebeef0"}
+        height={"auto"}
       >
         <input
           type="text"
