@@ -64,6 +64,12 @@ const ChatPage = () => {
       socket.emit("createRoom", { otherUserId: otherUserId });
     }
   }, [otherUserId]);
+
+  const createMessage = (chatId: string, content: string) => {
+    if (chatId !== "" && content !== "" && socket) {
+      socket.emit("createMessage", { chatId: chatId, content: content });
+    }
+  };
   return (
     <>
       <StyledContentContainer>
@@ -79,9 +85,11 @@ const ChatPage = () => {
             ))}
         </StyledContainer>
       </StyledContentContainer>
-      <StyledUserSuggestionContainer>
-        {actualChat && <Chat chat={actualChat}></Chat>}
-      </StyledUserSuggestionContainer>
+      {actualChat && (
+        <>
+          <Chat chat={actualChat} onClick={createMessage} />
+        </>
+      )}
     </>
   );
 };
