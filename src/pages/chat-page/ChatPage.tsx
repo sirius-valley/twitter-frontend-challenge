@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { StyledContentContainer } from "../home-page/components/contentContainer/StyledContentContainer";
 import { useToken } from "../../hooks/useToken";
-import { AuthorDTO, ChatDTO } from "../../service";
+import { AuthorDTO, ChatDTO, MessageDTO } from "../../service";
 import FriendBox from "../../components/chat/FriendBox";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledHeaderContainer } from "../home-page/components/header/HeaderContainer";
@@ -11,6 +11,8 @@ import { RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
 import Chat from "../../components/chat/Chat";
 import chat from "../../redux/chat";
+import { StyledFriendsContainer } from "../../components/chat/StyledFriendsContainer";
+import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
 
 // Define la URL del servidor aquí
 const URL: string =
@@ -48,9 +50,18 @@ const ChatPage = () => {
 
     socketIo.on("createRoom", (object: ChatDTO) => {
       setActualChat(object);
-      console.log(actualChat);
     });
 
+    socketIo.on("createMessage", (object: MessageDTO) => {  
+      console.log(object)
+      setActualChat((prevChat) => {
+        if (!prevChat) return null;
+        return {
+          ...prevChat,
+          messages: [...prevChat.messages, object],
+        };
+      });
+    });
     return () => {
       if (socketIo) {
         socketIo.disconnect();
@@ -72,19 +83,23 @@ const ChatPage = () => {
   };
   return (
     <>
-      <StyledContentContainer>
+      <StyledContainer
+        maxHeight={"100vh"}
+        borderRight={"1px solid #ebeef0"}
+        maxWidth={"600px"}
+      >
         <StyledHeaderContainer
           style={{ display: "flex", justifyContent: "space-around" }}
         >
           <p>Friends</p>
         </StyledHeaderContainer>
-        <StyledContainer>
+        <StyledFriendsContainer>
           {friends &&
             friends.map((friend, index) => (
               <FriendBox key={index} friend={friend}></FriendBox>
             ))}
-        </StyledContainer>
-      </StyledContentContainer>
+        </StyledFriendsContainer>
+      </StyledContainer>
       {actualChat && (
         <>
           <Chat chat={actualChat} onClick={createMessage} />
