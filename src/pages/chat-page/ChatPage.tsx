@@ -93,18 +93,18 @@ const ChatPage = () => {
         >
           <p>Friends</p>
         </StyledHeaderContainer>
-        <StyledFriendsContainer>
+        <StyledContainer>
           {friends &&
             friends.map((friend, index) => (
               <FriendBox key={index} friend={friend}></FriendBox>
             ))}
-        </StyledFriendsContainer>
+        </StyledContainer>
       </StyledContainer>
-      {actualChat && (
+      {actualChat ? (
         <>
           <Chat chat={actualChat} onClick={createMessage} />
         </>
-      )}
+      ): <StyledContainer></StyledContainer>}
     </>
   );
 };

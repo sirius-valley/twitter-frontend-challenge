@@ -62,7 +62,7 @@ const Chat = ({ chat, onClick }: ChatProps) => {
           profilePicture={friend?.image}
         />
       </div>
-      <StyledContainer style={{ overflowY: "auto" }}>
+      <StyledContainer overflowY="auto" height="100%" display="flex" flexDirection="column" justifyContent="flex-end">
         {!isLoading &&
           data &&
           chat.messages.map((message, index) => (

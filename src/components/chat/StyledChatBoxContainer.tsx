@@ -14,4 +14,5 @@ export const StyledChatBoxContainer = styled.div<StyledChatBoxContainerProps>`
   border-radius: 1rem;
   padding: 10px;
   margin: 10px;
+  
 `;
