@@ -23,7 +23,7 @@ const TweetImage = ({
   const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
-    <StyledContainer maxHeight={`${100}%`}>
+    <StyledContainer maxHeight={`${10}%`}>
       <StyledOverflowContainer
         maxWidth={"100%"}
         borderRadius={"16px"}

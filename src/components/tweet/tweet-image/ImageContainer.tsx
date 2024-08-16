@@ -16,11 +16,16 @@ const ImageContainer = ({
   removeFunction,
 }: ImageContainerProps) => {
   return (
-    <StyledContainer maxWidth={"100%"} alignItems={"flex-end"} gap={"8px"}>
+    <StyledContainer
+      maxWidth={"100%"}
+      alignItems={"flex-end"}
+      gap={"8px"}
+      objectFit="fill"
+    >
       <StyledOverflowContainer
         flexDirection={"row"}
         gap={"8px"}
-        maxHeight={"460px"}
+        maxHeight={"50%"}
       >
         {images.slice(0, 2).map((image, index) => (
           <TweetImage
