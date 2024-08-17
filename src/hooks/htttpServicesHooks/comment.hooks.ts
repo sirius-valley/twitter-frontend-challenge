@@ -145,7 +145,6 @@ export const useDeleteCommentById = () => {
         props.id!,
         undefined
       );
-      console.log(props.parentId!)
       updateCommentQuery(["getCommentById", props.parentId!], false);
 
       updateCommentQuery(["getPostById", props.parentId!], false);
@@ -207,7 +206,6 @@ export const updateCommentInfiniteQueryPost = (
             pages: [[post], ...oldData.pages],
           };
         } else if (postId) {
-          console.log(postId);
           return {
             ...oldData,
             pages: oldData.pages.map((page) =>
