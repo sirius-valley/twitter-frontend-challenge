@@ -20,7 +20,7 @@ export const AxiosInterceptor = () =>{
     (error)=>{
       if(error.response.status >= 400){
         localStorage.removeItem("token");
-        console.log(error);
+        console.error(error);
       }
       return Promise.reject(error);
     });

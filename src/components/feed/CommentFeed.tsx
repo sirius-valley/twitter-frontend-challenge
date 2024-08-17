@@ -9,22 +9,21 @@ interface CommentFeedProps {
 }
 const CommentFeed = ({ postId }: CommentFeedProps) => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-  useGetCommentsByPostId(postId);
+    useGetCommentsByPostId(postId);
   const { ref, inView } = useInView();
-  
+
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
-
     }
   }, [fetchNextPage, inView]);
   return (
-    <div style={{ overflowY: "scroll"}}>
-        {data?.pages.map((d, index) => {
-          return <Feed key={index} posts={d} loading={isLoading} />;
-        })}
-        <div ref={ref}>{(isFetchingNextPage)?<Loader/>:<></>}</div>
-      </div>
+    <div style={{ overflowY: "scroll" }}>
+      {data?.pages.map((d, index) => {
+        return <Feed key={index} posts={d} loading={isLoading} />;
+      })}
+      <div ref={ref}>{isFetchingNextPage ? <Loader /> : <></>}</div>
+    </div>
   );
 };
 export default CommentFeed;

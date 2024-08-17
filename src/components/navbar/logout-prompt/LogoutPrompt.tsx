@@ -36,7 +36,6 @@ const LogoutPrompt = ({ show, reference }: LogoutPromptProps) => {
   };
 
   const handleLogout = () => {
-    console.log("CLICK");
     localStorage.removeItem("token");
     navigate("/sign-in");
   };

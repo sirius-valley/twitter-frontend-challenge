@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyledTweetContainer } from "./TweetContainer";
 import AuthorData from "./user-post-data/AuthorData";
 import type { PostDTO, ReactionData, ReactionDTO } from "../../service";
@@ -19,10 +19,11 @@ import {
 import { useClickAway } from "@uidotdev/usehooks";
 
 interface TweetProps {
-  post: PostDTO;
+  postDto: PostDTO;
 }
 
-const Tweet = ({ post }: TweetProps) => {
+const Tweet = ({ postDto }: TweetProps) => {
+  const [post, setPost] = useState<PostDTO>(postDto);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
   const { data: user } = useGetMyUser();
@@ -60,6 +61,9 @@ const Tweet = ({ post }: TweetProps) => {
     );
   };
 
+  useEffect(() => {
+    setPost(postDto);
+  }, [postDto]);
   return (
     <StyledTweetContainer>
       <StyledContainer
@@ -110,7 +114,7 @@ const Tweet = ({ post }: TweetProps) => {
       <StyledReactionsContainer>
         <Reaction
           img={IconType.CHAT}
-          count={post?.comments}
+          count={post.comments}
           reactionFunction={() =>
             window.innerWidth > 600
               ? setShowCommentModal(true)

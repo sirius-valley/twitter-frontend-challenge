@@ -13,7 +13,6 @@ const PostPage = () => {
   const { id: postId } = useParams();
   //Proper Hooks
   const { data, isLoading } = useGetPostById(postId!);
-
   return (
     <>
       <StyledContainer borderRight={"1px solid #ebeef0"} flex={"2 1 0%"}>
@@ -27,7 +26,7 @@ const PostPage = () => {
         <StyledFeedContainer>
           {data && !isLoading ? (
             <>
-              <Tweet post={data} />
+              <Tweet postDto={data} />
               <StyledContainer
                 borderBottom={"1px solid #ebeef0"}
                 padding={"16px"}

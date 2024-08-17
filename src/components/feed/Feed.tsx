@@ -15,7 +15,7 @@ const Feed = ({ posts, loading }: FeedProps) => {
           .filter((post, index, self) => {
             return self.findIndex((p) => p.id === post.id) === index;
           })
-          .map((post: PostDTO) => <Tweet key={post.id} post={post} />)
+          .map((post: PostDTO) => <Tweet key={post.id} postDto={post} />)
       ) : (<></>
       )}
     </StyledContainer>

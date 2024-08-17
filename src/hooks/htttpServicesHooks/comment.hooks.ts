@@ -1,4 +1,9 @@
-import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import {
+  QueryKey,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import {
   deleteCommentById_param_endpoint,
   getCommentById_param_endpoint,
@@ -20,26 +25,10 @@ import { useToast } from "../../components/toast/ToastProvider";
 import { LIMIT } from "../../util/Constants";
 import { CursorPagination } from "../../util/Pagination";
 
-//use Query
-export const useGetMyComments = () => {
-  return useQuery<PostDTO[]>({
-    queryKey: [`getMyComments`],
-    queryFn: () => fetchData(commentMe_endpoint),
-    staleTime: 50000,
-  });
-};
 export const useGetCommentById = (commentId: string) => {
   return useQuery<PostDTO>({
     queryKey: [`getCommentsById`, commentId],
     queryFn: () => fetchData(getCommentById_param_endpoint(commentId)),
-    staleTime: 50000,
-  });
-};
-
-export const useGetCommentsFromUser = (userId: string) => {
-  return useQuery<PostDTO[]>({
-    queryKey: [`getCommentsByUser`, userId],
-    queryFn: () => fetchData(getCommentsFromUser_param_endpoint(userId)),
     staleTime: 50000,
   });
 };
@@ -75,6 +64,7 @@ type usePostCommentProps = {
   parentId?: string;
   images?: string[];
 };
+
 //Use Mutators
 export const usePostComment = () => {
   const { addToast } = useToast();
@@ -100,12 +90,26 @@ export const usePostComment = () => {
           await upload(variables.images![index], imageUrl);
         }
       }
-      queryClient.invalidateQueries({
-        queryKey: ["getCommentsByPostId", variables.parentId!],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["getPostById", variables.parentId!],
-      });
+      updateCommentInfiniteQueryNumber(
+        ["getAllPosts"],
+        variables.parentId!,
+        true
+      );
+      updateCommentInfiniteQueryNumber(
+        ["getFollowPosts"],
+        variables.parentId!,
+        true
+      );
+      updateCommentInfiniteQueryPost(
+        ["getCommentsByPostId", variables.parentId!],
+        true,
+        undefined,
+        data
+      );
+      updateCommentQuery(["getCommentById", variables.parentId!], true);
+
+      updateCommentQuery(["getPostById", variables.parentId!], true);
+
       addToast({
         message: "Comment created successfully ",
         type: ToastType.SUCCESS,
@@ -129,11 +133,26 @@ export const useDeleteCommentById = () => {
     mutationFn: (props: DeletePostProps): Promise<void> =>
       deleteData(deleteCommentById_param_endpoint(props.id)),
     onSuccess: (data, props) => {
-      queryClient.invalidateQueries({
-        queryKey: ["getCommentsByPostId", props.parentId],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["getPostById", props.parentId],
+      updateCommentInfiniteQueryNumber(["getAllPosts"], props.parentId!, false);
+      updateCommentInfiniteQueryNumber(
+        ["getFollowPosts"],
+        props.parentId!,
+        false
+      );
+      updateCommentInfiniteQueryPost(
+        ["getCommentsByPostId", props.parentId!],
+        false,
+        props.id!,
+        undefined
+      );
+      console.log(props.parentId!)
+      updateCommentQuery(["getCommentById", props.parentId!], false);
+
+      updateCommentQuery(["getPostById", props.parentId!], false);
+
+      addToast({
+        message: "Comment created successfully ",
+        type: ToastType.SUCCESS,
       });
       addToast({
         message: "Comment deleted successfully",
@@ -144,5 +163,73 @@ export const useDeleteCommentById = () => {
       addToast({ message: "Error deleting comment", type: ToastType.ALERT });
       console.error("DeleteComment Error: ", error);
     },
+  });
+};
+
+export const updateCommentInfiniteQueryNumber = (
+  queryKey: QueryKey,
+  parentId: string,
+  isIncremental: boolean
+) => {
+  queryClient.setQueryData<{ pages: PostDTO[][]; pageParams: unknown[] }>(
+    queryKey,
+    (oldData) => {
+      const value = isIncremental ? 1 : -1;
+      if (!oldData) return oldData;
+      return {
+        ...oldData,
+        pages: oldData.pages.map((page) =>
+          page.map((post) =>
+            post.id === parentId
+              ? { ...post, comments: post.comments + value }
+              : post
+          )
+        ),
+      };
+    }
+  );
+};
+
+//Update Queries
+export const updateCommentInfiniteQueryPost = (
+  queryKey: QueryKey,
+  isIncremental: boolean,
+  postId?: string,
+  post?: PostDTO
+) => {
+  queryClient.setQueryData<{ pages: PostDTO[][]; pageParams: unknown[] }>(
+    queryKey,
+    (oldData) => {
+      if (oldData) {
+        if (isIncremental && post) {
+          return {
+            ...oldData,
+            pages: [[post], ...oldData.pages],
+          };
+        } else if (postId) {
+          console.log(postId);
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) =>
+              page.filter((post) => post.id !== postId)
+            ),
+          };
+        }
+      }
+      return oldData;
+    }
+  );
+};
+export const updateCommentQuery = (
+  queryKey: QueryKey,
+  isIncremental: boolean
+) => {
+  queryClient.setQueryData<PostDTO>(queryKey, (oldData) => {
+    const value = isIncremental ? 1 : -1;
+    if (!oldData) return oldData;
+    return {
+      ...oldData,
+      comments: oldData.comments + value,
+    };
   });
 };

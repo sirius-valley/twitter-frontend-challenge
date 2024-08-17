@@ -20,7 +20,6 @@ export const ToastProvider = ({children}: ToastProviderProps) => {
 
   const addToast = (toast: ToastProps) => {
     setToasts((prevToasts) => [...prevToasts, toast]);
-    console.log("sa");
     setTimeout(() => setToasts((prevToasts) => prevToasts.slice(1)), 3000);
   };
   return (
