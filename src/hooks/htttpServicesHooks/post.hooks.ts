@@ -137,7 +137,19 @@ export const usePostPost = () => {
           await upload(variables.images![index], imageUrl);
         }
       }
-      queryClient.invalidateQueries({ queryKey: ["getAllPosts"] });
+
+      queryClient.setQueryData<{ pages: PostDTO[][]; pageParams: unknown[] }>(
+        ["getAllPosts"],
+        (postPages) => {
+          if (postPages) {
+            return {
+              ...postPages,
+              pages: [[data], ...postPages.pages],
+            };
+          }
+          return postPages;
+        }
+      );
       addToast({
         message: "Post created successfully ",
         type: ToastType.SUCCESS,
@@ -150,14 +162,27 @@ export const usePostPost = () => {
   });
 };
 export const useDeletePostById = () => {
-  //mutators
   const { addToast } = useToast();
   return useMutation<void, Error, string>({
     mutationKey: ["useDeletePostById"],
     mutationFn: (postId: string): Promise<void> =>
       deleteData(deletePostById_param_endpoint(postId)),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getAllPosts"] });
+    onSuccess: (data, postId) => {
+      queryClient.setQueryData<{ pages: PostDTO[][]; pageParams: unknown[] }>(
+        ["getAllPosts"],
+        (postPages) => {
+          console.log(postPages);
+          if (postPages) {
+            return {
+              ...postPages,
+              pages: postPages.pages.map((page) =>
+                page.filter((post) => post.id !== postId)
+              ),
+            };
+          }
+          return postPages;
+        }
+      );
       addToast({
         message: "Post deleted successfully",
         type: ToastType.SUCCESS,

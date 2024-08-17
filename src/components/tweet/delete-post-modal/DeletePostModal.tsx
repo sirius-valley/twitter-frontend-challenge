@@ -29,7 +29,7 @@ export const DeletePostModal = ({
   const { mutate: deleteComment } = useDeleteCommentById();
   const handleDelete = () => {
     try {
-      if (parentId !== undefined) {
+      if (parentId !== undefined && parentId !== null) {
         deleteComment({ id, parentId });
       } else {
         deletePost(id);
