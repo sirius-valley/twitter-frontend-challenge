@@ -110,7 +110,7 @@ const Tweet = ({ post }: TweetProps) => {
       <StyledReactionsContainer>
         <Reaction
           img={IconType.CHAT}
-          count={post?.comments?.length}
+          count={post?.comments}
           reactionFunction={() =>
             window.innerWidth > 600
               ? setShowCommentModal(true)
