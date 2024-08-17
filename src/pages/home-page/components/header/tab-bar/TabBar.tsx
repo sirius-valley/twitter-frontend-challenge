@@ -2,30 +2,30 @@ import { useState } from "react";
 import Tab from "./tab/Tab";
 import { useTranslation } from "react-i18next";
 import { StyledTabBarContainer } from "./TabBarContainer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updatePage } from "../../../../../redux/post";
+import { RootState } from "../../../../../redux/store";
 
 const TabBar = () => {
-  //How should i use this, this is the header where you can select within recommend and follow post
-  //These are diferent use of hooks for the contentFeed
-  const [activeFirstPage, setActiveFirstPage] = useState(true);
+  const { activeFirstPage } = useSelector((state: RootState) => state.post);
+  const [activePage, setActivePage] = useState(activeFirstPage);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const handleClick = async (value: boolean, query: string) => {
-    setActiveFirstPage(value);
-    dispatch(updatePage(value))
+    setActivePage(value);
+    dispatch(updatePage(value));
   };
 
   return (
     <>
       <StyledTabBarContainer>
         <Tab
-          active={activeFirstPage}
+          active={activePage}
           text={t("header.for-you")}
           onClick={() => handleClick(true, "")}
         />
         <Tab
-          active={!activeFirstPage}
+          active={!activePage}
           text={t("header.following")}
           onClick={() => handleClick(false, "following")}
         />

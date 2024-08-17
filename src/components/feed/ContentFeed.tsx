@@ -4,37 +4,69 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useInView } from "react-intersection-observer";
 import Loader from "../loader/Loader";
-import { useGetPosts } from "../../hooks/htttpServicesHooks/post.hooks";
+import {
+  useGetFollowPosts,
+  useGetPosts,
+} from "../../hooks/htttpServicesHooks/post.hooks";
 
 const ContentFeed = () => {
   const { activeFirstPage } = useSelector((state: RootState) => state.post);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useGetPosts();
+  const {
+    data: getAllPostData,
+    fetchNextPage: fetchGetAllNextPage,
+    hasNextPage: hasGetAllNextPage,
+    isFetchingNextPage: isFetchingGetAllNextPage,
+    isLoading: isGetAllLoading,
+  } = useGetPosts();
+  const {
+    data: getFollowPostData,
+    fetchNextPage: fetchGetFollowNextPage,
+    hasNextPage: hasGetFollowNextPage,
+    isFetchingNextPage: isFetchingGetFollowNextPage,
+    isLoading: isGetFollowLoading,
+  } = useGetFollowPosts();
+
   const { ref, inView } = useInView();
 
   useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
+    if (inView && hasGetAllNextPage) {
+      fetchGetAllNextPage();
     }
-  }, [fetchNextPage, inView]);
+    if (inView && hasGetFollowNextPage) {
+      fetchGetFollowNextPage();
+    }
+  }, [fetchGetAllNextPage, fetchGetFollowNextPage, inView]);
   return (
     <>
       {activeFirstPage ? (
         <div style={{ overflowY: "scroll" }}>
-          {data?.pages.map((d, index) => {
+          {getAllPostData?.pages.map((d, index) => {
             return (
               <Feed
                 key={index}
                 posts={activeFirstPage ? d : []}
-                loading={isLoading}
+                loading={isGetAllLoading}
               />
             );
           })}
-          <div ref={ref}>{isFetchingNextPage ? <Loader /> : <></>}</div>
+          <div ref={ref}>{isFetchingGetAllNextPage ? <Loader /> : <></>}</div>
         </div>
       ) : (
-        <div>nothing</div>
+        <div style={{ overflowY: "scroll" }}>
+          {getFollowPostData?.pages.map((d, index) => {
+            return (
+              <Feed
+                key={index}
+                posts={!activeFirstPage ? d : []}
+                loading={isGetFollowLoading}
+              />
+            );
+          })}
+          <div ref={ref}>
+            {isFetchingGetFollowNextPage ? <Loader /> : <></>}
+          </div>
+        </div>
       )}
     </>
   );

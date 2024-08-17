@@ -1,6 +1,7 @@
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import {
   deletePostById_param_endpoint,
+  getFollowPosts_endpoint,
   getPostById_param_endpoint,
   getPosts_endpoint,
   getPostsFromUser_param_endpoint,
@@ -26,13 +27,47 @@ export const useGetPosts = () => {
     queryFn: async ({
       pageParam = { limit: LIMIT, after: undefined, before: undefined },
     }) => {
-      const response = await fetchData<CursorPagination>(getPosts_endpoint, pageParam!);
+      const response = await fetchData<CursorPagination>(
+        getPosts_endpoint,
+        pageParam!
+      );
       return response;
     },
-    initialPageParam:{ limit: LIMIT, after: undefined, before: undefined },
+    initialPageParam: { limit: LIMIT, after: undefined, before: undefined },
     getNextPageParam: (lastPage) => {
       return lastPage.length === LIMIT
-        ? { limit: LIMIT, after: lastPage[lastPage.length - 1].id, before: undefined }
+        ? {
+            limit: LIMIT,
+            after: lastPage[lastPage.length - 1].id,
+            before: undefined,
+          }
+        : undefined;
+    },
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: true,
+    staleTime: 50000,
+  });
+};
+export const useGetFollowPosts = () => {
+  return useInfiniteQuery<PostDTO[]>({
+    queryKey: [`getFollowPosts`],
+    queryFn: async ({
+      pageParam = { limit: LIMIT, after: undefined, before: undefined },
+    }) => {
+      const response = await fetchData<CursorPagination>(
+        getFollowPosts_endpoint,
+        pageParam!
+      );
+      return response;
+    },
+    initialPageParam: { limit: LIMIT, after: undefined, before: undefined },
+    getNextPageParam: (lastPage) => {
+      return lastPage.length === LIMIT
+        ? {
+            limit: LIMIT,
+            after: lastPage[lastPage.length - 1].id,
+            before: undefined,
+          }
         : undefined;
     },
     refetchOnWindowFocus: false,
@@ -54,13 +89,20 @@ export const useGetPostsFromUser = (userId: string) => {
     queryFn: async ({
       pageParam = { limit: LIMIT, after: undefined, before: undefined },
     }) => {
-      const response = await fetchData<CursorPagination>(getPostsFromUser_param_endpoint(userId), pageParam!);
+      const response = await fetchData<CursorPagination>(
+        getPostsFromUser_param_endpoint(userId),
+        pageParam!
+      );
       return response;
     },
-    initialPageParam:{ limit: LIMIT, after: undefined, before: undefined },
+    initialPageParam: { limit: LIMIT, after: undefined, before: undefined },
     getNextPageParam: (lastPage) => {
       return lastPage.length === LIMIT
-        ? { limit: LIMIT, after: lastPage[lastPage.length - 1].id, before: undefined }
+        ? {
+            limit: LIMIT,
+            after: lastPage[lastPage.length - 1].id,
+            before: undefined,
+          }
         : undefined;
     },
     refetchOnWindowFocus: false,
