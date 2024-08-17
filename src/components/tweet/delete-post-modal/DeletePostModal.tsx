@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MutableRefObject, useState } from "react";
 import { DeleteIcon } from "../../icon/Icon";
 import Modal from "../../modal/Modal";
 import Button from "../../button/Button";
@@ -13,6 +13,7 @@ interface DeletePostModalProps {
   onClose: () => void;
   id: string;
   parentId: string | undefined;
+  reference: MutableRefObject<HTMLDivElement>;
 }
 
 export const DeletePostModal = ({
@@ -20,6 +21,7 @@ export const DeletePostModal = ({
   id,
   onClose,
   parentId,
+  reference,
 }: DeletePostModalProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const { t } = useTranslation();
@@ -47,11 +49,15 @@ export const DeletePostModal = ({
     <>
       {show && (
         <>
-          <StyledDeletePostModalContainer onClick={() => setShowModal(true)}>
+          <StyledDeletePostModalContainer
+            ref={reference}
+            onClick={() => setShowModal(true)}
+          >
             <DeleteIcon />
             <p>{t("buttons.delete")}</p>
           </StyledDeletePostModalContainer>
           <Modal
+            reference={reference}
             title={t("modal-title.delete-post") + "?"}
             text={t("modal-content.delete-post")}
             show={showModal}

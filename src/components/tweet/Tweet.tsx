@@ -1,11 +1,7 @@
-import{ useState } from "react";
+import { useState } from "react";
 import { StyledTweetContainer } from "./TweetContainer";
 import AuthorData from "./user-post-data/AuthorData";
-import type {
-  PostDTO,
-  ReactionData,
-  ReactionDTO,
-} from "../../service";
+import type { PostDTO, ReactionData, ReactionDTO } from "../../service";
 import { StyledReactionsContainer } from "./ReactionsContainer";
 import Reaction from "./reaction/Reaction";
 import { IconType } from "../icon/Icon";
@@ -20,6 +16,7 @@ import {
   useDeleteReaction,
   usePostReaction,
 } from "../../hooks/htttpServicesHooks/reaction.hooks";
+import { useClickAway } from "@uidotdev/usehooks";
 
 interface TweetProps {
   post: PostDTO;
@@ -28,11 +25,13 @@ interface TweetProps {
 const Tweet = ({ post }: TweetProps) => {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
-  const { data: user} = useGetMyUser();
+  const { data: user } = useGetMyUser();
   const { mutate: createReaction } = usePostReaction();
   const { mutate: deleteReaction } = useDeleteReaction();
   const navigate = useNavigate();
-
+  const deleteModalRef = useClickAway<HTMLDivElement>(() => {
+    setShowDeleteModal(false);
+  });
   const getCountByType = (type: string): number => {
     return (
       post?.reactions?.filter((r: ReactionDTO) => r.type === type).length ?? 0
@@ -80,6 +79,7 @@ const Tweet = ({ post }: TweetProps) => {
         {post.authorId === user?.id && (
           <>
             <DeletePostModal
+              reference={deleteModalRef}
               show={showDeleteModal}
               id={post.id}
               onClose={() => {

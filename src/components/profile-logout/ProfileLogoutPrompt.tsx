@@ -8,6 +8,7 @@ import icon from "../../assets/icon.png";
 import { StyledP } from "../common/text";
 import { StyledContainer } from "../common/Container";
 import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
+import { useClickAway } from "@uidotdev/usehooks";
 
 interface ProfileLogoutPromptProps {
   margin: string;
@@ -20,32 +21,22 @@ const ProfileLogoutPrompt = ({
 }: ProfileLogoutPromptProps) => {
   const [logoutOpen, setLogoutOpen] = useState(false);
   const { data: user } = useGetMyUser();
-  const logoutRef = useRef<HTMLDivElement>(null);
-  const handleLogout = () => {
+  const logoutRef = useClickAway<HTMLDivElement>(() => {
     setLogoutOpen(!logoutOpen);
-  };
+  });
 
   const handleButtonClick = (event: React.MouseEvent) => {
     event.stopPropagation();
   };
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (logoutRef.current && !logoutRef.current.contains(e.target as Node)) {
-        setLogoutOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  });
   return (
     <StyledContainer
+      ref={logoutRef}
       maxHeight={"48px"}
       flexDirection={"row"}
       className={"profile-info"}
       alignItems={"center"}
       gap={"8px"}
-      onClick={handleLogout}
+      onClick={() => setLogoutOpen(!logoutOpen)}
       cursor={"pointer"}
     >
       <StyledProfileLogoutPromptContainer direction={direction}>
@@ -56,7 +47,7 @@ const ProfileLogoutPrompt = ({
             onClick={(event) => handleButtonClick(event)}
             ref={logoutRef}
           >
-            <LogoutPrompt show={logoutOpen} />
+            <LogoutPrompt show={logoutOpen} reference={logoutRef} />
           </StyledLogoutPrompt>
         )}
       </StyledProfileLogoutPromptContainer>
