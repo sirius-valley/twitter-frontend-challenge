@@ -45,17 +45,24 @@ export const useGetCommentsFromUser = (userId: string) => {
 };
 export const useGetCommentsByPostId = (commentId: string) => {
   return useInfiniteQuery<PostDTO[]>({
-    queryKey: [`getCommentsByPostId`],
+    queryKey: [`getCommentsByPostId`, commentId],
     queryFn: async ({
       pageParam = { limit: LIMIT, after: undefined, before: undefined },
     }) => {
-      const response = await fetchData<CursorPagination>(getCommentsByPostId_param_endpoint(commentId), pageParam!);
+      const response = await fetchData<CursorPagination>(
+        getCommentsByPostId_param_endpoint(commentId),
+        pageParam!
+      );
       return response;
     },
-    initialPageParam:{ limit: LIMIT, after: undefined, before: undefined },
+    initialPageParam: { limit: LIMIT, after: undefined, before: undefined },
     getNextPageParam: (lastPage) => {
       return lastPage.length === LIMIT
-        ? { limit: LIMIT, after: lastPage[lastPage.length - 1].id, before: undefined }
+        ? {
+            limit: LIMIT,
+            after: lastPage[lastPage.length - 1].id,
+            before: undefined,
+          }
         : undefined;
     },
     refetchOnWindowFocus: false,

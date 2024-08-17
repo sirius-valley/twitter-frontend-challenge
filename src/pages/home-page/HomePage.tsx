@@ -4,7 +4,6 @@ import { SearchBar } from "../../components/search-bar/SearchBar";
 import { StyledUserSuggestionContainer } from "./UserSeuggestionContainer";
 
 const HomePage = () => {
-
   return (
     <>
       <ContentContainer />

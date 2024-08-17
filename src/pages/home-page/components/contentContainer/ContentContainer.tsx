@@ -9,13 +9,14 @@ import { StyledContainer } from "../../../../components/common/Container";
 const ContentContainer = () => {
   return (
     <StyledContentContainer>
-      <Header />
       <StyledFeedContainer>
         <StyledContainer
           width={"100%"}
           padding={"16px"}
           borderBottom={"1px solid #ebeef0"}
+          height={"auto"}
         >
+          <Header />
           <TweetBox />
         </StyledContainer>
         <StyledContainer minHeight={"66vh"} width={"100%"}>

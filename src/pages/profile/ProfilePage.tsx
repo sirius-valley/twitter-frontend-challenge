@@ -29,7 +29,7 @@ const ProfilePage = () => {
     type: ButtonType.DEFAULT,
     buttonText: "",
   });
-  const{addToast} = useToast()
+  const { addToast } = useToast();
 
   const id = useParams().id;
   const navigate = useNavigate();
@@ -56,7 +56,10 @@ const ProfilePage = () => {
       deleteUser().then(() => {
         localStorage.removeItem("token");
         navigate("/sign-in");
-        addToast({message:"User deleted Successfully ", type:ToastType.SUCCESS})
+        addToast({
+          message: "User deleted Successfully ",
+          type: ToastType.SUCCESS,
+        });
       });
     } else {
       unfollowUser(profile!.id);
@@ -91,9 +94,9 @@ const ProfilePage = () => {
   return (
     <>
       <StyledContainer
-        maxHeight={"100vh"}
         borderRight={"1px solid #ebeef0"}
-        maxWidth={"600px"}
+
+        flex={"2 1 0%"}
       >
         {profile && (
           <>
@@ -101,6 +104,7 @@ const ProfilePage = () => {
               borderBottom={"1px solid #ebeef0"}
               maxHeight={"212px"}
               padding={"16px"}
+              height={"30%"}
             >
               <StyledContainer
                 alignItems={"center"}
@@ -121,7 +125,7 @@ const ProfilePage = () => {
                 />
               </StyledContainer>
             </StyledContainer>
-            <StyledContainer width={"100%"}>
+            <StyledContainer width={"100%"} height={"80%"}>
               {profile.followers ? (
                 <ProfileFeed />
               ) : (
@@ -148,7 +152,7 @@ const ProfilePage = () => {
           </>
         )}
       </StyledContainer>
-      <StyledContainer></StyledContainer>
+      <StyledContainer flex={"1 1 0%"}></StyledContainer>
     </>
   );
 };
