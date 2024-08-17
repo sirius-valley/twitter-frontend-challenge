@@ -9,12 +9,16 @@ interface ImageContainerProps {
   images: string[];
   editable?: boolean;
   removeFunction?: (index: number) => void;
+  isModal?: boolean;
 }
 const ImageContainer = ({
   images,
   editable,
   removeFunction,
+  isModal,
 }: ImageContainerProps) => {
+  const size: number = isModal && images!.length > 2 ? 130 : 300;
+
   return (
     <StyledContainer
       maxWidth={"100%"}
@@ -36,6 +40,7 @@ const ImageContainer = ({
             removeFunction={() =>
               removeFunction ? removeFunction(index) : console.log("")
             }
+            size={size}
           />
         ))}
       </StyledOverflowContainer>
@@ -54,6 +59,7 @@ const ImageContainer = ({
               removeFunction={() =>
                 removeFunction ? removeFunction(index + 2) : console.log("")
               }
+              size={size}
             />
           ))}
         </StyledOverflowContainer>

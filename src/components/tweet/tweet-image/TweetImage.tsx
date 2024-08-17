@@ -12,6 +12,7 @@ interface TweetImageProps {
   src: string;
   alt: string;
   removable?: boolean;
+  size?: number;
   removeFunction?: () => void;
 }
 const TweetImage = ({
@@ -19,6 +20,7 @@ const TweetImage = ({
   alt,
   removable,
   removeFunction,
+  size,
 }: TweetImageProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -38,6 +40,7 @@ const TweetImage = ({
           src={src}
           alt={alt}
           onClick={() => setShowModal(true)}
+          size={size}
         />
       </StyledOverflowContainer>
       <ImageModal

@@ -24,11 +24,13 @@ const CommentModal = ({ post, show, onClose }: CommentModalProps) => {
           createdAt={post?.createdAt}
           profilePicture={post?.author?.image}
         />
-        <StyledContainer flexDirection={"row"}>
+        <StyledContainer flexDirection={"row"} height={"300px"}>
           <StyledLine />
           <StyledContainer gap={"8px"}>
             <StyledP primary>{post.content}</StyledP>
-            {post.images && <ImageContainer images={post.images} />}
+            {post.images && (
+              <ImageContainer images={post.images} isModal={true} />
+            )}
           </StyledContainer>
         </StyledContainer>
         <TweetBox parentId={post.id} close={onClose} borderless />
