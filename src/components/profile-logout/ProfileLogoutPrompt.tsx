@@ -22,7 +22,7 @@ const ProfileLogoutPrompt = ({
   const [logoutOpen, setLogoutOpen] = useState(false);
   const { data: user } = useGetMyUser();
   const logoutRef = useClickAway<HTMLDivElement>(() => {
-    setLogoutOpen(!logoutOpen);
+    setLogoutOpen(false);
   });
 
   const handleButtonClick = (event: React.MouseEvent) => {
