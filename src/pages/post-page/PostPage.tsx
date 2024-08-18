@@ -20,6 +20,7 @@ const PostPage = () => {
           padding={"16px"}
           borderBottom={"1px solid #ebeef0"}
           maxHeight={"53px"}
+          flex={"0.5 1 0%"}
         >
           <StyledH5>Tweet</StyledH5>
         </StyledContainer>
@@ -28,8 +29,6 @@ const PostPage = () => {
             <>
               <Tweet postDto={data} />
               <StyledContainer
-                borderBottom={"1px solid #ebeef0"}
-                padding={"16px"}
               >
                 <TweetBox parentId={postId} />
               </StyledContainer>
