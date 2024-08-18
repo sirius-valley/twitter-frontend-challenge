@@ -27,8 +27,15 @@ const Tweet = ({ postDto }: TweetProps) => {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
   const { data: user } = useGetMyUser();
-  const { mutate: createReaction } = usePostReaction();
-  const { mutate: deleteReaction } = useDeleteReaction();
+  const { mutate: createReaction } = usePostReaction(
+    post.parentId !== null ? false : true,
+    post.parentId !== undefined ? post.parentId : null
+  );
+  const { mutate: deleteReaction } = useDeleteReaction(
+    post.parentId !== null ? false : true,
+    post.parentId !== undefined ? post.parentId : null,
+    post
+  );
   const navigate = useNavigate();
   const deleteModalRef = useClickAway<HTMLDivElement>(() => {
     setShowDeleteModal(false);
