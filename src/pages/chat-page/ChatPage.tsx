@@ -94,7 +94,7 @@ const ChatPage = () => {
         <StyledContainer
           maxHeight={"100vh"}
           borderRight={"1px solid #ebeef0"}
-          maxWidth={"600px"}
+          flex={"1 1 0%"}
         >
           <StyledHeaderContainer
             style={{ display: "flex", justifyContent: "space-around" }}
@@ -110,11 +110,11 @@ const ChatPage = () => {
         </StyledContainer>
       )}
       {(!mobile || (mobile && friendId !== "")) && actualChat ? (
-        <>
+        <StyledContainer flex={"2 1 0%"}>
           <Chat chat={actualChat} onClick={createMessage} />
-        </>
+        </StyledContainer>
       ) : (
-        <StyledContainer></StyledContainer>
+        <StyledContainer flex={"2 1 0%"}></StyledContainer>
       )}
     </>
   );

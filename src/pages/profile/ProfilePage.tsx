@@ -93,11 +93,7 @@ const ProfilePage = () => {
   };
   return (
     <>
-      <StyledContainer
-        borderRight={"1px solid #ebeef0"}
-
-        flex={"2 1 0%"}
-      >
+      <StyledContainer borderRight={"1px solid #ebeef0"} flex={"2.5 1 0%"}>
         {profile && (
           <>
             <StyledContainer
