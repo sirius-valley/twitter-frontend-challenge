@@ -47,6 +47,7 @@ const CommentPage = () => {
         flexDirection={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
+        height={"10%"}
       >
         <BackArrowIcon onClick={exit} />
         <Button
@@ -58,7 +59,7 @@ const CommentPage = () => {
         />
       </StyledContainer>
       {comment && !loadingComment && (
-        <StyledContainer gap={"16px"}>
+        <StyledContainer gap={"16px"} height={"20%"}>
           <AuthorData
             id={comment.authorId}
             name={comment.author?.name ?? "Name"}
