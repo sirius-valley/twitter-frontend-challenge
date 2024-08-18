@@ -22,6 +22,7 @@ type TweetBoxProps = {
   mobile?: true; //???
 };
 const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
+  const [onMobile, setOnMobile] = useState<boolean>(window.innerWidth > 600);
   const [content, setContent] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [imagesPreview, setImagesPreview] = useState<string[]>([]);
@@ -93,11 +94,16 @@ const TweetBox = ({ parentId, close, borderless, mobile }: TweetBoxProps) => {
           value={content}
           src={user?.image}
         />
-        <StyledContainer padding={"0 0 0 10%"}>
+        <StyledContainer
+          padding={"0 0 0 10%"}
+          overflow="scroll"
+          maxHeight={"150px"}
+        >
           <ImageContainer
             editable
             images={imagesPreview}
             removeFunction={handleRemoveImage}
+            isModal={onMobile ? true : false}
           />
         </StyledContainer>
         <StyledButtonContainer>

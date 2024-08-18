@@ -14,7 +14,7 @@ export const StyledToastContainer = styled.div`
   gap: 16px;
   position: fixed;
   z-index: 5;
-  left:37.25%;
+  left: 37.25%;
   right: 37.25%;
   bottom: 2vh;
   border-radius: 8px;
@@ -56,5 +56,10 @@ export const StyledToastContainer = styled.div`
   &:hover {
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  }
+  @media (max-width: 600px) {
+    left: 12.25%;
+    right: 25%;
+    bottom: 10vh;
   }
 `;
