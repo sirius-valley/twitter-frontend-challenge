@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import Chat from "../../components/chat/Chat";
 import { useDispatch } from "react-redux";
 import { updateUserId } from "../../redux/chat";
+import { StyledH3, StyledH5 } from "../../components/common/text";
 
 // Define la URL del servidor aquí
 const URL: string =
@@ -110,11 +111,19 @@ const ChatPage = () => {
         </StyledContainer>
       )}
       {(!mobile || (mobile && friendId !== "")) && actualChat ? (
-        <StyledContainer flex={"2 1 0%"}>
+        <StyledContainer flex={"2 1 0%"} borderRight={"1px solid #ebeef0"}>
           <Chat chat={actualChat} onClick={createMessage} />
         </StyledContainer>
       ) : (
-        <StyledContainer flex={"2 1 0%"}></StyledContainer>
+        <StyledContainer
+          flex={"2 1 0%"}
+          borderRight={"1px solid #ebeef0"}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <p >select a friend</p>
+        </StyledContainer>
       )}
     </>
   );

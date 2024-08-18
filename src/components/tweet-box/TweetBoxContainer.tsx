@@ -6,7 +6,6 @@ export const StyledTweetBoxContainer = styled.div`
   align-items: flex-start;
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid #ebeef0;
   padding: 16px;
   button {
     display: flex;
