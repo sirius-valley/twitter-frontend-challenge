@@ -16,7 +16,7 @@ type usePostReactionProps = {
 export const usePostReaction = (isPost: boolean, parentId: string | null) => {
   const { addToast } = useToast();
   return useMutation<ReactionDTO, Error, usePostReactionProps>({
-    mutationKey: ["useDeletePostById"],
+    mutationKey: ["usePostReaction"],
     mutationFn: ({
       postId,
       data,
@@ -72,7 +72,7 @@ export const useDeleteReaction = (
 ) => {
   const { addToast } = useToast();
   return useMutation<ReactionDTO, Error, string>({
-    mutationKey: ["useDeletePostById"],
+    mutationKey: ["useDeleteReaction"],
     mutationFn: (reactionId: string): Promise<ReactionDTO> =>
       deleteData(deleteReaction_param_endpoint(reactionId)),
     onSuccess: (data, reactionId) => {
