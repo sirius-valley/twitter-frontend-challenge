@@ -16,20 +16,22 @@ const PostPage = () => {
   return (
     <>
       <StyledContainer borderRight={"1px solid #ebeef0"} flex={"2 1 0%"}>
-        <StyledContainer
-          padding={"16px"}
-          borderBottom={"1px solid #ebeef0"}
-          maxHeight={"53px"}
-          flex={"0.5 1 0%"}
-        >
-          <StyledH5>Tweet</StyledH5>
-        </StyledContainer>
         <StyledFeedContainer>
+          <StyledContainer
+            padding={"16px"}
+            borderBottom={"1px solid #ebeef0"}
+            maxHeight={"53px"}
+            flex={"0.5 1 0%"}
+          >
+            <StyledH5>Tweet</StyledH5>
+          </StyledContainer>
           {data && !isLoading ? (
             <>
-              <Tweet postDto={data} />
-              <StyledContainer
-              >
+              <StyledContainer flex={"2.5 1 0%"} overflow="scroll">
+                <Tweet postDto={data} />
+              </StyledContainer>
+
+              <StyledContainer flex={"1 1 0%"}>
                 <TweetBox parentId={postId} />
               </StyledContainer>
             </>
