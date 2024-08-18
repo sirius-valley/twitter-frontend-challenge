@@ -141,17 +141,16 @@ export const updateCommentInfiniteQuery = (
             ),
           };
         } else if (postId) {
+          //reactionId from this point
           return {
             ...oldData,
             pages: oldData.pages.map((page) =>
-              page.map((post) =>
-                post.id === postId
-                  ? {
-                      ...post,
-                      reactions: post.reactions.filter((r) => r.id !== postId),
-                    }
-                  : post
-              )
+              page.map((post) => {
+                return {
+                  ...post,
+                  reactions: post.reactions.filter((r) => r.id !== postId),
+                };
+              })
             ),
           };
         }
