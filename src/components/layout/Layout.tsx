@@ -31,7 +31,7 @@ export const queryClient = new QueryClient();
 export const Layout = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <I18nextProvider i18n={i18next}>
         <Provider store={store}>
           <ThemeProvider theme={LightTheme}>
