@@ -12,9 +12,9 @@
  * @property {string} after - The id of the record before the first returned record
  */
 export interface CursorPagination {
-  limit?: number
-  before?: string
-  after?: string
+  limit?: number;
+  before?: string;
+  after?: string;
 }
 
 /**
@@ -28,6 +28,6 @@ export interface CursorPagination {
  * @property {number} skip - The amount of records to skip
  */
 export interface OffsetPagination {
-  limit?: number
-  skip?: number
+  limit?: number;
+  skip?: number;
 }

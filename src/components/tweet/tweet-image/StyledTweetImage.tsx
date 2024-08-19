@@ -13,5 +13,5 @@ export const StyledTweetImage = styled.img<StyledTweetImageProps>`
   }};
   transform-origin: center center;
   object-fit: cover;
-  border-radius: 0.5rem
+  border-radius: 0.5rem;
 `;

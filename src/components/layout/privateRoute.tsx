@@ -3,7 +3,7 @@ import { useToken } from "../../hooks/useToken";
 
 const PrivateRoute = () => {
   //jwt decode
-  const {token} = useToken();
+  const { token } = useToken();
 
   if (!token) {
     return <Navigate to="sign-in" replace />;

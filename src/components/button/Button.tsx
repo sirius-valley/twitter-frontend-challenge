@@ -7,9 +7,16 @@ interface ButtonProps {
   buttonType: ButtonType;
   onClick?: MouseEventHandler;
   disabled?: boolean;
-  type?: "button" | "submit" | "reset" | undefined
+  type?: "button" | "submit" | "reset" | undefined;
 }
-const Button = ({ text, size, buttonType, onClick, disabled, type }: ButtonProps) => {
+const Button = ({
+  text,
+  size,
+  buttonType,
+  onClick,
+  disabled,
+  type,
+}: ButtonProps) => {
   return (
     <StyledButton
       type={type}

@@ -26,7 +26,7 @@ const SuggestionBox = () => {
       ) : (
         <p>{t("suggestion.no-recommendations")}</p>
       )}
-      {!isLoading && users &&users.length > 5 && (
+      {!isLoading && users && users.length > 5 && (
         <a href="/recommendations">{t("suggestion.show-more")}</a>
       )}
     </StyledSuggestionBoxContainer>

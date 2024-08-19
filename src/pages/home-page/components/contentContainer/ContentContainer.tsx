@@ -7,14 +7,11 @@ import ContentFeed from "../../../../components/feed/ContentFeed";
 import { StyledContainer } from "../../../../components/common/Container";
 
 const ContentContainer = () => {
-  const [mobile, setMobile] = useState<boolean>(window.innerWidth > 600)
+  const [mobile, setMobile] = useState<boolean>(window.innerWidth > 600);
   return (
     <StyledContentContainer>
       <StyledFeedContainer>
-        <StyledContainer
-          width={"100%"}
-          height={"auto"}
-        >
+        <StyledContainer width={"100%"} height={"auto"}>
           <Header />
           {mobile && <TweetBox />}
         </StyledContainer>

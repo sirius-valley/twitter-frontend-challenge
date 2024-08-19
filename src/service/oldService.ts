@@ -6,7 +6,6 @@ const url =
   process.env.REACT_APP_API_URL || "https://twitter-ieea.onrender.com/api";
 
 const httpRequestService = {
-
   // //Auth
   // signUp: async (data: Partial<SingUpData>) => {
   //   const res = await axios.post(`${url}/auth/signup`, data);
@@ -61,7 +60,6 @@ const httpRequestService = {
   // getPostsFromProfile: async (id: string) => {
   //   const res = await axios.get(`${url}/post/by_user/${id}`, {
   //   });
-
   //   if (res.status === 200) {
   //     return res.data;
   //   }
@@ -77,7 +75,6 @@ const httpRequestService = {
   //       after,
   //     },
   //   });
-
   //   if (res.status === 200) {
   //     return res.data;
   //   }
@@ -107,7 +104,6 @@ const httpRequestService = {
   // searchUsers: async (username: string, limit: number, skip: number) => {
   //   try {
   //     const cancelToken = axios.CancelToken.source();
-
   //     const response = await axios.get(`${url}/user/by_username/${username}`, {
   //       params: {
   //         limit,
@@ -115,7 +111,6 @@ const httpRequestService = {
   //       },
   //       cancelToken: cancelToken.token,
   //     });
-
   //     if (response.status === 200) {
   //       return response.data;
   //     }
@@ -133,7 +128,6 @@ const httpRequestService = {
   // getProfileView: async (id: string) => {
   //   const res = await axios.get(`${url}/user/${id}`, {
   //   });
-
   //   if (res.status === 200) {
   //     return res.data;
   //   }
@@ -141,7 +135,6 @@ const httpRequestService = {
   // deleteProfile: async () => {
   //   const res = await axios.delete(`${url}/user/me`, {
   //   });
-
   //   if (res.status === 204) {
   //     localStorage.removeItem("token");
   //   }
@@ -150,7 +143,6 @@ const httpRequestService = {
   //   const res = await axios.post(
   //     `${url}/reaction/${postId}`,
   //     { type: reaction });
-
   //   if (res.status === 201) {
   //     return res.data;
   //   }
@@ -158,7 +150,6 @@ const httpRequestService = {
   // deleteReaction: async (reactionId: string) => {
   //   const res = await axios.delete(`${url}/reaction/${reactionId}`, {
   //   });
-
   //   if (res.status === 200) {
   //     return res.data;
   //   }
@@ -179,7 +170,6 @@ const httpRequestService = {
   // getChats: async () => { //NO SE YSA
   //   const res = await axios.get(`${url}/chat`, {
   //   });
-
   //   if (res.status === 200) {
   //     return res.data;
   //   }
@@ -187,7 +177,6 @@ const httpRequestService = {
   // getMutualFollows: async () => { //NO SE USA
   //   const res = await axios.get(`${url}/follow/mutual`, {
   //   });
-
   //   if (res.status === 200) {
   //     return res.data;
   //   }
@@ -204,7 +193,6 @@ const httpRequestService = {
   //       },
   //     }
   //   );
-
   //   if (res.status === 201) {
   //     return res.data;
   //   }
@@ -212,7 +200,6 @@ const httpRequestService = {
   // getChat: async (id: string) => { //NO SE USA
   //   const res = await axios.get(`${url}/chat/${id}`, {
   //   });
-
   //   if (res.status === 200) {
   //     return res.data;
   //   }

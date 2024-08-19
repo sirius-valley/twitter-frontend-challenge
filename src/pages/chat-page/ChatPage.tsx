@@ -122,7 +122,7 @@ const ChatPage = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <p >select a friend</p>
+          <p>select a friend</p>
         </StyledContainer>
       )}
     </>

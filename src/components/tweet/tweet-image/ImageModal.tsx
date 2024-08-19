@@ -1,5 +1,5 @@
 import { StyledBlurredBackground } from "../../common/BlurredBackground";
-import ReactDom from "react-dom"
+import ReactDom from "react-dom";
 interface ImageModalProps {
   src: string;
   alt: string;
@@ -26,7 +26,7 @@ const ImageModal = ({ src, alt, onClose, show }: ImageModalProps) => {
         </StyledBlurredBackground>
       )}
     </>,
-    document.getElementById('portal')!
+    document.getElementById("portal")!
   );
 };
 

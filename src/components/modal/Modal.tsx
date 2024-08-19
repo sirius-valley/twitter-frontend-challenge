@@ -14,7 +14,7 @@ interface ModalProps {
   img?: string;
   onClose: () => void;
   acceptButton: ReactNode;
-  reference?: MutableRefObject<HTMLDivElement>
+  reference?: MutableRefObject<HTMLDivElement>;
 }
 
 const Modal = ({
@@ -24,7 +24,7 @@ const Modal = ({
   onClose,
   img,
   title,
-  reference
+  reference,
 }: ModalProps) => {
   return ReactDom.createPortal(
     <>

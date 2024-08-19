@@ -1,10 +1,9 @@
-
 import { StyledToastContainer } from "./ToastContainer";
 import { AlertIcon, LikeIcon } from "../icon/Icon";
 
 export enum ToastType {
   ALERT = "ALERT",
-  SUCCESS = "SUCCESS"
+  SUCCESS = "SUCCESS",
 }
 
 interface ToastProps {
@@ -13,22 +12,21 @@ interface ToastProps {
 }
 
 const Toast = ({ message, type }: ToastProps) => {
-
   const iconMap = {
     [ToastType.ALERT]: <AlertIcon />,
-    [ToastType.SUCCESS]: <LikeIcon/>
+    [ToastType.SUCCESS]: <LikeIcon />,
   };
 
   const toastIcon = iconMap[type] || null;
 
   return (
     <>
-      {(
+      {
         <StyledToastContainer type={type}>
           {toastIcon}
           <p>{message}</p>
         </StyledToastContainer>
-      )}
+      }
     </>
   );
 };

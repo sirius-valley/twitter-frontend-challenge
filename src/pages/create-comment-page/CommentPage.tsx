@@ -10,9 +10,7 @@ import { ButtonType } from "../../components/button/StyledButton";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledLine } from "../../components/common/Line";
 import { StyledP } from "../../components/common/text";
-import {
-  useGetCommentById,
-} from "../../hooks/htttpServicesHooks/comment.hooks";
+import { useGetCommentById } from "../../hooks/htttpServicesHooks/comment.hooks";
 import { useGetMyUser } from "../../hooks/htttpServicesHooks/user.hooks";
 
 const CommentPage = () => {

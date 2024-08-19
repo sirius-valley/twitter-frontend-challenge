@@ -11,7 +11,7 @@ import Loader from "../../components/loader/Loader";
 
 const RecommendationPage = () => {
   const [page, setPage] = useState(0);
-  const {data: users, isLoading: loading} = useGetRecommendedUsers(10, page)
+  const { data: users, isLoading: loading } = useGetRecommendedUsers(10, page);
   const { t } = useTranslation();
 
   const observer = useRef<IntersectionObserver | null>(null);
@@ -37,10 +37,25 @@ const RecommendationPage = () => {
         <StyledH5>{t("header.connect")}</StyledH5>
       </StyledContainer>
       <StyledScrollableContainer padding={"8px"} gap={"16px"}>
-        isLoading ?(<Loader/>):{(users) && users.map((user, index) => {
-          if (users.length === index + 1) {
-            return (
-              <StyledContainer ref={lastRecommendation} key={"last-div"}>
+        isLoading ?(
+        <Loader />
+        ):
+        {users &&
+          users.map((user, index) => {
+            if (users.length === index + 1) {
+              return (
+                <StyledContainer ref={lastRecommendation} key={"last-div"}>
+                  <FollowUserBox
+                    key={"recommendation-" + user.id}
+                    name={user.name}
+                    username={user.username}
+                    profilePicture={user.image}
+                    id={user.id}
+                  />
+                </StyledContainer>
+              );
+            } else {
+              return (
                 <FollowUserBox
                   key={"recommendation-" + user.id}
                   name={user.name}
@@ -48,21 +63,10 @@ const RecommendationPage = () => {
                   profilePicture={user.image}
                   id={user.id}
                 />
-              </StyledContainer>
-            );
-          } else {
-            return (
-              <FollowUserBox
-                key={"recommendation-" + user.id}
-                name={user.name}
-                username={user.username}
-                profilePicture={user.image}
-                id={user.id}
-              />
-            );
-          }
-        })};
-        
+              );
+            }
+          })}
+        ;
       </StyledScrollableContainer>
     </StyledContainer>
   );
