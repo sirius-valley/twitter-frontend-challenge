@@ -1,7 +1,9 @@
 import axios from "axios";
 
 const url =
-  process.env.REACT_APP_API_URL || "https://twitter-ieea.onrender.com/api";
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_API_PRO_URL!
+    : process.env.REACT_API_DEV_URL!;
 
 //T should be InputDatas
 export const postData = async <T, T2>(
