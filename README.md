@@ -104,7 +104,11 @@ The objective of this task is to update some style files into styledComponents o
 - **Component**: /components/follow-user/FollowUserBox.css
 - **Component**: /components/user-data-box/UserDataBox.css
 
-After that, you have to create from scratch a button and an input field, and should support variants, states, and sizes.
+After that, you have to create from scratch two new components with styledComponents:
+- **Button**
+- **Input**
+
+These should both support variants, states, and sizes.
 
 **Variants**: outlined, fulfilled, ghost & white
 **Size**: small, medium, large
