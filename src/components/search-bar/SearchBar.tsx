@@ -17,6 +17,7 @@ export const SearchBar = () => {
     const inputQuery = e.target.value;
 
     setQuery(inputQuery);
+    if (inputQuery.length === 0) return setResults([]);
 
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(async () => {
