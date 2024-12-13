@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { StyledContainer } from "../../components/common/Container";
 import Tweet from "../../components/tweet/Tweet";
 import Loader from "../../components/loader/Loader";
-import { HttpService } from "../../service/HttpRequestService";
+import { useHttpRequestService } from "../../service/HttpRequestService";
 import TweetBox from "../../components/tweet-box/TweetBox";
 import { StyledH5 } from "../../components/common/text";
 import { StyledFeedContainer } from "../home-page/components/contentContainer/FeedContainer";
@@ -10,7 +10,7 @@ import CommentFeed from "../../components/feed/CommentFeed";
 import { Post } from "../../service";
 
 const PostPage: React.FC = () => {
-  const service = new HttpService().service;
+  const service = useHttpRequestService();
   const postId = window.location.href.split("/")[4];
   const [post, setPost] = React.useState<Post | null>(null);
 
