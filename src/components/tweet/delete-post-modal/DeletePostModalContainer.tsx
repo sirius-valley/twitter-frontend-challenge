@@ -11,8 +11,10 @@ export const StyledDeletePostModalContainer = styled.div`
   background: ${(props) => props.theme.background};
   box-shadow: 0 0 19px -3px rgba(0, 0, 0, 0.25);
   align-items: center;
-  position: relative;
-  transform: translateX(-10%);
+  position: absolute;
+  right: 0;
+    top: 40px;
+  //transform: translateX(-10%);
 
   &:hover {
     cursor: pointer;
