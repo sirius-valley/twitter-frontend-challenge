@@ -7,7 +7,7 @@ import { StyledH5, StyledP } from "../../components/common/text";
 interface ProfileInfoContainerProps {
   name?: string;
   username: string;
-  profilePicture?: string;
+  profilePicture: string | null;
 }
 const ProfileInfo = ({
   name,

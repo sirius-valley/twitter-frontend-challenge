@@ -6,7 +6,7 @@ import { StyledBorderlessTextArea } from "./BorderlessTextArea";
 
 interface TweetInputProps {
   placeholder: string;
-  src?: string;
+  src: string | null;
   alt?: string;
   onChange?: ChangeEventHandler<HTMLTextAreaElement>;
   maxLength: number;

@@ -10,7 +10,7 @@ interface UserPostDataProps {
   id: string;
   name: string;
   username: string;
-  profilePicture?: string;
+  profilePicture: string | null;
 }
 const AuthorData = ({
   createdAt,

@@ -41,6 +41,12 @@ const TweetBox = (props) => {
     };
     const handleSubmit = async () => {
         try {
+            const postData = {
+                content: content,
+                parentId: parentId,
+                // images: images, // TODO : uncomment this line when the backend is ready
+            }
+            const newPost = await httpService.createPost(postData);
             setContent("");
             setImages([]);
             setImagesPreview([]);
