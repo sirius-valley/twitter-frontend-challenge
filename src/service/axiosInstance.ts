@@ -3,8 +3,12 @@ import axios from "axios";
 
 const useHttp = () => {
   const navigate = useNavigate();
+  const url =
+    process.env.REACT_APP_API_URL || "https://twitter-ieea.onrender.com/api";
 
-  const axiosInstance = axios.create();
+  const axiosInstance = axios.create({
+    baseURL: url,
+  });
 
   axiosInstance.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");

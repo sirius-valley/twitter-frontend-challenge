@@ -3,29 +3,28 @@ import axios from "axios";
 import { S3Service } from "./S3Service";
 import {useHttp} from "./axiosInstance";
 
-const url =
-  process.env.REACT_APP_API_URL || "https://twitter-ieea.onrender.com/api";
+
 
 const useHttpRequestService = () => {
   const axiosInstance = useHttp()
 
   return {
     signUp: async (data: Partial<SingUpData>) => {
-      const res = await axiosInstance.post(`${url}/auth/signup`, data);
+      const res = await axiosInstance.post(`/auth/signup`, data);
       if (res.status === 201) {
         localStorage.setItem("token", `Bearer ${res.data.token}`);
         return true;
       }
     },
     signIn: async (data: SingInData) => {
-      const res = await axiosInstance.post(`${url}/auth/login`, data);
+      const res = await axiosInstance.post(`/auth/login`, data);
       if (res.status === 200) {
         localStorage.setItem("token", `Bearer ${res.data.token}`);
         return true;
       }
     },
     createPost: async (data: PostData) => {
-      const res = await axiosInstance.post(`${url}/post`, data);
+      const res = await axiosInstance.post(`/post`, data);
       if (res.status === 201) {
         const {upload} = S3Service;
         for (const imageUrl of res.data.images) {
@@ -36,7 +35,7 @@ const useHttpRequestService = () => {
       }
     },
     getPaginatedPosts: async (limit: number, after: string, query: string) => {
-      const res = await axiosInstance.get(`${url}/post/${query}`, {
+      const res = await axiosInstance.get(`/post/${query}`, {
         params: {
           limit,
           after,
@@ -47,13 +46,13 @@ const useHttpRequestService = () => {
       }
     },
     getPosts: async (query: string) => {
-      const res = await axiosInstance.get(`${url}/post/${query}`);
+      const res = await axiosInstance.get(`/post/${query}`);
       if (res.status === 200) {
         return res.data;
       }
     },
     getRecommendedUsers: async (limit: number, skip: number) => {
-      const res = await axiosInstance.get(`${url}/user`, {
+      const res = await axiosInstance.get(`/user`, {
         params: {
           limit,
           skip,
@@ -64,20 +63,20 @@ const useHttpRequestService = () => {
       }
     },
     me: async () => {
-      const res = await axiosInstance.get(`${url}/user/me`);
+      const res = await axiosInstance.get(`/user/me`);
       if (res.status === 200) {
         return res.data;
       }
     },
     getPostById: async (id: string) => {
-      const res = await axiosInstance.get(`${url}/post/${id}`);
+      const res = await axiosInstance.get(`/post/${id}`);
       if (res.status === 200) {
         return res.data;
       }
     },
     createReaction: async (postId: string, reaction: string) => {
       const res = await axiosInstance.post(
-        `${url}/reaction/${postId}`,
+        `/reaction/${postId}`,
         {reactionType: reaction}
       );
       if (res.status === 201) {
@@ -85,24 +84,24 @@ const useHttpRequestService = () => {
       }
     },
     deleteReaction: async (reactionId: string) => {
-      const res = await axiosInstance.delete(`${url}/reaction/${reactionId}`);
+      const res = await axiosInstance.delete(`/reaction/${reactionId}`);
       if (res.status === 200) {
         return res.data;
       }
     },
     hasReacted: async (postId: string, reaction: string) => {
-      const res = await axiosInstance.get(`${url}/reaction/${postId}/${reaction}`);
+      const res = await axiosInstance.get(`/reaction/${postId}/${reaction}`);
       return res.status === 200;
     },
     getUserReactionsByPost: async (postId: string) => {
-      const res = await axiosInstance.get(`${url}/reaction/by_post/${postId}`);
+      const res = await axiosInstance.get(`/reaction/by_post/${postId}`);
       if (res.status === 200) {
         return res.data;
       }
     },
     followUser: async (userId: string) => {
       const res = await axiosInstance.post(
-        `${url}/follower/${userId}`,
+        `/follower/${userId}`,
         {}
       );
       if (res.status === 201) {
@@ -110,7 +109,7 @@ const useHttpRequestService = () => {
       }
     },
     unfollowUser: async (userId: string) => {
-      const res = await axiosInstance.delete(`${url}/follower/${userId}`);
+      const res = await axiosInstance.delete(`/follower/${userId}`);
       if (res.status === 200) {
         return res.data;
       }
@@ -119,7 +118,7 @@ const useHttpRequestService = () => {
       try {
         const cancelToken = axios.CancelToken.source();
 
-        const response = await axiosInstance.get(`${url}/user/by_username/${username}`, {
+        const response = await axiosInstance.get(`/user/by_username/${username}`, {
           params: {
             limit,
             skip,
@@ -136,7 +135,7 @@ const useHttpRequestService = () => {
     },
 
     getProfile: async (id: string) => {
-      const res = await axiosInstance.get(`${url}/user/${id}`);
+      const res = await axiosInstance.get(`/user/${id}`);
       if (res.status === 200) {
         return res.data;
       }
@@ -146,7 +145,7 @@ const useHttpRequestService = () => {
       after: string,
       id: string
     ) => {
-      const res = await axiosInstance.get(`${url}/post/by_user/${id}`, {
+      const res = await axiosInstance.get(`/post/by_user/${id}`, {
         params: {
           limit,
           after,
@@ -158,7 +157,7 @@ const useHttpRequestService = () => {
       }
     },
     getPostsFromProfile: async (id: string) => {
-      const res = await axiosInstance.get(`${url}/post/by_user/${id}`);
+      const res = await axiosInstance.get(`/post/by_user/${id}`);
 
       if (res.status === 200) {
         return res.data;
@@ -166,12 +165,12 @@ const useHttpRequestService = () => {
     },
 
     isLogged: async () => {
-      const res = await axiosInstance.get(`${url}/user/me`);
+      const res = await axiosInstance.get(`/user/me`);
       return res.status === 200;
     },
 
     getProfileView: async (id: string) => {
-      const res = await axiosInstance.get(`${url}/user/${id}`);
+      const res = await axiosInstance.get(`/user/${id}`);
 
       if (res.status === 200) {
         return res.data;
@@ -179,7 +178,7 @@ const useHttpRequestService = () => {
     },
 
     deleteProfile: async () => {
-      const res = await axiosInstance.delete(`${url}/user/me`);
+      const res = await axiosInstance.delete(`/user/me`);
 
       if (res.status === 204) {
         localStorage.removeItem("token");
@@ -187,7 +186,7 @@ const useHttpRequestService = () => {
     },
 
     getChats: async () => {
-      const res = await axiosInstance.get(`${url}/chat`);
+      const res = await axiosInstance.get(`/chat`);
 
       if (res.status === 200) {
         return res.data;
@@ -195,7 +194,7 @@ const useHttpRequestService = () => {
     },
 
     getMutualFollows: async () => {
-      const res = await axiosInstance.get(`${url}/follow/mutual`);
+      const res = await axiosInstance.get(`/follow/mutual`);
 
       if (res.status === 200) {
         return res.data;
@@ -204,7 +203,7 @@ const useHttpRequestService = () => {
 
     createChat: async (id: string) => {
       const res = await axiosInstance.post(
-        `${url}/chat`,
+        `/chat`,
         {
           users: [id],
         },
@@ -216,7 +215,7 @@ const useHttpRequestService = () => {
     },
 
     getChat: async (id: string) => {
-      const res = await axiosInstance.get(`${url}/chat/${id}`);
+      const res = await axiosInstance.get(`/chat/${id}`);
 
       if (res.status === 200) {
         return res.data;
@@ -224,7 +223,7 @@ const useHttpRequestService = () => {
     },
 
     deletePost: async (id: string) => {
-      await axiosInstance.delete(`${url}/post/${id}`);
+      await axiosInstance.delete(`/post/${id}`);
     },
 
     getPaginatedCommentsByPostId: async (
@@ -232,7 +231,7 @@ const useHttpRequestService = () => {
       limit: number,
       after: string
     ) => {
-      const res = await axiosInstance.get(`${url}/post/comment/by_post/${id}`, {
+      const res = await axiosInstance.get(`/post/comment/by_post/${id}`, {
         params: {
           limit,
           after,
@@ -243,7 +242,7 @@ const useHttpRequestService = () => {
       }
     },
     getCommentsByPostId: async (id: string) => {
-      const res = await axiosInstance.get(`${url}/comment/${id}`);
+      const res = await axiosInstance.get(`/comment/${id}`);
       if (res.status === 200) {
         return res.data;
       }
