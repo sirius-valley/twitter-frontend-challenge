@@ -7,6 +7,7 @@ interface ButtonProps {
   buttonType: ButtonType;
   onClick?: MouseEventHandler;
   disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 const Button = ({ text, size, buttonType, onClick, disabled }: ButtonProps) => {
   return (

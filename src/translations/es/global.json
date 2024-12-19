@@ -59,5 +59,13 @@
   "title": {
     "login": "Ingresa tu correo electrónico o @nombre_de_usuario.",
     "register": "Crea tu cuenta"
+  },
+  "validation": {
+    "email": "Por favor, introduce una dirección de correo electrónico válida.",
+    "password": "La contraseña debe tener al menos 6 caracteres.",
+    "username": "El nombre de usuario debe tener al menos 3 caracteres.",
+    "name": "Por favor, introduce tu nombre completo.",
+    "confirm-password": "Las contraseñas no coinciden.",
+    "required": "Este campo es obligatorio."
   }
 }

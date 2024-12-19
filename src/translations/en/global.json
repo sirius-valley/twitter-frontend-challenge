@@ -57,5 +57,17 @@
   "title": {
     "login": "Enter your email or username",
     "register": "Create your account"
+  },
+  "validation": {
+    "username": "Username must be at least 3 characters long",
+    "password": "Password must be at least 6 characters long",
+    "email": "Please enter a valid email address",
+    "confirm-password": "Passwords do not match",
+    "required": "This field is required",
+    "min": "This field must be at least 8 characters long",
+    "uppercaseRequired": "Password must contain at least one uppercase letter",
+    "numberRequired": "Password must contain at least one number",
+    "specialCharacterRequired": "Password must contain at least one special character",
+    "passwordsMatch": "Passwords do not match"
   }
 }
