@@ -1,4 +1,4 @@
-import type { PostData, SingInData, SingUpData } from "./index";
+import type {Post, PostData, SingInData, SingUpData} from "./index";
 import axios from "axios";
 import { S3Service } from "./S3Service";
 import {useHttp} from "./axiosInstance";
@@ -10,11 +10,20 @@ const useHttpRequestService = () => {
 
   return {
     signUp: async (data: Partial<SingUpData>) => {
+      const userExists = await axiosInstance.post(`/auth/login`, {
+        username: data.username,
+        password: data.password,
+      })
+        .then(r => r.status === 200)
+      if (userExists) {
+        throw new Error("User already exists")
+      }
       const res = await axiosInstance.post(`/auth/signup`, data);
       if (res.status === 201) {
         localStorage.setItem("token", `Bearer ${res.data.token}`);
         return true;
       }
+      throw new Error("Error creating user")
     },
     signIn: async (data: SingInData) => {
       const res = await axiosInstance.post(`/auth/login`, data);
@@ -22,6 +31,7 @@ const useHttpRequestService = () => {
         localStorage.setItem("token", `Bearer ${res.data.token}`);
         return true;
       }
+      throw new Error("Error signing in")
     },
     createPost: async (data: PostData) => {
       const res = await axiosInstance.post(`/post`, data);
@@ -45,11 +55,12 @@ const useHttpRequestService = () => {
         return res.data;
       }
     },
-    getPosts: async (query: string) => {
+    getPosts: async (query: string): Promise<Post[]> => {
       const res = await axiosInstance.get(`/post/${query}`);
       if (res.status === 200) {
-        return res.data;
+        return res.data as Post[];
       }
+      throw new Error("Error fetching posts. Error code: " + res.status);
     },
     getRecommendedUsers: async (limit: number, skip: number) => {
       const res = await axiosInstance.get(`/user`, {

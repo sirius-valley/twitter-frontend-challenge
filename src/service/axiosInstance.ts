@@ -22,11 +22,14 @@ const useHttp = () => {
     (response) => response,
     (error) => {
       if (error.response && error.response.status === 401) {
+        // window.location.href = "/sign-in";
         localStorage.removeItem("token");
-        console.log("Unauthorized");
+        localStorage.clear()
         navigate("/sign-in");
+
+        console.log("Unauthorized");
       }
-      return Promise.reject(error);
+      return error
     }
   );
 
