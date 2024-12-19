@@ -3,12 +3,12 @@ import styled from "styled-components";
 export const StyledPromptContainer = styled.div`
   display: flex;
   min-width: 304px;
-  padding: 16px;
+  //padding: 16px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  gap: 24px;
+  //gap: 24px;
   flex-shrink: 0;
   background: ${(props) => props.theme.background};
   border-radius: 16px;
