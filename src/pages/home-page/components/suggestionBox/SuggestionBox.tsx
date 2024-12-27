@@ -17,13 +17,14 @@ const SuggestionBox = () => {
       });
     } catch (e) {
       console.log(e);
+      setUsers([]);
     }
   }, []);
 
   return (
     <StyledSuggestionBoxContainer>
       <h6>{t("suggestion.who-to-follow")}</h6>
-      {users.length > 0 ? (
+      {users?.length > 0 ? (
         users
           .filter((value, index, array) => {
             return array.indexOf(value) === index;
@@ -41,7 +42,7 @@ const SuggestionBox = () => {
       ) : (
         <p>{t("suggestion.no-recommendations")}</p>
       )}
-      {users.length > 5 && (
+      {users?.length > 5 && (
         <a href="/recommendations">{t("suggestion.show-more")}</a>
       )}
     </StyledSuggestionBoxContainer>

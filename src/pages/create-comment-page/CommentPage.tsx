@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledLine } from "../../components/common/Line";
 import { StyledP } from "../../components/common/text";
+import {useMe} from "../../hooks/useMe";
 
 const CommentPage = () => {
   const [content, setContent] = useState("");
@@ -23,6 +24,7 @@ const CommentPage = () => {
   const [user, setUser] = useState<User>()
   const postId = useLocation().pathname.split("/")[3];
   const service = useHttpRequestService();
+  const me = useMe()
   const { length, query } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -32,7 +34,11 @@ const CommentPage = () => {
   }, []);
 
   const handleGetUser = async () => {
-    return await service.me()
+    // return await service.me().catch(e => {
+    //   console.log(e)
+    //   return null
+    // })
+    return me.user
   }
 
   useEffect(() => {
@@ -58,7 +64,10 @@ const CommentPage = () => {
     setContent("");
     setImages([]);
     dispatch(setLength(length + 1));
-    const posts = await service.getPosts(query);
+    const posts = await service.getPosts(query).catch((e) => {
+      console.log(e);
+      return [];
+    });
     dispatch(updateFeed(posts));
     exit();
   };

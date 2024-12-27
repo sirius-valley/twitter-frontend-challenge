@@ -11,21 +11,35 @@ import {ButtonType} from "../button/StyledButton";
 import {StyledTweetBoxContainer} from "./TweetBoxContainer";
 import {StyledContainer} from "../common/Container";
 import {StyledButtonContainer} from "./ButtonContainer";
-import {useDispatch, useSelector} from "react-redux";
 import {User} from "../../service";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks";
+import {useMe} from "../../hooks/useMe";
+import {useToast} from "../toast/ToastContext";
+import {ToastType} from "../toast/Toast";
 
-const TweetBox = (props) => {
-    const {parentId, close, mobile} = props;
+interface TweetBoxProps {
+    parentId?: string;
+    close?: () => void;
+    mobile?: boolean;
+}
+
+const TweetBox = ({
+  parentId,
+  close,
+  mobile
+}: TweetBoxProps) => {
     const [content, setContent] = useState("");
-    const [images, setImages] = useState([]);
-    const [imagesPreview, setImagesPreview] = useState([]);
+    const [images, setImages] = useState<Blob[]>([]);
+    const [imagesPreview, setImagesPreview] = useState<string[]>([]);
 
-    const {length, query} = useSelector((state) => state.user);
+    const {length, query} = useAppSelector((state) => state.user);
     const httpService = useHttpRequestService();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const {t} = useTranslation();
-    const service = useHttpRequestService()
-    const [user, setUser] = useState()
+    const me = useMe()
+    const [user, setUser] = useState<User | null>(null)
+
+    const { showToast } = useToast();
 
 
     useEffect(() => {
@@ -33,10 +47,14 @@ const TweetBox = (props) => {
     }, []);
 
     const handleGetUser = async () => {
-        return await service.me()
+        // return await service.me().catch(e => {
+        //     console.log(e)
+        //     return null
+        // })
+        return me.user
     }
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
     };
     const handleSubmit = async () => {
@@ -46,12 +64,20 @@ const TweetBox = (props) => {
                 parentId: parentId,
                 // images: images, // TODO : uncomment this line when the backend is ready
             }
-            const newPost = await httpService.createPost(postData);
+            const newPost = await httpService.createPost(postData)
+              .catch((e) => {
+                  console.log(e);
+                  console.log('showing toast')
+                  showToast("Could not create post", ToastType.ALERT);
+              });
             setContent("");
             setImages([]);
             setImagesPreview([]);
             dispatch(setLength(length + 1));
-            const posts = await httpService.getPosts(length + 1, "", query);
+            const posts = await httpService.getPosts(query).catch((e) => {
+                console.log(e);
+                return [];
+            });
             dispatch(updateFeed(posts));
             close && close();
         } catch (e) {
@@ -59,16 +85,16 @@ const TweetBox = (props) => {
         }
     };
 
-    const handleRemoveImage = (index) => {
-        const newImages = images.filter((i, idx) => idx !== index);
-        const newImagesPreview = newImages.map((i) => URL.createObjectURL(i));
+    const handleRemoveImage = (index: number) => {
+        const newImages = images.filter((_, idx) => idx !== index)
+        const newImagesPreview = newImages.map((i: Blob) => URL.createObjectURL(i));
         setImages(newImages);
         setImagesPreview(newImagesPreview);
     };
 
-    const handleAddImage = (newImages) => {
+    const handleAddImage = (newImages: Blob[]) => {
         setImages(newImages);
-        const newImagesPreview = newImages.map((i) => URL.createObjectURL(i));
+        const newImagesPreview = newImages.map((i: Blob) => URL.createObjectURL(i));
         setImagesPreview(newImagesPreview);
     };
 
@@ -96,7 +122,7 @@ const TweetBox = (props) => {
                     maxLength={240}
                     placeholder={t("placeholder.tweet")}
                     value={content}
-                    src={user?.profilePicture}
+                    src={user ? user.profilePicture : null}
                 />
                 <StyledContainer padding={"0 0 0 10%"}>
                     <ImageContainer

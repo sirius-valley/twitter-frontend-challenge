@@ -11,6 +11,7 @@ import TweetPage from "../../pages/create-tweet-page/TweetPage";
 import CommentPage from "../../pages/create-comment-page/CommentPage";
 import PostPage from "../../pages/post-page/PostPage";
 import {useHttpRequestService} from "../../service/HttpRequestService";
+import MessagePage from "../../pages/message-page/MessagePage";
 
 const WithNav = () => {
   return (
@@ -23,7 +24,10 @@ const WithNav = () => {
 
 const ProtectedRoute = () => {
   const service = useHttpRequestService()
-  const isAuthenticated = service.isLogged()
+  const isAuthenticated = service.isLogged().catch(e => {
+    console.log(e)
+    return false
+  });
 
   if (!isAuthenticated) {
     return <Navigate to="/sign-in" replace />;
@@ -70,6 +74,10 @@ export const ROUTER = createBrowserRouter([
             path: "/post/:id",
             element: <CommentPage />,
           },
+          {
+            path: "/messages",
+            element: <MessagePage />,
+          }
         ],
       }
     ],

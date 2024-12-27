@@ -21,6 +21,7 @@ const Toast = ({ message, type, show }: ToastProps) => {
 
   const toastIcon = iconMap[type] || null;
 
+        console.log("Toast", isShown)
   return (
     <>
       {isShown && (

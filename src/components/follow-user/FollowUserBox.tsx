@@ -6,9 +6,11 @@ import {useTranslation} from "react-i18next";
 import {ButtonType} from "../button/StyledButton";
 import "./FollowUserBox.css";
 import {Author, User} from "../../service";
+import {useMe} from "../../hooks/useMe";
+import {StyledFollowUserBoxContainer} from "./FollowUserBoxContainer";
 
 interface FollowUserBoxProps {
-  profilePicture?: string;
+  profilePicture: string | null;
   name?: string;
   username?: string;
   id: string;
@@ -23,6 +25,7 @@ const FollowUserBox = ({
   const {t} = useTranslation();
   const service = useHttpRequestService()
   const [user, setUser] = useState<User>()
+  const me = useMe()
 
 
   useEffect(() => {
@@ -33,35 +36,44 @@ const FollowUserBox = ({
   }, []);
 
   const handleGetUser = async () => {
-    return await service.me()
+    // return await service.me().catch(e => {
+    //   console.log(e)
+    //   return null
+    // })
+    return me.user
   }
 
   const [isFollowing, setIsFollowing] = useState(false);
 
-  const handleFollow = async () => {
-    if (isFollowing) {
-      await service.unfollowUser(id);
-    } else {
-      await service.followUser(id);
-    }
-    setIsFollowing(!isFollowing);
-  };
+    const handleFollow = async () => {
+      try {
+        if (isFollowing) {
+          await service.unfollowUser(id);
+        } else {
+          await service.followUser(id);
+        }
+        setIsFollowing(!isFollowing); // Solo se ejecuta si no hay errores
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
-  return (
-      <div className="box-container">
+
+    return (
+      <StyledFollowUserBoxContainer>
         <UserDataBox
-            id={id}
-            name={name!}
-            profilePicture={profilePicture!}
-            username={username!}
+          id={id}
+          name={name!}
+          profilePicture={profilePicture!}
+          username={username!}
         />
         <Button
-            text={isFollowing ? t("buttons.unfollow") : t("buttons.follow")}
-            buttonType={isFollowing ? ButtonType.DELETE : ButtonType.FOLLOW}
-            size={"SMALL"}
-            onClick={handleFollow}
+          text={isFollowing ? t("buttons.unfollow") : t("buttons.follow")}
+          buttonType={isFollowing ? ButtonType.DELETE : ButtonType.FOLLOW}
+          size={"SMALL"}
+          onClick={handleFollow}
         />
-      </div>
+      </StyledFollowUserBoxContainer>
   );
 };
 

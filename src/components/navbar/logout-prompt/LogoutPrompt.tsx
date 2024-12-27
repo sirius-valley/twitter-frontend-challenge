@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Modal from "../../modal/Modal";
 import logo from "../../../assets/logo.png";
 import Button from "../../button/Button";
@@ -11,6 +11,7 @@ import {StyledContainer} from "../../common/Container";
 import {StyledP} from "../../common/text";
 import {useHttpRequestService} from "../../../service/HttpRequestService";
 import {User} from "../../../service";
+import {useMe} from "../../../hooks/useMe";
 
 interface LogoutPromptProps {
   show: boolean;
@@ -18,10 +19,12 @@ interface LogoutPromptProps {
 
 const LogoutPrompt = ({ show }: LogoutPromptProps) => {
   const [showPrompt, setShowPrompt] = useState<boolean>(show);
+
   const [showModal, setShowModal] = useState<boolean>(false);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const service = useHttpRequestService()
+  const me = useMe()
   const [user, setUser] = useState<User>()
 
 
@@ -30,7 +33,11 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
   }, []);
 
   const handleGetUser = async () => {
-    return await service.me()
+    // return await service.me().catch(e => {
+    //   console.log(e)
+    //   return null
+    // })
+    return me.user
   }
 
   const handleClick = () => {
@@ -51,6 +58,11 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
     navigate("/sign-in");
   };
 
+  const handleClose = () => {
+    setShowModal(false);
+    setShowPrompt(false);
+  }
+
   useEffect(() => {
     setShowPrompt(show);
   }, [show]);
@@ -63,7 +75,8 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
             flexDirection={"row"}
             gap={"16px"}
             borderBottom={"1px solid #ebeef0"}
-            padding={"16px"}
+            padding={"32px"}
+            paddingBottom={"16px"}
             alignItems={"center"}
           >
             <StyledP primary>Es:</StyledP>
@@ -72,7 +85,10 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
               onChange={handleLanguageChange}
             />
           </StyledContainer>
-          <StyledContainer onClick={handleClick} alignItems={"center"}>
+          <StyledContainer onClick={handleClick}
+                           gap={"16px"}
+                           padding={"16px"}
+                           alignItems={"center"}>
             <StyledP primary>{`${t("buttons.logout")} @${
               user?.username
             }`}</StyledP>
@@ -92,7 +108,7 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
             onClick={handleLogout}
           />
         }
-        onClose={() => setShowModal(false)}
+        onClose={handleClose}
       />
     </>
   );

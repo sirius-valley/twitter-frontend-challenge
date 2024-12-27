@@ -1,8 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import {useToast} from "../components/toast/ToastContext";
+import {ToastType} from "../components/toast/Toast";
 
 const useHttp = () => {
   const navigate = useNavigate();
+  const { showToast } = useToast();
+
   const url =
     process.env.REACT_APP_API_URL || "https://twitter-ieea.onrender.com/api";
 
@@ -25,9 +29,12 @@ const useHttp = () => {
         // window.location.href = "/sign-in";
         localStorage.removeItem("token");
         localStorage.clear()
-        navigate("/sign-in");
+          navigate("/sign-in")
+          showToast("Your session has expired, please sign in again", ToastType.ALERT);
+        setTimeout(() => {
+          console.log("Unauthorized");
+        }, 5000)
 
-        console.log("Unauthorized");
       }
       return error
     }

@@ -8,7 +8,7 @@ import { StyledContainer } from "../../../../components/common/Container";
 
 const ContentContainer = () => {
   return (
-    <StyledContentContainer>
+    <StyledContentContainer id="scroll-container">
       <Header />
       <StyledFeedContainer>
         <StyledContainer

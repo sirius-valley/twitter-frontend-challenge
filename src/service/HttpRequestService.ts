@@ -1,4 +1,4 @@
-import type {Post, PostData, SingInData, SingUpData} from "./index";
+import type {ChatData, ChatDTO, CursorPagination, MessageDTO, Post, PostData, SingInData, SingUpData} from "./index";
 import axios from "axios";
 import { S3Service } from "./S3Service";
 import {useHttp} from "./axiosInstance";
@@ -43,17 +43,18 @@ const useHttpRequestService = () => {
         }
         return res.data;
       }
+      throw new Error("Error creating post")
     },
-    getPaginatedPosts: async (limit: number, after: string, query: string) => {
-      const res = await axiosInstance.get(`/post/${query}`, {
-        params: {
-          limit,
-          after,
-        },
-      });
+    getPaginatedPosts: async (query: string, options?: CursorPagination): Promise<Post[]> => {
+      const config = options ? {
+        params: options,
+      } : undefined
+      const res = await axiosInstance.get(`/post/${query}`, config);
       if (res.status === 200) {
+
         return res.data;
       }
+      throw new Error("Error fetching posts. Error code: " + res.status);
     },
     getPosts: async (query: string): Promise<Post[]> => {
       const res = await axiosInstance.get(`/post/${query}`);
@@ -196,31 +197,55 @@ const useHttpRequestService = () => {
       }
     },
 
-    getChats: async () => {
+    getChats: async (): Promise<ChatDTO[]> => {
       const res = await axiosInstance.get(`/chat`);
 
       if (res.status === 200) {
         return res.data;
       }
+      throw new Error("Error fetching chats")
+    },
+
+    createChat: async (data: ChatData): Promise<ChatDTO> => {
+      const res = await axiosInstance.post(`/chat`, data);
+
+      if (res.status === 201) {
+        return res.data;
+      }
+      throw new Error("Error creating chat")
+    },
+
+    joinChat: async (id: string) => {
+      const res = await axiosInstance.post(`/chat/${id}/join`);
+
+      if (res.status === 200) {
+        return res.data;
+      }
+      throw new Error("Error joining chat")
+    },
+
+    joinUserToChat: async (id: string, userId: string) => {
+      const res = await axiosInstance.post(`/chat/${id}/joinUser/${userId}`);
+
+      if (res.status === 200) {
+        return res.data;
+      }
+      throw new Error("Error joining user to chat")
+    },
+
+    getMessageHistory: async (id: string): Promise<MessageDTO[]> => {
+      const res = await axiosInstance.get(`/chat/${id}/history`);
+
+      if (res.status === 200) {
+        return res.data;
+      }
+      throw new Error("Error fetching message history")
     },
 
     getMutualFollows: async () => {
       const res = await axiosInstance.get(`/follow/mutual`);
 
       if (res.status === 200) {
-        return res.data;
-      }
-    },
-
-    createChat: async (id: string) => {
-      const res = await axiosInstance.post(
-        `/chat`,
-        {
-          users: [id],
-        },
-      );
-
-      if (res.status === 201) {
         return res.data;
       }
     },

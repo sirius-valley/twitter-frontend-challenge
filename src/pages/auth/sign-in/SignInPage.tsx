@@ -1,12 +1,12 @@
 import React from "react";
 import logo from "../../../assets/logo.png";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { useHttpRequestService } from "../../../service/HttpRequestService";
+import {useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
+import {useHttpRequestService} from "../../../service/HttpRequestService";
 import AuthWrapper from "../AuthWrapper";
-import { Formik, Form, ErrorMessage } from "formik";
+import {ErrorMessage, Form, Formik} from "formik";
 import * as Yup from "yup";
-import { ButtonType } from "../../../components/button/StyledButton";
+import {ButtonType} from "../../../components/button/StyledButton";
 import Button from "../../../components/button/Button";
 import {StyledH3} from "../../../components/common/text";
 import LabeledInput from "../../../components/labeled-input/LabeledInput";
@@ -22,6 +22,7 @@ const SignInPage = () => {
   const httpRequestService = useHttpRequestService();
 
   const [error, setError] = React.useState<string | null>(null);
+
 
   const validationSchema = Yup.object({
     username: Yup.string()
@@ -93,6 +94,7 @@ const SignInPage = () => {
                     buttonType={ButtonType.OUTLINED}
                     size={"MEDIUM"}
                     onClick={() => navigate("/sign-up")}
+                    type="button"
                   />
                 </div>
               </Form>

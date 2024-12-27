@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {StyledTweetContainer} from "./TweetContainer";
 import AuthorData from "./user-post-data/AuthorData";
-import type {Post, User} from "../../service";
+import {Post, ReactionType, ReactionTypeDTO, User} from "../../service";
 import {StyledReactionsContainer} from "./ReactionsContainer";
 import Reaction from "./reaction/Reaction";
 import {useHttpRequestService} from "../../service/HttpRequestService";
@@ -12,6 +12,7 @@ import DeletePostModal from "./delete-post-modal/DeletePostModal";
 import ImageContainer from "./tweet-image/ImageContainer";
 import CommentModal from "../comment/comment-modal/CommentModal";
 import {useNavigate} from "react-router-dom";
+import {useMe} from "../../hooks/useMe";
 
 interface TweetProps {
   post: Post;
@@ -23,38 +24,55 @@ const Tweet = ({post}: TweetProps) => {
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
   const service = useHttpRequestService();
   const navigate = useNavigate();
+  const me = useMe();
   const [user, setUser] = useState<User>()
+  const [reacted] = useState<Map<string, boolean>>(new Map());
 
   useEffect(() => {
+    console.log(post)
     handleGetUser().then(r => setUser(r))
+    handleGetUserReactions().then()
   }, []);
 
   const handleGetUser = async () => {
-    return await service.me()
+    // return await service.me().catch(e => {
+    //   console.log(e)
+    //   return null
+    // })
+    return me.user
   }
 
   const getCountByType = (type: string): number => {
-    return actualPost?.reactions?.filter((r) => r.type === type).length ?? 0;
+    return actualPost?.reactionsQty?.find((r) => r.type === type)?.count ?? 0;
   };
 
   const handleReaction = async (type: string) => {
-    const reacted = actualPost.reactions.find(
-        (r) => r.type === type && r.userId === user?.id
-    );
-    if (reacted) {
-      await service.deleteReaction(reacted.id);
-    } else {
+    // const reacted = actualPost.reactionsQty.find(
+    //     (r) => r.type === type && r.userId === user?.id
+    // );
+    // if (reacted) {
+    //   await service.deleteReaction(reacted.id);
+    // } else {
       await service.createReaction(actualPost.id, type);
-    }
-    const newPost = await service.getPostById(post.id);
+    // }
+    const newPost = await service.getPostById(post.id)
     setActualPost(newPost);
   };
 
-  const hasReactedByType = (type: string): boolean => {
-    return actualPost.reactions.some(
-        (r) => r.type === type && r.userId === user?.id
-    );
+  const hasReactedByType = async (type: string): Promise<void> => {
+    // return actualPost.reactions.some(
+    //     (r) => r.type === type && r.userId === user?.id
+    // );
+      const hasReacted = await service.hasReacted(actualPost.id, type)
+      reacted.set(type, hasReacted)
   };
+
+  const handleGetUserReactions = async () => {
+    const reactions = await service.getUserReactionsByPost(actualPost.id)
+    reactions.forEach((r: ReactionTypeDTO) => reacted.set(r.name, true))
+  };
+
+  if (!post.author) return null
 
   return (
       <StyledTweetContainer>
@@ -111,17 +129,17 @@ const Tweet = ({post}: TweetProps) => {
           />
           <Reaction
               img={IconType.RETWEET}
-              count={getCountByType("RETWEET")}
-              reactionFunction={() => handleReaction("RETWEET")}
+              count={getCountByType(ReactionType.RETWEET)}
+              reactionFunction={() => handleReaction(ReactionType.RETWEET)}
               increment={1}
-              reacted={hasReactedByType("RETWEET")}
+              reacted={!!reacted.get(ReactionType.RETWEET)}
           />
           <Reaction
               img={IconType.LIKE}
-              count={getCountByType("LIKE")}
-              reactionFunction={() => handleReaction("LIKE")}
+              count={getCountByType(ReactionType.LIKE)}
+              reactionFunction={() => handleReaction(ReactionType.LIKE)}
               increment={1}
-              reacted={hasReactedByType("LIKE")}
+              reacted={!!reacted.get(ReactionType.LIKE)}
           />
         </StyledReactionsContainer>
         <CommentModal

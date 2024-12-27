@@ -10,6 +10,7 @@ import Button from "../../components/button/Button";
 import ProfileFeed from "../../components/feed/ProfileFeed";
 import {StyledContainer} from "../../components/common/Container";
 import {StyledH5} from "../../components/common/text";
+import {useMe} from "../../hooks/useMe";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState<User | null>(null);
@@ -22,6 +23,7 @@ const ProfilePage = () => {
     buttonText: "",
   });
   const service = useHttpRequestService()
+  const me = useMe()
   const [user, setUser] = useState<User>()
 
   const id = useParams().id;
@@ -29,13 +31,13 @@ const ProfilePage = () => {
 
   const {t} = useTranslation();
 
-
   useEffect(() => {
     handleGetUser().then(r => setUser(r))
   }, []);
 
   const handleGetUser = async () => {
-    return await service.me()
+    // return await service.me().catch(e => console.log(e))
+    return me.user
   }
 
   const handleButtonType = (): { component: ButtonType; text: string } => {
@@ -63,7 +65,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     getProfileData().then();
-  }, [id]);
+  }, [id, user]);
 
   if (!id) return null;
 
@@ -86,7 +88,7 @@ const ProfilePage = () => {
           buttonText: t("buttons.unfollow"),
         });
       } else {
-        await service.followUser(id);
+        await service.followUser(id).catch((e) => console.log(e));
         service.getProfile(id).then((res) => setProfile(res));
       }
       return await getProfileData();
@@ -94,6 +96,8 @@ const ProfilePage = () => {
   };
 
   const getProfileData = async () => {
+    console.log("getProfileData");
+    console.log(user);
     service
         .getProfile(id)
         .then((res) => {

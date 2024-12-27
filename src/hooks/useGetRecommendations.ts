@@ -14,7 +14,10 @@ export const useGetRecommendations = ({ page }: UseGetRecommendationsProps) => {
   const service = useHttpRequestService();
 
   const getUsers = async () => {
-    return await service.getRecommendedUsers(10, page);
+    return await service.getRecommendedUsers(10, page).catch((e) => {
+      console.log(e);
+      return [];
+    });
   };
 
   useEffect(() => {

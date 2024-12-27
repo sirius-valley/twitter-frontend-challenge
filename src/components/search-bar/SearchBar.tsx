@@ -29,6 +29,11 @@ export const SearchBar = () => {
     }, 300);
   };
 
+  const clearResults = () => {
+    setResults([]);
+    setQuery("");
+  }
+
   return (
     <StyledSearchBarContainer>
       <StyledSearchBarInput
@@ -36,7 +41,7 @@ export const SearchBar = () => {
         value={query}
         placeholder={t("placeholder.search")}
       />
-      <SearchResultModal show={query.length > 0} results={results} />
+      <SearchResultModal show={query.length > 0} results={results} close={clearResults}/>
     </StyledSearchBarContainer>
   );
 };

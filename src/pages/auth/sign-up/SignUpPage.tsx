@@ -52,8 +52,9 @@ const SignUpPage = () => {
       setData({ ...data, [prop]: event.target.value });
     };
   const handleSubmit = (values: SignUpData, { setSubmitting, setErrors }: any) => {
+    const { confirmPassword, ...signUpData } = values;
     httpRequestService
-      .signUp(values)
+      .signUp(signUpData)
       .then(() => navigate("/"))
       .catch((e) => {
         setError(e.message)

@@ -25,7 +25,7 @@ export interface Post {
   createdAt: Date;
   authorId: string;
   author: Author;
-  reactions: Reaction[];
+  reactionsQty: ReactionCounter[];
   comments: Post[];
 }
 
@@ -38,11 +38,29 @@ export interface Reaction {
   updatedAt: Date;
   deletedAt?: Date;
 }
+
+export interface ReactionTypeDTO {
+  id: string;
+  name: string;
+}
+
+export interface ReactionCounter {
+  type: string;
+  count: number;
+}
+
+export enum ReactionType {
+  LIKE = 'like',
+  RETWEET = 'retweet',
+  COMMENT = 'comment'
+
+}
+
 export interface Author {
   id: string;
   name?: string;
   username: string;
-  profilePicture?: string;
+  profilePicture: string | null;
   private: boolean;
   createdAt: Date;
 }
@@ -51,7 +69,7 @@ export interface User {
   id: string;
   name?: string;
   username: string;
-  profilePicture?: string;
+  profilePicture: string | null;
   private: boolean;
   createdAt: Date;
   followers: Author[];
@@ -59,17 +77,27 @@ export interface User {
   posts: Post[];
 }
 
-export interface MessageDTO {
-  id: string;
-  content: string;
-  createdAt: Date;
-  chatId: string;
-  senderId: string;
-  sender: Author;
+export interface CursorPagination {
+  limit?: number
+  before?: string
+  after?: string
+}
+
+export interface ChatData {
+  name: string;
 }
 
 export interface ChatDTO {
   id: string;
-  users: Author[];
-  messages: MessageDTO[];
+  name: string;
+  ownerId: string;
+  lastMessage?: string;
+}
+
+export interface MessageDTO {
+  id: string;
+  content: string;
+  roomId: string;
+  senderId: string;
+  createdAt: Date;
 }

@@ -3,15 +3,25 @@ import { Author } from "../../../service";
 import UserDataBox from "../../user-data-box/UserDataBox";
 import { StyledContainer } from "../../common/Container";
 import { StyledSearchResultModalContainer } from "./SearchResultModalContainer";
+import {useSearchBarContext} from "../SearchBarContext";
 
 interface SearchResultModalProps {
   show: boolean;
   results: Author[];
+  close: () => void;
 }
 export const SearchResultModal = ({
   show,
   results,
+  close,
 }: SearchResultModalProps) => {
+  const { onResultClick } = useSearchBarContext();
+
+  const handleResultClick = (author: Author) => {
+    onResultClick(author);
+    close();
+  }
+
   return (
     <>
       {show && (
@@ -26,6 +36,7 @@ export const SearchResultModal = ({
                     name={author.name!}
                     id={author.id}
                     profilePicture={author.profilePicture!}
+                    onClick={() => handleResultClick(author)}
                   />
                 );
               })}
